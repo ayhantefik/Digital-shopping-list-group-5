@@ -43,9 +43,6 @@ namespace Digital_shopping_list_group_5
             //...
         }
 
-
-
-
         public class Item : IAct
         {
             string name = "null";
@@ -127,7 +124,7 @@ namespace Digital_shopping_list_group_5
             void IAct.Add(Object obj)
             {
                 string str = name + ";" + obj.ToString();
-                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.txt", false))
+                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.txt", true))
                 {
                     streamwriter.WriteLine(str);
                 }
@@ -154,11 +151,11 @@ namespace Digital_shopping_list_group_5
             item = new Item("bread",2,false);
             V1.Add(item);
 
-            List<Item> list = LoadItemsFromFile();
-            Purchase purchaseList = new Purchase("Willys", list);         
+            List<Item> list = LoadItemsFromFile(); // items
+            Purchase purchaseList = new Purchase("Biltema", list);         
 
             V1 = new Do(purchaseList);           
-            V1.Add(purchaseList); 
+            V1.Add(purchaseList);  // inköpslistor.
         }
         static List<Item> LoadItemsFromFile()
         {
