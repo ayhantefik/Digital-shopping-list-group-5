@@ -35,7 +35,6 @@ namespace Digital_shopping_list_group_5
             //V1 = new Do(purchaseList);
             //V1.Add(purchaseList);  // inköpslistor. 
 
-
             RunMenu();           
         }
         private static void RunMenu()
