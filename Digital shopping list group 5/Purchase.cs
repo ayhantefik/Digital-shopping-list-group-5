@@ -12,7 +12,8 @@ namespace Digital_shopping_list_group_5
         //...
         public class Purchase : IAct
         {
-            string name = "null";
+            public string name { get; set; }
+            //string name = "null";
             List<Item> listOfItems = new List<Item>();
 
             public Purchase(string name, List<Item> listOfItems)
@@ -21,7 +22,6 @@ namespace Digital_shopping_list_group_5
                 this.listOfItems = listOfItems;
             }
 
-            
 
             public List<Item> GetList() => listOfItems;
             public override string ToString()
@@ -55,7 +55,7 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine(str);
 
             }
-
         }
     }
 }
+    

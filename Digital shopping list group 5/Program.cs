@@ -17,28 +17,30 @@ namespace Digital_shopping_list_group_5
 
         static void Main(string[] args)
         {
-
+            
             //The proccess of writing down the purchase lists into the file. 
             // TO BE EXTENDED 
 
-            Item item = new Item("milk", 1, false);
-            var V1 = new Do(item);
-            V1.Add(item);
+            //Item item = new Item("milk", 1, false);
+            //var V1 = new Do(item);
+            //V1.Add(item);
 
-            item = new Item("bread", 2, false);
-            V1.Add(item);
+            //item = new Item("bread", 2, false);
+            //V1.Add(item);
 
-            List<Item> list = LoadItemsFromFile(); // items
-            Purchase purchaseList = new Purchase("Biltema", list);
+            //List<Item> list = LoadItemsFromFile(); // items
+            //Purchase purchaseList = new Purchase("Biltema", list);
 
-            V1 = new Do(purchaseList);
-            V1.Add(purchaseList);  // inköpslistor. 
+            //purchaseList.PrintAll();
+            //V1 = new Do(purchaseList);
+            //V1.Add(purchaseList);  // inköpslistor. 
 
 
             RunMenu();           
         }
         private static void RunMenu()
         {
+            Database data1 = new Database();
             Console.WriteLine("[1] Shopping lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
@@ -71,8 +73,8 @@ namespace Digital_shopping_list_group_5
                             RunMenu();
                             break;
                         case "4":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
+                            data1.LoadLists(userInput);
+                            userInput = Console.ReadLine();
                             break;
                         case "5":
                             Console.WriteLine("Code missing..");

@@ -29,7 +29,7 @@ namespace Digital_shopping_list_group_5
 
             public override string ToString()
             {
-                return $"{ID};{name};{isBought};";
+                return $"{ID} {name} {isBought}";
             }
             public void Display()
             {
@@ -44,7 +44,7 @@ namespace Digital_shopping_list_group_5
 
             void IAct.Add(Object obj)
             {
-                string str = obj.ToString();
+                string str = $"{ID};{name};{isBought};";
 
                 using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
                 {
@@ -53,6 +53,7 @@ namespace Digital_shopping_list_group_5
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("SUCCESS: ");
                 Console.WriteLine(str);
+                Console.ResetColor();
                 
 
             }
