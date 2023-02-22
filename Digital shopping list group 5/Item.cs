@@ -46,7 +46,7 @@ namespace Digital_shopping_list_group_5
             {
                 string str = obj.ToString();
 
-                using (var streamWriter = new StreamWriter(@"Path/items.txt", true))
+                using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
                 {
                     streamWriter.WriteLine(str);                    
                 }

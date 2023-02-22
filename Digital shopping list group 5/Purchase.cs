@@ -44,11 +44,11 @@ namespace Digital_shopping_list_group_5
             void IAct.Add(Object obj)
             {
                 string str = name + ";" + obj.ToString();
-                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.txt", true))
+                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.csv", true))
                 {
                     streamwriter.WriteLine(str);
                 }
-                System.IO.File.WriteAllText(@"Path/items.txt", string.Empty);
+                System.IO.File.WriteAllText(@"Path/items.csv", string.Empty);
 
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write("SUCCESS: ");

@@ -120,7 +120,7 @@ namespace Digital_shopping_list_group_5
         static List<Item> LoadItemsFromFile()
         {
             List<Item> items = new List<Item>();
-            using (var streamreader = new StreamReader(@"Path/items.txt"))
+            using (var streamreader = new StreamReader(@"Path/items.csv"))
             {
                 string str;
 
