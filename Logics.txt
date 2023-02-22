@@ -1,0 +1,36 @@
+1.Registration --> new username/password -->add to file
+2. Login --> username/password -->check with the file -->no?LOOP AGAIN
+
+yes? -->
+1. Receits -> display()
+
+
+
+2. Purchase lists 
+
+	2.1.Delete list()
+	2.2 DisplayAll()
+
+	2.3 Create() --> use a template?
+		2.3.1 YES --> show the template.
+		2.3.2  NO --> Give a name for a new list --> 
+			2.3.2.1 Would u like to add item?
+				2.3.2.1.1 NO. The list is saved.
+				2.3.2.1.2 YES. AddItems();
+
+	2.4 Merge lists() -->
+
+	2.5 Share lists() --> 
+		2.5.1 it shares data with other email
+		2.5.2 AccountSystem?
+
+
+
+3. Make a purchase --> vilken lista?(name)
+	3.1 DisplayItems() -->
+	3.2 AddItems()
+	3.3 DeleteItems()
+	//3.4 ChangeItems() ??
+	3.5 PayForPurchase()--> användare prickar av vilka varor som blivit köpta.
+		3.5.1 varor bockas av
+		3.5.2 kvittot skapas
