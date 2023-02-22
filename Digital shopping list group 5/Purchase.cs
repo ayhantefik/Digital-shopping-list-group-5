@@ -58,8 +58,8 @@ namespace Digital_shopping_list_group_5
 
             }
 
-            // Adds new purschases to customers list of purchases. TBD: Not finalized!
-            public void NewPurchaseList()
+            // Adds new purschases to customers list of purchases. TBD: Not finalized & untested!
+            public void NewPurchase()
             {
                 bool quit = false;
                 var newPurchaseList = new Purchase();
