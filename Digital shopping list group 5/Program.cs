@@ -43,7 +43,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("[1] Shopping lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
-            string userInput = Console.ReadLine();
+            string userInput  = Console.ReadLine();
             switch (userInput)
             {
                 case "1":
