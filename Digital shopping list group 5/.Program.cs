@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,62 +9,42 @@ using System.Threading.Tasks;
 
 namespace Digital_shopping_list_group_5
 {
-     class Program
+     internal class Program
     {
-        
-        //Description TBD
+        //static Database data1 = new Database();
+        //Description
+        //...
+        //...
 
-        static void Main(string[] args)
+        internal static void Main(string[] args)
         {
-            //=============================================================================================================
-            //The proccess of recording & retrieving data
+            
 
-            /*Item item1 = new Item("milk", 1, false);
-            Do make = new Do(item1);
-            make.SaveToDb(item1);
+            //The proccess of writing down the purchase lists into the file. 
+            // TO BE EXTENDED 
 
-            Item item2 = new Item("sugar", 2, false);
-            make = new Do(item2);
-            make.SaveToDb(item2);
-
-            List<Object> listOfItems = make.LoadFromDb(); //retrieving Items for purchase1
-            Purchase purchaseList = new Purchase("Biltema", listOfItems);
-
-            make = new Do(purchaseList);
-            make.SaveToDb(purchaseList);
-
-
-            Item item3 = new Item("coffe", 1, false);
-            make = new Do(item3);
-            make.SaveToDb(item3);
-
-            Item item4 = new Item("juice", 2, false);
-            make = new Do(item4);
-            make.SaveToDb(item4);
-
-
-            List<Object> listOfItems2 = make.LoadFromDb(); //retrieving Items for purchase2
-            Purchase purchaseList2 = new Purchase("Willys", listOfItems2);
-            make = new Do(purchaseList2);
-            make.SaveToDb(purchaseList2);
+            Item item = new Item("milk", 1, false);
+            var V1 = new Do(item);
+            V1.SaveToDB(item);
 
             
-            List<Object> listOfPurchases = make.LoadFromDb(); //retrieving purchases and add them to the account1
 
-            var person1 = new Consumer("Stanislav", "test@mail.ua","password", true, 3, 666, listOfPurchases);
-            make = new Do(person1);
-            make.SaveToDb(person1);
+            var item2 = new Item("bread", 2, false);
+            V1 = new Do(item2);
+            V1.SaveToDB(item2);
 
-            List<Object> listOfAccounts = make.LoadFromDb(); //retrieving accounts */
+            List<Item> list = LoadItemsFromFile(); // items
+            Purchase purchaseList = new Purchase("Willys", list);
 
-            //=============================================================================================================
+            //purchaseList.PrintAll();
+            V1 = new Do(purchaseList);
+            V1.SaveToDB(purchaseList);  // inköpslistor. 
 
-
-            RunMenu();           
+            //RunMenu();           
         }
-        public static void RunMenu()
+        /*static void RunMenu()
         {
-            Database data1 = new Database();
+
             Console.WriteLine("[1] Shopping lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
@@ -143,9 +122,26 @@ namespace Digital_shopping_list_group_5
                     break;
             }
 
+        }*/
+
+        static List<Item> LoadItemsFromFile()
+        {
+            List<Item> items = new List<Item>();
+            using (var streamreader = new StreamReader(@"Path/items.csv"))
+            {
+                string str;
+
+                while ((str = streamreader.ReadLine()) != null)
+                {
+                    string[] arr = str.Split(';');
+                    Item item = new Item();
+                    item.SetID(Int32.Parse(arr[0]));
+                    item.SetName(arr[1]);
+                    item.SetIsBought(bool.Parse(arr[2]));
+                    items.Add(item);
+                }
+            }
+            return items;
         }
-
-
-        //The function NewPurchaseList() is moved to the class <Purchase>
     }
 }

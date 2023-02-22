@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>648</x>
+      <y>192</y>
+      <w>102</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Purchase
+--
+
+-name:string
+-listOfItems: List&lt;Item&gt;
+-dateCheck: DateTime
+
++Display()
++Add()
++Remove()
+
+Merge()
+Share()
+Pay()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>402</x>
+      <y>192</y>
+      <w>90</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Item
+--
+
+- name:string
+-ID:int 
+-isBought:bool
+-price:double
+
+
+Display()
+Add()
+Remove()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>534</x>
+      <y>234</y>
+      <w>60</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+IAct
+
+Display()
+Add()
+Remove()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>348</y>
+      <w>60</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>Do
+--
+-act:IAct</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>108</x>
+      <y>234</y>
+      <w>120</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>Consumer
+--
+
+-accountLvl:int
+-points: int
+purchases: List&lt;Purchase&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>570</x>
+      <y>306</y>
+      <w>18</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>204</x>
+      <y>108</y>
+      <w>84</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>User
+--
+
+-name:string
+-loggedIn:bool
+-email:string
+-password:string
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>282</x>
+      <y>228</y>
+      <w>84</w>
+      <h>102</h>
+    </coordinates>
+    <panel_attributes>Admin
+--
+
+-namePath:string</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>282</x>
+      <y>156</y>
+      <w>54</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>186</x>
+      <y>180</y>
+      <w>30</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>408</x>
+      <y>138</y>
+      <w>84</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+CustomerLvl
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>462</x>
+      <y>258</y>
+      <w>84</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>270</y>
+      <w>84</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>210</x>
+      <y>318</y>
+      <w>498</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;20.0;560.0;230.0;810.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>126</x>
+      <y>348</y>
+      <w>90</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Databas 
+--
+-attrib?
+-attrib?
+
+func()
+func()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>6</x>
+      <y>354</y>
+      <w>90</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>The database system: 
+
+items.csv;
+listOfPurchases.csv;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>228</x>
+      <y>366</y>
+      <w>78</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Program
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

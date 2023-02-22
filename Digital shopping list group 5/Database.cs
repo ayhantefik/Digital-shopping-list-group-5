@@ -44,6 +44,8 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine(sample[2]);
             }
         }
+
+
     }
 }
 
