@@ -84,14 +84,14 @@ namespace Digital_shopping_list_group_5
                 }
 
                 Console.Write("Enter name of new purchase list: ");
-                string name = Console.ReadLine();
+                newPurchaseList.name = Console.ReadLine();
 
                 while (quit = false)
                 {
-                    Console.WriteLine("[1] Add items.");
-                    Console.WriteLine("[2] Remove items.");
-                    Console.WriteLine("[3] Save list and quit.");
-                    Console.WriteLine("[4] Discard list and quit.");
+                    Console.WriteLine($"[1] Add items to \"{newPurchaseList.name}\".");
+                    Console.WriteLine($"[2] Remove items from \"{newPurchaseList.name}\".");
+                    Console.WriteLine($"[3] Save list (\"{newPurchaseList.name}\") and quit.");
+                    Console.WriteLine($"[4] Discard list (\"{newPurchaseList.name}\") and quit.");
 
                     switch (input)
                     {
@@ -102,16 +102,20 @@ namespace Digital_shopping_list_group_5
                             // METHOD: Remove items from list.
                             break;
                         case "3":
-                            Console.WriteLine($"New list \"{newList.name}\" successfully created and saved.");
+                            Console.WriteLine($"New list \"{newPurchaseList.name}\" successfully created and saved.");
+                            newPurchaseList.listOfItems = newList;
+                            // ADD: newPurchaseList to customers.
                             // METHOD: Save list to file? 
                             break;
                         case "4":
-                            Console.WriteLine($"New list \"{newList.name}\" discarded.");
+                            Console.WriteLine($"New list \"{newPurchaseList.name}\" discarded.");
                             quit = true;
                             break;
                         default: Console.WriteLine($"Unknown input: {input}"); break;
                     }
                 }
+
+                
             }
         }
     }
