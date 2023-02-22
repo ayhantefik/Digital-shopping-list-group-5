@@ -56,12 +56,12 @@ namespace Digital_shopping_list_group_5
 
         }
 
-        // Adds new purschases to customers list of purchases. TBD: Not finalized!
-        public void NewPurchaseList()
-        {
-            bool quit = false;
-            var newPurchaseList = new Purchase();
-            var newList = new List<Item>();
+            // Adds new purschases to customers list of purchases. TBD: Not finalized!
+            public void NewPurchaseList()
+            {
+                bool quit = false;
+                var newPurchaseList = new Purchase();
+                var newList = new List<Item>();
 
             Console.WriteLine("[1] Create new purchase list.");
             Console.WriteLine("[2] Use existing list as template.");
