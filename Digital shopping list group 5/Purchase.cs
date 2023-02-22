@@ -58,6 +58,7 @@ namespace Digital_shopping_list_group_5
 
             }
 
+            // Adds new purschases to customers list of purchases. TBD: Not finalized!
             public void NewPurchaseList()
             {
                 bool quit = false;
@@ -114,9 +115,9 @@ namespace Digital_shopping_list_group_5
                         default: Console.WriteLine($"Unknown input: {input}"); break;
                     }
                 }
-
-                
             }
+
+
         }
     }
 }
