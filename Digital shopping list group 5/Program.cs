@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using static Digital_shopping_list_group_5.Program;
+//using static Digital_shopping_list_group_5.Program;
 
 namespace Digital_shopping_list_group_5
 {
-    internal partial class Program
+     class Program
     {
         //Description
         //...
