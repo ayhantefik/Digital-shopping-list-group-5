@@ -9,7 +9,7 @@ namespace Digital_shopping_list_group_5
 {
     internal class Database
     {
-        public void LoadLists(string userChoose)
+        public void LoadLists(int userChoose)
         {
             List<string> sample = new List<string>();
             string file = "Path/listOfPurchases.csv";
@@ -30,18 +30,18 @@ namespace Digital_shopping_list_group_5
                 
             }
             Console.WriteLine();
-            userChoose = Console.ReadLine();
-            if (userChoose == "1")
+            userChoose = Int32.Parse(Console.ReadLine());
+            if (userChoose == 1)
             {
-                Console.WriteLine(sample[0]);
+                Console.WriteLine(sample[userChoose - 1]);
             }
-            if (userChoose == "2")
+            if (userChoose == 2)
             {
-                Console.WriteLine(sample[1]);
+                Console.WriteLine(sample[userChoose - 1]);
             }
-            if (userChoose == "3")
+            if (userChoose == 3)
             {
-                Console.WriteLine(sample[2]);
+                Console.WriteLine(sample[userChoose - 1]);
             }
         }
     }
