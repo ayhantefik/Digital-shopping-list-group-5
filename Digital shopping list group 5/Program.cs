@@ -86,7 +86,8 @@ namespace Digital_shopping_list_group_5
                     switch (userInput)
                     {
                         case "1":
-                            Console.WriteLine("Code missing..");
+                            //Console.WriteLine("Code missing..");
+                            Purchase.NewPurchaseList();
                             RunMenu();
                             break;
                         case "2":

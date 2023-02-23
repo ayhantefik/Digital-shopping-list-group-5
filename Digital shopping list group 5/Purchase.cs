@@ -88,7 +88,7 @@ namespace Digital_shopping_list_group_5
 
         //Adds new purschases to customers list of purchases.
         //TBD: Not finalized!
-        public void NewPurchaseList()
+        public static void NewPurchaseList()
          {
              bool quit = false;
              var newPurchaseList = new Purchase();
