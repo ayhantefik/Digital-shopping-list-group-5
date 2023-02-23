@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,12 @@ namespace Digital_shopping_list_group_5
 {
     //Disconnected class (löst kopplad klass).
     //When initiated, it takes advantage of the interface <<IAct>> through the concrete classes <Item>, <Purchase>, <Consumer> & <Receipt>
-    internal class Database 
+    internal class Database
     {
+        public List<string> shoppinglists = new List<string>();
+        public List<string> itemlist = new List<string>();
         List<string> sample = new List<string>();
-        List<string> itemlist = new List<string>();
+        //List<string> itemlist = new List<string>();
 
         List<Consumer> listOfAccounts = new List<Consumer>();
 
@@ -21,7 +24,7 @@ namespace Digital_shopping_list_group_5
 
         public Database() { }
         public Database(IAct act)
-        { 
+        {
             this.act = act;
         }
 
@@ -48,58 +51,19 @@ namespace Digital_shopping_list_group_5
 
         public void LoadLists()
         {
-            string file = "Path/listOfPurchases.csv"; 
-            Console.WriteLine("Choose shopping list:");
-            Console.WriteLine();
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line;
-                int b = 1;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    char[] charsToTrim3 = { ';'};
-                    string[] field = line.Split(';');
-                    Console.WriteLine($"[{b++}] {field[0]}");
-                    string addinlist = $"{line.Trim(charsToTrim3)}";
-                    sample.Add(addinlist);
-                }
-                
-            }
-            Console.WriteLine();
-            int userChoose = Int32.Parse(Console.ReadLine());
-            if (userChoose == 1)
-            {
-                Console.WriteLine(sample[0]);
-            }
-            if (userChoose == 2)
-            {
-                Console.WriteLine(sample[1]);
-            }
-            if (userChoose == 3)
-            {
-                Console.WriteLine(sample[2]);
-            }
-        }
-
-
-
-        public void LoadListsOrg()
-        {
             string file = "Path/listOfPurchases.csv";
             using (StreamReader sr = new StreamReader(file))
             {
                 string line;
-                int b = 1;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    char[] charsToTrim3 = { ';' };
-                    string[] field = line.Split(';');
-                    Console.WriteLine($"[{b++}] {field[0]}");
-                    string addinlist = $"{line.Trim(charsToTrim3)}";
-                    sample.Add(addinlist);
+                    shoppinglists.Add(line);
                 }
             }
         }
+
+
+
         public void LoadListsAddinList()
         {
             string file = "Path/listOfPurchases.csv";
@@ -118,80 +82,75 @@ namespace Digital_shopping_list_group_5
         }
 
 
-
-
-
-        public void LoadItemList()
+        public void LoadItems()
         {
             string file = "Path/items.csv";
             Console.WriteLine();
             using (StreamReader sr = new StreamReader(file))
             {
                 string line1;
-                int b = 1;
                 while ((line1 = sr.ReadLine()) != null)
                 {
-                    //char[] charsToTrim3 = { ';' };
-                    string[] field1 = line1.Split(';');
-                    Console.WriteLine($"[{b++}] {field1[1]}");
-                    string addinlist = $"{line1}";
-                    itemlist.Add(addinlist);
+                    itemlist.Add(line1);
                 }
             }
         }
-        public void LoadItemListAddinList()
+        public void ShowLists()
         {
-            string file = "Path/items.csv";
-            Console.WriteLine();
-            using (StreamReader sr = new StreamReader(file))
+            int a = 1;
+            foreach (var samplelist in shoppinglists)
             {
-                string line1;
-                int b = 1;
-                while ((line1 = sr.ReadLine()) != null)
-                {
-                    //char[] charsToTrim3 = { ';' };
-                    string[] field1 = line1.Split(';');
-                    string addinlist = $"{line1}";
-                    itemlist.Add(addinlist);
-                }
+                string[] listnamearray = samplelist.Split(';');
+                Console.WriteLine($"[{a++}]{listnamearray[0]}");
             }
+            Console.WriteLine();
+            int userChoose = Int32.Parse(Console.ReadLine());
+            Console.WriteLine(shoppinglists[userChoose - 1]);
         }
-
-
 
 
         public void EditLists(int userChoose)
         {
             Console.WriteLine("Choose list to edit:");
             Console.WriteLine();
-            LoadListsOrg();
+            int z = 1;
+            foreach (var samplelist in shoppinglists)
+            {
+                string[] listnamearray = samplelist.Split(';');
+                Console.WriteLine($"[{z++}]{listnamearray[0]}");
+            }
             int chooseList = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Choosen list:");
             Console.WriteLine();
-            Console.WriteLine(sample[chooseList - 1]);
+            Console.WriteLine(shoppinglists[chooseList - 1]);
             Console.WriteLine("[1] Add item");
             Console.WriteLine("[2] Delete item");
             userChoose = Int32.Parse(Console.ReadLine());
             switch (userChoose)
             {
                 case 1:
+                    int j = 1;
                     Console.WriteLine("Choose item to add:");
-                    LoadItemList();
+                    foreach (var ilist in itemlist)
+                    {
+                        string[] itemarray = ilist.Split(';');
+                        Console.WriteLine($"[{j++}]{itemarray[1]}");
+                    }
                     int itemChoose = Int32.Parse(Console.ReadLine());
-                    string text = $"{sample[chooseList - 1]};{itemlist[itemChoose - 1]}";
+                    string text = $"{shoppinglists[chooseList - 1]};{itemlist[itemChoose - 1]}";
                     string addtest = text;
-                    sample.RemoveAt(chooseList - 1);
-                    sample.Insert(chooseList - 1, addtest);
+                    shoppinglists.RemoveAt(chooseList - 1);
+                    shoppinglists.Insert(chooseList - 1, addtest);
                     Console.WriteLine();
                     Console.WriteLine("Shopping list is updated!");
                     Console.WriteLine();
-                    Console.WriteLine(sample[chooseList - 1]);
+                    Console.WriteLine(shoppinglists[chooseList - 1]);
                     break;
                 case 2:
                     Console.WriteLine("Choose item to delete:");
                     int cnt = 2;
                     int plustre = 3;
-                    string lineList = sample[chooseList - 1];
+                    string lineList = shoppinglists[chooseList - 1];
                     string[] itemsInLine = lineList.Split(';');
                     Console.WriteLine($"[1] {itemsInLine[2]}");
                     for (int i = 1; i <= (itemsInLine.Length / 3) + 1; i++)
@@ -224,12 +183,13 @@ namespace Digital_shopping_list_group_5
                     }
                     itemsInLine = Array.ConvertAll(itemsInLine, a => a = a + ";");
                     string update = String.Concat(itemsInLine);
-                    sample.RemoveAt(chooseList - 1);
-                    sample.Insert(chooseList - 1, update);
+                    string updateminus1 = update.Remove(update.Length - 1, 1); // Delete last charter from string
+                    shoppinglists.RemoveAt(chooseList - 1);
+                    shoppinglists.Insert(chooseList - 1, updateminus1);
                     Console.WriteLine();
                     Console.WriteLine("Item is deleted! Updated list:");
                     Console.WriteLine();
-                    Console.WriteLine(sample[chooseList - 1]);
+                    Console.WriteLine(shoppinglists[chooseList - 1]);
                     break;
                 default:
                     Console.Write($"\nInvalid option: ");
@@ -237,10 +197,9 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine($"{userChoose}\n");
                     Console.ResetColor();
                     break;
-            } 
+            }
         }
-
     }
-    
+
 }
 
