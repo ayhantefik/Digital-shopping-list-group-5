@@ -10,6 +10,7 @@ namespace Digital_shopping_list_group_5
     //...
     public class Item : IAct
     {
+        int quantity;
         string name = "null";
         int ID = -1;
         bool isBought = false;
@@ -18,8 +19,9 @@ namespace Digital_shopping_list_group_5
         
         public Item()
         { }
-        public Item(string name, int iD, bool isBought)
+        public Item(int quantity,string name, int iD, bool isBought)
         {
+            this.quantity = quantity;
             this.name = name;
             ID = iD;
             this.isBought = isBought;
@@ -29,6 +31,7 @@ namespace Digital_shopping_list_group_5
 
         //=====================================================
         //Setters (Getters TBD)
+        public int SetQuantity(int value) => quantity = value;
         public int SetID(int value) => ID = value;
         public string SetName(string value) => name = value;
         public bool SetIsBought(bool value) => isBought = value;
@@ -46,7 +49,7 @@ namespace Digital_shopping_list_group_5
         //recording & retrieving data
         void IAct.SaveToDb(Object obj)
         {
-            string str = $"{ID};{name};{isBought};";
+            string str = $"{ID};{quantity};{name};{isBought};";
 
             using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
             {
@@ -87,7 +90,7 @@ namespace Digital_shopping_list_group_5
         //Following 3 functions TBD
         public override string ToString()
         {
-            return $"lol {ID};{name};{isBought};";
+            return $"lol {ID};{quantity};{name};{isBought};";
         }
         public void Display()
         {
