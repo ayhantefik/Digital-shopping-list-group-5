@@ -8,11 +8,12 @@ using System.Xml.Linq;
 
 namespace Digital_shopping_list_group_5
 {
-    internal class Consumer : User, IAct
+    public class Consumer : User, IAct    // CHANGED ACCESSIBILITY TO PUBLIC
     {
         int accountLvl, points;
         List<Object> purchases;        
         private List<object> listOfPurchases;
+        public List<object> ListOfPurchases { get => listOfPurchases; } // ADDED GETTER!
         public Consumer(string name, string email, string password,bool loggedIn, int v1, int v2, List<object> listOfPurchases)
             :base(name,email,password,loggedIn)
         {

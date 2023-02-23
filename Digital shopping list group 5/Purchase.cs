@@ -36,7 +36,7 @@ namespace Digital_shopping_list_group_5
             {
                 streamwriter.WriteLine(str);
             }
-            System.IO.File.WriteAllText(@"Path/items.csv", string.Empty); 
+            System.IO.File.WriteAllText(@"Path/items.csv", string.Empty);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("SUCCESS: ");
@@ -84,73 +84,97 @@ namespace Digital_shopping_list_group_5
         {
             throw new NotImplementedException();
         }
- 
+
 
         //Adds new purschases to customers list of purchases.
         //TBD: Not finalized!
-        public void NewPurchaseList()
-         {
-             bool quit = false;
-             var newPurchaseList = new Purchase();
-             var newList = new List<Object>();
+        public static void NewPurchase(Consumer consumer)   // USER,CONSUMER ACCESSIBILITY
+        {
+            string input;
+            bool quit = false;
+            var newPurchase = new Purchase();
+            var newList = new List<Object>();
 
-         Console.WriteLine("[1] Create new purchase list.");
-         Console.WriteLine("[2] Use existing list as template.");
-         Console.WriteLine("[3] Quit.");
-         string input = Console.ReadLine();
+            while (quit == false)
+            {
+                Console.WriteLine("[1] Create new purchase list.");
+                Console.WriteLine("[2] Create new purchase list from template (existing list).");
+                Console.WriteLine("[3] Quit.");
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        Console.WriteLine("New empty purchase list created.");
+                        quit = true;
+                        break;
+                    case "2":
+                        newPurchase = SelectPurchase(consumer);
+                        Console.WriteLine("Purchase list created from existing list.");
+                        quit = true;
+                        break;
+                    case "3": return;
+                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                }
+            }
 
-         switch (input)
-         {
-             case "1":
-                 Console.WriteLine("New empty purchase list created.");
-                 break;
-             case "2":
-                 // METHOD: View/Select purchase lists from customers lists.
-                 // newList = ... // newPurchaseList = ...
-                 Console.WriteLine("Purchase list created from existing list.");
-                 break;
-             case "3": return;
-             default: Console.WriteLine($"Unknown input: {input}"); break;
-         }
+            quit = false;
+            Console.Write($"Enter name of new purchase list \"{newPurchase.name}\": ");
+            newPurchase.name = Console.ReadLine();
+            while (quit == false)
+            {
+                Console.WriteLine($"[1] SaveToDb items to \"{newPurchase.name}\".");
+                Console.WriteLine($"[2] Remove items from \"{newPurchase.name}\".");
+                Console.WriteLine($"[3] Save list (\"{newPurchase.name}\") and quit.");
+                Console.WriteLine($"[4] Discard list (\"{newPurchase.name}\") and quit.");
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        // METHOD: SaveToDb items to list.
+                        break;
+                    case "2":
+                        // METHOD: Remove items from list.
+                        break;
+                    case "3":
+                        Console.WriteLine($"New list \"{newPurchase.name}\" successfully created and saved.");
+                        newPurchase.listOfItems = newList;
+                        // ADD: newPurchaseList to customers.
+                        // METHOD: Save list to file?
+                        break;
+                    case "4":
+                        Console.WriteLine($"New list \"{newPurchase.name}\" discarded.");
+                        quit = true;
+                        break;
+                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                }
+            }
+        }
+        public static Purchase SelectPurchase(Consumer consumer)    // USER,CONSUMER ACCESSIBILITY
+        {
+            ViewPurchase(consumer);
+            Console.Write("Enter the number of the purchase list: ");
+            int.TryParse(Console.ReadLine(), out int input);
 
-         Console.Write("Enter name of new purchase list: ");
-         newPurchaseList.name = Console.ReadLine();
-
-         while (quit == false)
-         {
-             Console.WriteLine($"[1] SaveToDb items to \"{newPurchaseList.name}\".");
-             Console.WriteLine($"[2] Remove items from \"{newPurchaseList.name}\".");
-             Console.WriteLine($"[3] Save list (\"{newPurchaseList.name}\") and quit.");
-             Console.WriteLine($"[4] Discard list (\"{newPurchaseList.name}\") and quit.");
-
-             switch (input)
-             {
-                 case "1":
-                     // METHOD: SaveToDb items to list. 
-                     break;
-                 case "2":
-                     // METHOD: Remove items from list.
-                     break;
-                 case "3":
-                     Console.WriteLine($"New list \"{newPurchaseList.name}\" successfully created and saved.");
-                     newPurchaseList.listOfItems = newList;
-                     // ADD: newPurchaseList to customers.
-                     // METHOD: Save list to file? 
-                     break;
-                 case "4":
-                     Console.WriteLine($"New list \"{newPurchaseList.name}\" discarded.");
-                     quit = true;
-                     break;
-                 default: Console.WriteLine($"Unknown input: {input}"); break;
-             }
-         }
-     }
-        //==================================================
-         
-
-
+            if (input > 0 && input <= consumer.ListOfPurchases.Count)
+            {
+                return (Purchase)consumer.ListOfPurchases[input - 1];
+            }
+            else
+            {
+                Console.WriteLine("Could not find the purchase list.");
+            }
+            return null;
+        }
+        public static void ViewPurchase(Consumer consumer)
+        {
+            int i = 1;
+            Console.WriteLine($"{consumer.Name}'s purchase lists: ");
+            foreach (Purchase p in consumer.ListOfPurchases)
+            {
+                Console.WriteLine($"{i} . {p.name}");
+                i++;
+            }
+        }
     }
-
 }
 
- 
