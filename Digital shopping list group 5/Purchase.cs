@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Digital_shopping_list_group_5
 {
@@ -36,7 +37,7 @@ namespace Digital_shopping_list_group_5
             {
                 streamwriter.WriteLine(str);
             }
-            System.IO.File.WriteAllText(@"Path/items.csv", string.Empty); 
+            System.IO.File.WriteAllText(@"Path/items.csv", string.Empty);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("SUCCESS: ");
@@ -84,73 +85,76 @@ namespace Digital_shopping_list_group_5
         {
             throw new NotImplementedException();
         }
- 
+
 
         //Adds new purschases to customers list of purchases.
         //TBD: Not finalized!
-        public static void NewPurchaseList()
-         {
-             bool quit = false;
-             var newPurchaseList = new Purchase();
-             var newList = new List<Object>();
+        public static void NewPurchase()
+        {
+            string input;
+            bool quit = false;
+            Purchase newPurchase = new Purchase();
+            List<Object> newList = new List<Object>();
+            while (quit == false)
+            {
+                Console.WriteLine("[1] Create new purchase list.");
+                Console.WriteLine("[2] Create new purchase list from template (existing list).");
+                Console.WriteLine("[3] Quit.");
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        Console.WriteLine("New empty purchase list created.");
+                        quit = true;
+                        break;
+                    case "2":
+                        // METHOD: View/Select purchase lists from customers lists.
+                        // newList = ... // newPurchaseList = ...
 
-         Console.WriteLine("[1] Create new purchase list.");
-         Console.WriteLine("[2] Use existing list as template.");
-         Console.WriteLine("[3] Quit.");
-         string input = Console.ReadLine();
-
-         switch (input)
-         {
-             case "1":
-                 Console.WriteLine("New empty purchase list created.");
-                 break;
-             case "2":
-                 // METHOD: View/Select purchase lists from customers lists.
-                 // newList = ... // newPurchaseList = ...
-                 Console.WriteLine("Purchase list created from existing list.");
-                 break;
-             case "3": return;
-             default: Console.WriteLine($"Unknown input: {input}"); break;
-         }
-
-         Console.Write("Enter name of new purchase list: ");
-         newPurchaseList.name = Console.ReadLine();
-
-         while (quit == false)
-         {
-             Console.WriteLine($"[1] SaveToDb items to \"{newPurchaseList.name}\".");
-             Console.WriteLine($"[2] Remove items from \"{newPurchaseList.name}\".");
-             Console.WriteLine($"[3] Save list (\"{newPurchaseList.name}\") and quit.");
-             Console.WriteLine($"[4] Discard list (\"{newPurchaseList.name}\") and quit.");
-
-             switch (input)
-             {
-                 case "1":
-                     // METHOD: SaveToDb items to list. 
-                     break;
-                 case "2":
-                     // METHOD: Remove items from list.
-                     break;
-                 case "3":
-                     Console.WriteLine($"New list \"{newPurchaseList.name}\" successfully created and saved.");
-                     newPurchaseList.listOfItems = newList;
-                     // ADD: newPurchaseList to customers.
-                     // METHOD: Save list to file? 
-                     break;
-                 case "4":
-                     Console.WriteLine($"New list \"{newPurchaseList.name}\" discarded.");
-                     quit = true;
-                     break;
-                 default: Console.WriteLine($"Unknown input: {input}"); break;
-             }
-         }
-     }
-        //==================================================
-         
+                        Console.WriteLine("Purchase list created from existing list.");
+                        break;
+                    case "3": return;
+                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                }
+            }
+            quit = false;
+            Console.Write("Enter name of new purchase list: ");
+            newPurchase.name = Console.ReadLine();
+            while (quit == false)
+            {
+                Console.WriteLine($"[1] SaveToDb items to \"{newPurchase.name}\".");
+                Console.WriteLine($"[2] Remove items from \"{newPurchase.name}\".");
+                Console.WriteLine($"[3] Save list (\"{newPurchase.name}\") and quit.");
+                Console.WriteLine($"[4] Discard list (\"{newPurchase.name}\") and quit.");
+                input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        // METHOD: SaveToDb items to list.
+                        break;
+                    case "2":
+                        // METHOD: Remove items from list.
+                        break;
+                    case "3":
+                        Console.WriteLine($"New list \"{newPurchase.name}\" successfully created and saved.");
+                        newPurchase.listOfItems = newList;
+                        // ADD: newPurchaseList to customers.
+                        // METHOD: Save list to file?
+                        break;
+                    case "4":
+                        Console.WriteLine($"New list \"{newPurchase.name}\" discarded.");
+                        quit = true;
+                        break;
+                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                }
+            }
+            public static Purchase SelectPurchase() { }
+            public static void ViewPurchase() {  }
 
 
-    }
+
+
+        }
 
 }
 
- 
