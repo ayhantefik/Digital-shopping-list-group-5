@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Security_System\Admin.cs" />
+    <Compile Include="Security_System\Consumer.cs" />
+    <Compile Include="Security_System\User.cs" />
     <Compile Include="CustomerLevel.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="Do.cs" />
@@ -55,5 +58,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

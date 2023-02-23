@@ -1,62 +1,109 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Digital_shopping_list_group_5
 {
-    internal partial class Program
+
+    //Description 
+    //...
+    //...
+    public class Item : IAct
     {
-        //Description 
-        //...
-        //...
-        public class Item : IAct
+        string name = "null";
+        int ID = -1;
+        bool isBought = false;
+        
+
+        
+        public Item()
+        { }
+        public Item(string name, int iD, bool isBought)
         {
-            string name = "null";
-            int ID = -1;
-            bool isBought = false;
-            
-            public Item()
-            { }
-            public Item(string name, int iD, bool isBought)
+            this.name = name;
+            ID = iD;
+            this.isBought = isBought;
+        }
+
+
+
+        //=====================================================
+        //Setters (Getters TBD)
+        public int SetID(int value) => ID = value;
+        public string SetName(string value) => name = value;
+        public bool SetIsBought(bool value) => isBought = value;
+
+        //=====================================================
+
+
+
+
+
+
+
+
+        //=====================================================
+        //recording & retrieving data
+        void IAct.SaveToDb(Object obj)
+        {
+            string str = $"{ID};{name};{isBought};";
+
+            using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
             {
-                this.name = name;
-                ID = iD;
-                this.isBought = isBought;
+                streamWriter.WriteLine(str);
             }
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("SUCCESS: ");
+            Console.WriteLine(str);
+            Console.ResetColor();
 
-            public int SetID(int value) => ID = value;
-            public string SetName(string value) => name = value;
-            public bool SetIsBought(bool value) => isBought = value;
 
-            public override string ToString()
+        }
+        List<Object> IAct.LoadFromDb()
+        {
+            List<Object> listOfItems = new List<Object>();
+
+            using (StreamReader str = new StreamReader(@"Path/items.csv"))
             {
-                return $"{ID} {name} {isBought}";
-            }
-            public void Display()
-            {
-                //NYI
-                ToString();
-            }
-
-            public void Remove()
-            {
-                throw new NotImplementedException();
-            }
-
-            void IAct.Add(Object obj)
-            {
-                string str = $"{ID};{name};{isBought};";
-
-                using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
+                string line;
+                while ((line = str.ReadLine()) != null)
                 {
-                    streamWriter.WriteLine(str);                    
+
+                    listOfItems.Add(line);
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("SUCCESS: ");
-                Console.WriteLine(str);
-                Console.ResetColor();
-                
 
             }
-        }        
-    }
+            return listOfItems;
+        }
+        //=====================================================
+
+
+
+
+
+
+
+        //======================================================
+        //Following 3 functions TBD
+        public override string ToString()
+        {
+            return $"lol {ID};{name};{isBought};";
+        }
+        public void Display()
+        {
+            //NYI
+            ToString();
+        }
+        public void Remove()
+        {
+            throw new NotImplementedException();
+        }
+        //======================================================
+
+
+
+
+        
+    }        
+
 }
