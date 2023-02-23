@@ -17,7 +17,7 @@ namespace Digital_shopping_list_group_5
 
         static void Main(string[] args)
         {
-            
+
             //The proccess of writing down the purchase lists into the file. 
             // TO BE EXTENDED 
 
@@ -35,14 +35,16 @@ namespace Digital_shopping_list_group_5
             //V1 = new Do(purchaseList);
             //V1.Add(purchaseList);  // inköpslistor. 
 
+            Receipt test = new Receipt(4545, 2, "mjölk", true);
+
             RunMenu();           
         }
         private static void RunMenu()
         {
             Database data1 = new Database();
-            Console.WriteLine("[1] Shopping lists");
+            Console.WriteLine("[1] Purchase lists");
             Console.WriteLine("[2] Receipts");
-            Console.WriteLine("[3] Shopping");
+            Console.WriteLine("[3] Purchase");
             string userInput  = Console.ReadLine();
             switch (userInput)
             {
@@ -59,31 +61,31 @@ namespace Digital_shopping_list_group_5
                     userInput = Console.ReadLine();
                     switch (userInput)
                     {
-                        case "1":
+                        case "1": // Create list option
                             Console.WriteLine("Code missing..");
                             RunMenu();
                             break;
-                        case "2":
+                        case "2": // Edit list option
                             Console.WriteLine("Code missing..");
                             RunMenu();
                             break;
-                        case "3":
+                        case "3": // Delete list option
                             Console.WriteLine("Code missing..");
                             RunMenu();
                             break;
-                        case "4":
+                        case "4": // Show list option
                             data1.LoadLists(userInput);
                             userInput = Console.ReadLine();
                             break;
-                        case "5":
+                        case "5": // Merge list option
                             Console.WriteLine("Code missing..");
                             RunMenu();
                             break;
-                        case "6":
+                        case "6": // Share list option
                             Console.WriteLine("Code missing..");
                             RunMenu();
-                            break;
-                        case "7":
+                            break; 
+                        case "7": // Change list name option
                             Console.WriteLine("Code missing..");
                             RunMenu();
                             break;
@@ -100,11 +102,11 @@ namespace Digital_shopping_list_group_5
                     }
 
                     break;
-                case "2":
+                case "2": // Receipts menu option
                     Console.WriteLine("Code missing..");
                     RunMenu();
                     break;
-                case "3":
+                case "3": // Purchase menu option
                     Console.WriteLine("Code missing..");
                     RunMenu();
                     break;
