@@ -63,7 +63,9 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
-
+            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
+            Console.WriteLine(test.ToString());
+            
 
             RunMenu();           
         }
@@ -131,6 +133,7 @@ namespace Digital_shopping_list_group_5
                         }
                         break;
                     case 2: // Receipts menu option
+                        Console.WriteLine("Here is a a list of all receipts: ");
                         Console.WriteLine("Code missing..");
                         RunMenu();
                         break;
