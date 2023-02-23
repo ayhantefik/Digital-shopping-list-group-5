@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Receipt.cs" />
     <Compile Include="Security_System\Admin.cs" />
     <Compile Include="Security_System\Consumer.cs" />
     <Compile Include="Security_System\User.cs" />

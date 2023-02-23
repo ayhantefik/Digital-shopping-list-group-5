@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-//using static Digital_shopping_list_group_5.Program;
+using static Digital_shopping_list_group_5.Program;
 
 namespace Digital_shopping_list_group_5
 {
@@ -52,6 +52,9 @@ namespace Digital_shopping_list_group_5
             
             List<Object> listOfPurchases = make.LoadFromDb(); //retrieving purchases and add them to the account1
 
+            //The proccess of writing down the purchase lists into the file. 
+            // TO BE EXTENDED 
+
             var person1 = new Consumer("Stanislav", "test@mail.ua","password", true, 3, 666, listOfPurchases);
             make = new Do(person1);
             make.SaveToDb(person1);
@@ -60,88 +63,101 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
+            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
+            Console.WriteLine(test.ToString());
+            
 
             RunMenu();           
         }
         public static void RunMenu()
         {
+            
             Database data1 = new Database();
-            Console.WriteLine("[1] Shopping lists");
+            data1.LoadListsAddinList();
+            data1.LoadItemListAddinList();
+            Console.WriteLine("[1] Purchase lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
-            string userInput  = Console.ReadLine();
-            switch (userInput)
+            try
             {
-                case "1":
-                    Console.WriteLine("[1] Create list");
-                    Console.WriteLine("[2] Edit list");
-                    Console.WriteLine("[3] Delete list");
-                    Console.WriteLine("[4] Show lists ");
-                    Console.WriteLine("[5] Merge lists");
-                    Console.WriteLine("[6] Share list");
-                    Console.WriteLine("[7] Change list name"); //Det kanske ska ligga i create och edit
-                    Console.WriteLine();
-                    Console.WriteLine("[b] Back");
-                    userInput = Console.ReadLine();
-                    switch (userInput)
-                    {
-                        case "1":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "2":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "3":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "4":
-                            data1.LoadLists(userInput);
-                            userInput = Console.ReadLine();
-                            break;
-                        case "5":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "6":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "7":
-                            Console.WriteLine("Code missing..");
-                            RunMenu();
-                            break;
-                        case "b":
-                            RunMenu();
-                            break;
-                        default:
-                            Console.Write($"\nInvalid option: ");
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"{userInput}\n");
-                            Console.ResetColor();
-                            RunMenu();
-                            break;
-                    }
-
-                    break;
-                case "2":
-                    Console.WriteLine("Code missing..");
-                    RunMenu();
-                    break;
-                case "3":
-                    Console.WriteLine("Code missing..");
-                    RunMenu();
-                    break;
-                default:
-                    Console.Write($"\nInvalid option: ");
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"{userInput}\n");
-                    Console.ResetColor();
-                    RunMenu();
-                    break;
+                int userInput = Int32.Parse(Console.ReadLine());
+                switch (userInput)
+                {
+                    case 1:
+                        Console.WriteLine("[1] Create list");
+                        Console.WriteLine("[2] Edit list");
+                        Console.WriteLine("[3] Delete list");
+                        Console.WriteLine("[4] Show lists ");
+                        Console.WriteLine("[5] Merge lists");
+                        Console.WriteLine("[6] Share list");
+                        Console.WriteLine("[7] Change list name"); //Det kanske ska ligga i create och edit
+                        Console.WriteLine();
+                        Console.WriteLine("[0] Back");
+                        userInput = Int32.Parse(Console.ReadLine());
+                        switch (userInput)
+                        {
+                            case 1: // Create list option
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 2: // Edit list option
+                                data1.EditLists(userInput);
+                                break;
+                            case 3: // Delete list option
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 4: // Show list option
+                                data1.LoadLists();
+                                break;
+                            case 5: // Merge list option
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 6: // Share list option
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 7: // Change list name option
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 0:
+                                RunMenu();
+                                break;
+                            default:
+                                Console.Write($"\nInvalid option: ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"{userInput}\n");
+                                Console.ResetColor();
+                                RunMenu();
+                                break;
+                        }
+                        break;
+                    case 2: // Receipts menu option
+                        Console.WriteLine("Here is a a list of all receipts: ");
+                        Console.WriteLine("Code missing..");
+                        RunMenu();
+                        break;
+                    case 3: // Purchase menu option
+                        Console.WriteLine("Code missing..");
+                        RunMenu();
+                        break;
+                    default:
+                        Console.Write($"\nInvalid option: ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{userInput}\n");
+                        Console.ResetColor();
+                        RunMenu();
+                        break;
+                }
             }
+            catch
+            {
+                Console.WriteLine("\nInvalid option\n");
+                RunMenu();
+            }
+
 
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Digital_shopping_list_group_5
 {
-    internal class Admin : User
+    public class Admin : User
     {
         string filePath;
         public Admin(string name, string email, string password, bool loggedIn, string filePath)
