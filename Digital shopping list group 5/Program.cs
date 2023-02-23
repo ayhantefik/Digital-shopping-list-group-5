@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-//using static Digital_shopping_list_group_5.Program;
+using static Digital_shopping_list_group_5.Program;
 
 namespace Digital_shopping_list_group_5
 {
@@ -52,6 +52,9 @@ namespace Digital_shopping_list_group_5
             
             List<Object> listOfPurchases = make.LoadFromDb(); //retrieving purchases and add them to the account1
 
+            //The proccess of writing down the purchase lists into the file. 
+            // TO BE EXTENDED 
+
             var person1 = new Consumer("Stanislav", "test@mail.ua","password", true, 3, 666, listOfPurchases);
             make = new Do(person1);
             make.SaveToDb(person1);
@@ -61,15 +64,15 @@ namespace Digital_shopping_list_group_5
             //=============================================================================================================
 
 
+
             RunMenu();           
         }
         public static void RunMenu()
         {
             Database data1 = new Database();
-            Console.WriteLine("[1] Shopping lists");
+            Console.WriteLine("[1] Purchase lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
-            
             try
             {
                 int userInput = Int32.Parse(Console.ReadLine());
@@ -88,30 +91,30 @@ namespace Digital_shopping_list_group_5
                         userInput = Int32.Parse(Console.ReadLine());
                         switch (userInput)
                         {
-                            case 1:
+                            case 1: // Create list option
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
-                            case 2:
+                            case 2: // Edit list option
                                 data1.EditLists(userInput);
                                 break;
-                            case 3:
+                            case 3: // Delete list option
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
-                            case 4:
+                            case 4: // Show list option
                                 data1.LoadLists(userInput);
                                 userInput = Int32.Parse(Console.ReadLine());
                                 break;
-                            case 5:
+                            case 5: // Merge list option
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
-                            case 6:
+                            case 6: // Share list option
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
-                            case 7:
+                            case 7: // Change list name option
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
@@ -126,13 +129,12 @@ namespace Digital_shopping_list_group_5
                                 RunMenu();
                                 break;
                         }
-
                         break;
-                    case 2:
+                    case 2: // Receipts menu option
                         Console.WriteLine("Code missing..");
                         RunMenu();
                         break;
-                    case 3:
+                    case 3: // Purchase menu option
                         Console.WriteLine("Code missing..");
                         RunMenu();
                         break;
@@ -150,7 +152,7 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine("\nInvalid option\n");
                 RunMenu();
             }
-            
+
 
         }
 
