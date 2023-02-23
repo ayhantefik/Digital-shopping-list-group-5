@@ -42,10 +42,12 @@ namespace Digital_shopping_list_group_5
         //recording & retrieving data
         void IAct.SaveToDb(object obj)
         {
-            string str = obj.ToString();
+            string str = obj.ToString();            
             using (var streamwriter = new StreamWriter(@"Path/accounts.csv", true))
             {
-                streamwriter.WriteLine(str);
+                //if an email existed, it would mean that we want to replace that row with the modified one. TBD 
+                //...
+                streamwriter.WriteLine(str); 
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;

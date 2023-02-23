@@ -15,8 +15,6 @@ namespace Digital_shopping_list_group_5
     {
         public List<string> shoppinglists = new List<string>();
         public List<string> itemlist = new List<string>();
-        List<string> sample = new List<string>();
-        //List<string> itemlist = new List<string>();
 
         List<Consumer> listOfAccounts = new List<Consumer>();
 
@@ -31,6 +29,10 @@ namespace Digital_shopping_list_group_5
 
         public List<Consumer> GetListOfAccounts() => listOfAccounts;
 
+
+        //=============================================================================
+        //recording & retrievinhg data 
+
         public List<Object> LoadFromDb()
         {
             //Merge the function LoadFromDb()  from the classes Item,Purchase,Account.
@@ -43,7 +45,7 @@ namespace Digital_shopping_list_group_5
         {
             act.SaveToDb(obj);
         }
-
+        //=============================================================================
 
 
 
@@ -61,26 +63,6 @@ namespace Digital_shopping_list_group_5
                 }
             }
         }
-
-
-
-        public void LoadListsAddinList()
-        {
-            string file = "Path/listOfPurchases.csv";
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line;
-                int b = 1;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    char[] charsToTrim3 = { ';' };
-                    string[] field = line.Split(';');
-                    string addinlist = $"{line.Trim(charsToTrim3)}";
-                    sample.Add(addinlist);
-                }
-            }
-        }
-
 
         public void LoadItems()
         {

@@ -64,14 +64,12 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
-            //Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
-            //Console.WriteLine(test.ToString());
-            
-            //Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
-            //Console.WriteLine(test.ToString());
+            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
+            Console.WriteLine(test.ToString());
 
 
-            //RunSecuritySystem();
+
+            //RunSecuritySystem(); // TBD
             RunMenu();           
         }
         public static void RunMenu()
@@ -193,9 +191,7 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine("Invalid option");
                 RunSecuritySystem();
             }
-        }
+        } // TBD
 
-
-        //The function NewPurchaseList() is moved to the class <Purchase>
      }
 }
