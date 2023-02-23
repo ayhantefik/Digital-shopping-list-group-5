@@ -129,6 +129,64 @@ namespace Digital_shopping_list_group_5
                             RunMenu();
                             break;
                     }
+            Console.WriteLine("[3] Shopping");
+            
+            try
+            {
+                int userInput = Int32.Parse(Console.ReadLine());
+                switch (userInput)
+                {
+                    case 1:
+                        Console.WriteLine("[1] Create list");
+                        Console.WriteLine("[2] Edit list");
+                        Console.WriteLine("[3] Delete list");
+                        Console.WriteLine("[4] Show lists ");
+                        Console.WriteLine("[5] Merge lists");
+                        Console.WriteLine("[6] Share list");
+                        Console.WriteLine("[7] Change list name"); //Det kanske ska ligga i create och edit
+                        Console.WriteLine();
+                        Console.WriteLine("[0] Back");
+                        userInput = Int32.Parse(Console.ReadLine());
+                        switch (userInput)
+                        {
+                            case 1:
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 2:
+                                data1.EditLists(userInput);
+                                break;
+                            case 3:
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 4:
+                                data1.LoadLists(userInput);
+                                userInput = Int32.Parse(Console.ReadLine());
+                                break;
+                            case 5:
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 6:
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 7:
+                                Console.WriteLine("Code missing..");
+                                RunMenu();
+                                break;
+                            case 0:
+                                RunMenu();
+                                break;
+                            default:
+                                Console.Write($"\nInvalid option: ");
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"{userInput}\n");
+                                Console.ResetColor();
+                                RunMenu();
+                                break;
+                        }
 
                     break;
                 case "2": // Receipts menu option
@@ -147,6 +205,31 @@ namespace Digital_shopping_list_group_5
                     RunMenu();
                     break;
             }
+
+                        break;
+                    case 2:
+                        Console.WriteLine("Code missing..");
+                        RunMenu();
+                        break;
+                    case 3:
+                        Console.WriteLine("Code missing..");
+                        RunMenu();
+                        break;
+                    default:
+                        Console.Write($"\nInvalid option: ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"{userInput}\n");
+                        Console.ResetColor();
+                        RunMenu();
+                        break;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("\nInvalid option\n");
+                RunMenu();
+            }
+            
 
         }
 
