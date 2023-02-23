@@ -125,8 +125,9 @@ namespace Digital_shopping_list_group_5
                     }
                     itemsInLine = Array.ConvertAll(itemsInLine, a => a = a + ";");
                     string update = String.Concat(itemsInLine);
+                    string updateminus1 = update.Remove(update.Length - 1, 1); // Delete last charter from string
                     shoppinglists.RemoveAt(chooseList - 1);
-                    shoppinglists.Insert(chooseList - 1, update);
+                    shoppinglists.Insert(chooseList - 1, updateminus1);
                     Console.WriteLine();
                     Console.WriteLine("Item is deleted! Updated list:");
                     Console.WriteLine();
