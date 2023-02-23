@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Digital_shopping_list_group_5
 {
-    internal class Consumer : User, IAct
+    public class Consumer : User, IAct
     {
         int accountLvl, points;
         List<Object> purchases;        

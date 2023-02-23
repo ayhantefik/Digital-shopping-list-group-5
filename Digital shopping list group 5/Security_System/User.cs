@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Digital_shopping_list_group_5
 {
-    internal class User
+    public class User
     {
         string name, email, password;
         bool loggedIn;
