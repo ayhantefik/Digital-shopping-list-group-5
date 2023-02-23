@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Digital_shopping_list_group_5
 {
-   internal class Receipt
+   public class Receipt
     {
         public Receipt()
         {
