@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,10 +64,11 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
-            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
-            Console.WriteLine(test.ToString());
-            
+            //Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
+            //Console.WriteLine(test.ToString());
 
+
+            RunSecuritySystem();
             RunMenu();           
         }
         public static void RunMenu()
@@ -161,7 +163,36 @@ namespace Digital_shopping_list_group_5
 
         }
 
+        static void RunSecuritySystem()
+        {
+            Console.WriteLine("[1]Login");
+            Console.WriteLine("[2] Registration");
+            try
+            {
+                int userInput = Int32.Parse(Console.ReadLine());
+
+                //only consumers can log in so far. Admins TBD 
+                var person = new Consumer(); 
+                switch (userInput)
+                {                    
+                    case 1:
+                        person.LoginAccount();
+                        break;
+                    case 2:                        
+                        person.RegisterAccount();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Invalid option");
+                RunSecuritySystem();
+            }
+        }
+
 
         //The function NewPurchaseList() is moved to the class <Purchase>
-    }
+     }
 }

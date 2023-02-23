@@ -8,10 +8,44 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Digital_shopping_list_group_5
 {
-    internal class Database
+    //Disconnected class (löst kopplad klass).
+    //When initiated, it takes advantage of the interface <<IAct>> through the concrete classes <Item>, <Purchase>, <Consumer> & <Receipt>
+    internal class Database 
     {
         List<string> sample = new List<string>();
         List<string> itemlist = new List<string>();
+
+        List<Consumer> listOfAccounts = new List<Consumer>();
+
+        private readonly IAct act;
+
+        public Database() { }
+        public Database(IAct act)
+        { 
+            this.act = act;
+        }
+
+
+        public List<Consumer> GetListOfAccounts() => listOfAccounts;
+
+        public List<Object> LoadFromDb()
+        {
+            //Merge the function LoadFromDb()  from the classes Item,Purchase,Account.
+            //The same code in all 3 classes.
+
+            List<Object> list = act.LoadFromDb();
+            return list;
+        }
+        public void SaveToDb(object obj)
+        {
+            act.SaveToDb(obj);
+        }
+
+
+
+
+
+
         public void LoadLists()
         {
             string file = "Path/listOfPurchases.csv"; 
@@ -46,6 +80,9 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine(sample[2]);
             }
         }
+
+
+
         public void LoadListsOrg()
         {
             string file = "Path/listOfPurchases.csv";
@@ -79,6 +116,11 @@ namespace Digital_shopping_list_group_5
                 }
             }
         }
+
+
+
+
+
         public void LoadItemList()
         {
             string file = "Path/items.csv";
@@ -114,6 +156,10 @@ namespace Digital_shopping_list_group_5
                 }
             }
         }
+
+
+
+
         public void EditLists(int userChoose)
         {
             Console.WriteLine("Choose list to edit:");
