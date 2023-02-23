@@ -104,7 +104,7 @@ namespace Digital_shopping_list_group_5
 
                     Console.Write("Create password: ");
                     str = Console.ReadLine();
-                    success = CheckInput(2,str);
+                    success = CheckInput(2, str);
 
                     if (success)
                     {
@@ -122,12 +122,14 @@ namespace Digital_shopping_list_group_5
                             var consumer = new Consumer(this.Name, this.Email, this.Password);
                             Database db = new Database(consumer);
                             db.SaveToDb(consumer);
-                            
+
                             Console.WriteLine("Success!" + this.ToString());
                         }
+                        else Console.WriteLine("Name can not be empty");
                     }
-
+                    else Console.WriteLine("Password can not be empty");
                 }
+                else Console.WriteLine("Email can not be empty");
                 
                 
 
@@ -136,7 +138,6 @@ namespace Digital_shopping_list_group_5
         }
 
 
-        //so far only email
         static bool CheckInput(int positionInTheProcess, string input)
         {
             bool success = false;
