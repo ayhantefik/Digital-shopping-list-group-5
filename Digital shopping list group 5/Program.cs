@@ -80,7 +80,7 @@ namespace Digital_shopping_list_group_5
             data1.LoadItems();
             Console.WriteLine("[1] Purchase lists");
             Console.WriteLine("[2] Receipts");
-            Console.WriteLine("[3] Shopping");
+            Console.WriteLine("[3] Make a purchase");
             try
             {
                 int userInput = Int32.Parse(Console.ReadLine());

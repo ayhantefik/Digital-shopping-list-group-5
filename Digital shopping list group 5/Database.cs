@@ -13,7 +13,7 @@ namespace Digital_shopping_list_group_5
     //When initiated, it takes advantage of the interface <<IAct>> through the concrete classes <Item>, <Purchase>, <Consumer> & <Receipt>
     internal class Database
     {
-        public List<string> shoppinglists = new List<string>();
+        public List<string> purchaselists = new List<string>();
         public List<string> itemlist = new List<string>();
 
         List<Consumer> listOfAccounts = new List<Consumer>();
@@ -59,7 +59,7 @@ namespace Digital_shopping_list_group_5
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    shoppinglists.Add(line);
+                    purchaselists.Add(line);
                 }
             }
         }
@@ -80,14 +80,14 @@ namespace Digital_shopping_list_group_5
         public void ShowLists()
         {
             int a = 1;
-            foreach (var samplelist in shoppinglists)
+            foreach (var samplelist in purchaselists)
             {
                 string[] listnamearray = samplelist.Split(';');
                 Console.WriteLine($"[{a++}]{listnamearray[0]}");
             }
             Console.WriteLine();
             int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine(shoppinglists[userChoose - 1]);
+            Console.WriteLine(purchaselists[userChoose - 1]);
         }
 
 
@@ -96,7 +96,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("Choose list to edit:");
             Console.WriteLine();
             int z = 1;
-            foreach (var samplelist in shoppinglists)
+            foreach (var samplelist in purchaselists)
             {
                 string[] listnamearray = samplelist.Split(';');
                 Console.WriteLine($"[{z++}]{listnamearray[0]}");
@@ -104,7 +104,7 @@ namespace Digital_shopping_list_group_5
             int chooseList = Int32.Parse(Console.ReadLine());
             Console.WriteLine("Choosen list:");
             Console.WriteLine();
-            Console.WriteLine(shoppinglists[chooseList - 1]);
+            Console.WriteLine(purchaselists[chooseList - 1]);
             Console.WriteLine("[1] Add item");
             Console.WriteLine("[2] Delete item");
             userChoose = Int32.Parse(Console.ReadLine());
@@ -119,20 +119,20 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine($"[{j++}]{itemarray[1]}");
                     }
                     int itemChoose = Int32.Parse(Console.ReadLine());
-                    string text = $"{shoppinglists[chooseList - 1]};{itemlist[itemChoose - 1]}";
+                    string text = $"{purchaselists[chooseList - 1]};{itemlist[itemChoose - 1]}";
                     string addtest = text;
-                    shoppinglists.RemoveAt(chooseList - 1);
-                    shoppinglists.Insert(chooseList - 1, addtest);
+                    purchaselists.RemoveAt(chooseList - 1);
+                    purchaselists.Insert(chooseList - 1, addtest);
                     Console.WriteLine();
-                    Console.WriteLine("Shopping list is updated!");
+                    Console.WriteLine("Purchase list is updated!");
                     Console.WriteLine();
-                    Console.WriteLine(shoppinglists[chooseList - 1]);
+                    Console.WriteLine(purchaselists[chooseList - 1]);
                     break;
                 case 2:
                     Console.WriteLine("Choose item to delete:");
                     int cnt = 2;
                     int plustre = 3;
-                    string lineList = shoppinglists[chooseList - 1];
+                    string lineList = purchaselists[chooseList - 1];
                     string[] itemsInLine = lineList.Split(';');
                     Console.WriteLine($"[1] {itemsInLine[2]}");
                     for (int i = 1; i <= (itemsInLine.Length / 3) + 1; i++)
@@ -166,12 +166,12 @@ namespace Digital_shopping_list_group_5
                     itemsInLine = Array.ConvertAll(itemsInLine, a => a = a + ";");
                     string update = String.Concat(itemsInLine);
                     string updateminus1 = update.Remove(update.Length - 1, 1); // Delete last charter from string
-                    shoppinglists.RemoveAt(chooseList - 1);
-                    shoppinglists.Insert(chooseList - 1, updateminus1);
+                    purchaselists.RemoveAt(chooseList - 1);
+                    purchaselists.Insert(chooseList - 1, updateminus1);
                     Console.WriteLine();
                     Console.WriteLine("Item is deleted! Updated list:");
                     Console.WriteLine();
-                    Console.WriteLine(shoppinglists[chooseList - 1]);
+                    Console.WriteLine(purchaselists[chooseList - 1]);
                     break;
                 default:
                     Console.Write($"\nInvalid option: ");
