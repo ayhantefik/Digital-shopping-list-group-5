@@ -202,6 +202,36 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine(testa);
             }
         }
+        public void ChangePurchaseListName()
+        {
+            Console.WriteLine("Choose list that you want to change name:");
+            Console.WriteLine();
+            int a = 1;
+            foreach (var samplelist in purchaselists)
+            {
+                string[] listnamearray = samplelist.Split(';');
+                Console.WriteLine($"[{a++}]{listnamearray[0]}");
+            }
+            int userChoose = Int32.Parse(Console.ReadLine());
+            Console.WriteLine();
+            Console.WriteLine("Choosen list:");
+            Console.WriteLine();
+            Console.WriteLine(purchaselists[userChoose - 1]);
+            Console.WriteLine();
+            Console.WriteLine("New name:");
+            string newname = Console.ReadLine();
+            string[] changearray = purchaselists[userChoose - 1].Split(';');
+            changearray[0] = newname;
+            changearray = Array.ConvertAll(changearray, z => z = z + ";");
+            string changearrayTostring = String.Concat(changearray);
+            string update = changearrayTostring.Remove(changearrayTostring.Length - 1, 1); // Delete last charter ";" from string 
+            purchaselists.RemoveAt(userChoose - 1);
+            purchaselists.Insert(userChoose - 1, update);
+            Console.WriteLine();
+            Console.WriteLine("Purchase list name is changed!");
+            Console.WriteLine();
+            Console.WriteLine(purchaselists[userChoose - 1]);
+        }
     }
 
 }

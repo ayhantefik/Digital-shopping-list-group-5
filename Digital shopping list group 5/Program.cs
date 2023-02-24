@@ -131,8 +131,7 @@ namespace Digital_shopping_list_group_5
                                 RunMenu();
                                 break;
                             case 7: // Change list name option
-                                Console.WriteLine("Code missing..");
-                                RunMenu();
+                                data1.ChangePurchaseListName();
                                 break;
                             case 0:
                                 RunMenu();
