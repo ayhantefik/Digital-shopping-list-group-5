@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Digital_shopping_list_group_5
-{
+{   
+
+    // Purchase is the old "Receipts"...
     internal class Purchase: IAct
     {
         DateTime dateCheck;
