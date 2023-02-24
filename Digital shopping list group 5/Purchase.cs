@@ -1,180 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http.Headers;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Digital_shopping_list_group_5
 {
-
-    //Description
-    //...
-    //...
-    public class Purchase : IAct
+    internal class Purchase: IAct
     {
-        public string name { get; set; }
-        //string name = "null";
-        List<Object> listOfItems = new List<Object>();
+        DateTime dateCheck;
+        int ID = -1;
+        PurchaseList purchase;
+        double totalPrice;
 
-        public Purchase(string name, List<object> listOfItems)
-        {
-            this.name = name;
-            this.listOfItems = listOfItems;
-        }
+
+        //=======================================================================================
+        public DateTime DateCheck{ get; }
+        public int SetID(int value) => ID = value;
+        public double SetTotalPrice(double value) => totalPrice = value;
+        //=======================================================================================
+
         public Purchase() { }
 
+        public Purchase(DateTime dateCheck, int iD, PurchaseList purchase, double totalPrice)
+        {
+            this.dateCheck = DateTime.Now;
+            this.ID = iD;
+            this.purchase = purchase;
+            this.totalPrice = totalPrice;
+        }
 
+        public override string ToString()
+        {
+            return $" {DateTime.Now};{ID};{purchase};{totalPrice};";
+        }
 
-        public List<Object> GetList() => listOfItems;
-
-
-        //================================================
-        //recording & retrieving data
         void IAct.SaveToDb(Object obj)
         {
-            string str = name + ";" + obj.ToString();
-            using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.csv", true))
-            {
-                streamwriter.WriteLine(str);
-            }
-            System.IO.File.WriteAllText(@"Path/items.csv", string.Empty);
+            string str = $"{DateTime.Now};{ID};{purchase};{totalPrice};";
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            using (var streamWriter = new StreamWriter(@"Path/listOfReceipts.csv", true))
+            {
+                streamWriter.WriteLine(str);
+            }
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("SUCCESS: ");
             Console.WriteLine(str);
+            Console.ResetColor();
 
         }
         List<Object> IAct.LoadFromDb()
         {
-            List<Object> listOfPurchases = new List<Object>();
+            List<Object> listOfItems = new List<Object>();
 
-            using (StreamReader str = new StreamReader(@"Path/listOfPurchases.csv"))
+            using (StreamReader str = new StreamReader(@"Path/listOfReceipts.csv"))
             {
                 string line;
                 while ((line = str.ReadLine()) != null)
                 {
 
-                    listOfPurchases.Add(line);
+                    listOfItems.Add(line);
                 }
 
             }
-            return listOfPurchases;
+            return listOfItems;
         }
-        //================================================
 
-
-
-
-
-
-
-        //================================================
-        //Folowwing 4 functions TBD
-        public override string ToString()
+        public void Display() // Will this be the same as PrintReceipt?
         {
-            string str = null;
-            foreach (object item in listOfItems)
-            { str += item.ToString(); }
-            return str;
-        }
-        public void Display()
-        {
-            throw new NotImplementedException();
+            //NYI
+            ToString();
         }
         public void Remove()
         {
             throw new NotImplementedException();
         }
-
-
-        //Adds new purschases to customers list of purchases.
-        //TBD: Not finalized!
-        public static void NewPurchase(Consumer consumer)   // USER,CONSUMER ACCESSIBILITY
-        {
-            string input;
-            bool quit = false;
-            var newPurchase = new Purchase();
-            var newList = new List<Object>();
-
-            while (quit == false)
-            {
-                Console.WriteLine("[1] Create new purchase list.");
-                Console.WriteLine("[2] Create new purchase list from template (existing list).");
-                Console.WriteLine("[3] Quit.");
-                input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        Console.WriteLine("New empty purchase list created.");
-                        quit = true;
-                        break;
-                    case "2":
-                        newPurchase = SelectPurchase(consumer);
-                        Console.WriteLine("Purchase list created from existing list.");
-                        quit = true;
-                        break;
-                    case "3": return;
-                    default: Console.WriteLine($"Unknown input: {input}"); break;
-                }
-            }
-
-            quit = false;
-            Console.Write($"Enter name of new purchase list \"{newPurchase.name}\": ");
-            newPurchase.name = Console.ReadLine();
-            while (quit == false)
-            {
-                Console.WriteLine($"[1] SaveToDb items to \"{newPurchase.name}\".");
-                Console.WriteLine($"[2] Remove items from \"{newPurchase.name}\".");
-                Console.WriteLine($"[3] Save list (\"{newPurchase.name}\") and quit.");
-                Console.WriteLine($"[4] Discard list (\"{newPurchase.name}\") and quit.");
-                input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        // METHOD: SaveToDb items to list.
-                        break;
-                    case "2":
-                        // METHOD: Remove items from list.
-                        break;
-                    case "3":
-                        Console.WriteLine($"New list \"{newPurchase.name}\" successfully created and saved.");
-                        newPurchase.listOfItems = newList;
-                        // ADD: newPurchaseList to customers.
-                        // METHOD: Save list to file?
-                        break;
-                    case "4":
-                        Console.WriteLine($"New list \"{newPurchase.name}\" discarded.");
-                        quit = true;
-                        break;
-                    default: Console.WriteLine($"Unknown input: {input}"); break;
-                }
-            }
-        }
-        public static Purchase SelectPurchase(Consumer consumer)    // USER,CONSUMER ACCESSIBILITY
-        {
-            ViewPurchase(consumer);
-            Console.Write("Enter the number of the purchase list: ");
-            int.TryParse(Console.ReadLine(), out int input);
-
-            if (input > 0 && input <= consumer.ListOfPurchases.Count)
-            {
-                return (Purchase)consumer.ListOfPurchases[input - 1];
-            }
-            else
-            {
-                Console.WriteLine("Could not find the purchase list.");
-            }
-            return null;
-        }
-        public static void ViewPurchase(Consumer consumer)
-        {
-            int i = 1;
-            Console.WriteLine($"{consumer.Name}'s purchase lists: ");
-            foreach (Purchase p in consumer.ListOfPurchases)
-            {
-                Console.WriteLine($"{i} . {p.name}");
-                i++;
-            }
-        }
     }
-}
 
+}
