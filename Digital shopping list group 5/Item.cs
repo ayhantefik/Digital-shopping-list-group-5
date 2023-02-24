@@ -19,7 +19,7 @@ namespace Digital_shopping_list_group_5
         
         public Item()
         { }
-        public Item(int quantity,string name, int iD, bool isBought)
+        public Item(int iD, int quantity,string name, bool isBought)
         {
             this.quantity = quantity;
             this.name = name;

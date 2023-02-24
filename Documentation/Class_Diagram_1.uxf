@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>344</x>
+      <y>176</y>
+      <w>112</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Item
+--
+-id: int
+-name: string 
+-quantity: int
+-isBought: bool
+-price: double
+--
++Display()
++Add()
++Remove()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>472</x>
+      <y>64</y>
+      <w>80</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Interface&gt;&gt;
+IPurchase
+--
+--
+Display()
+Add()
+Remove()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>568</x>
+      <y>368</y>
+      <w>160</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Consumer
+--
+-accountLvl: int
+-points: int
+-purchases: List&lt;Purchase&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>456</x>
+      <y>512</y>
+      <w>112</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>User
+--
+-name:string
+-loggedIn:bool
+-email:string
+-password:string
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>344</x>
+      <y>368</y>
+      <w>112</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Admin
+--
+-namePath: string
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>424</y>
+      <w>144</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>160.0;110.0;160.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>440</y>
+      <w>160</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;50.0;180.0;50.0;180.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>368</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+CustomerLvl
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>448</x>
+      <y>152</y>
+      <w>80</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;80.0;120.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>504</x>
+      <y>152</y>
+      <w>80</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0;80.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>368</y>
+      <w>160</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Database
+--
+-attrib?
+-attrib?
+--
++SavePurchases()
++LoadPurchases()
++LoadLists(string userChoose)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>496</y>
+      <w>120</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>The database system: 
+
+items.csv;
+listOfPurchases.csv;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>760</x>
+      <y>208</y>
+      <w>128</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Purchase
+--
+-id: int
+-purchase: Purchase
+-totalPrice: double
+-dateCheck: DateTime
+--
++PrintReceipt()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>688</x>
+      <y>248</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>568</x>
+      <y>176</y>
+      <w>128</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>PurchaseList
+--
+-id: int
+-name: string
+-owner: Consumer
+-listOfItems: List&lt;Item&gt;
+--
++Display()
++Add()
++Remove()
++Merge()
++Share()
++Pay()
++ToString()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>488</y>
+      <w>80</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Do
+--
+-act:IAct</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

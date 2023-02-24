@@ -64,9 +64,19 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
-            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
-            Console.WriteLine(test.ToString());
+            //Consumer test = new Consumer("Olle", "olle@olle.se");
+            //Item product = new Item(1010, 1, "tidning", false);
 
+            //Database shop = new Database();
+            //shop.SaveToDb(product);
+
+            //List<object> listOfItems = shop.LoadFromDb();
+
+            //PurchaseList list1 = new PurchaseList(1335, test, "Fredagsinköp", listOfItems);
+
+            //Purchase purchase1 = new Purchase(DateTime.Now, 212323, list1, 89.99);
+
+      
 
 
             //RunSecuritySystem(); // TBD
