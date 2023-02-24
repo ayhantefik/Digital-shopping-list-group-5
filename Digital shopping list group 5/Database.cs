@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -91,7 +92,7 @@ namespace Digital_shopping_list_group_5
         }
 
 
-        public void EditLists(int userChoose)
+        public void EditLists()
         {
             Console.WriteLine("Choose list to edit:");
             Console.WriteLine();
@@ -105,9 +106,10 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("Choosen list:");
             Console.WriteLine();
             Console.WriteLine(purchaselists[chooseList - 1]);
+            Console.WriteLine();
             Console.WriteLine("[1] Add item");
             Console.WriteLine("[2] Delete item");
-            userChoose = Int32.Parse(Console.ReadLine());
+            int userChoose = Int32.Parse(Console.ReadLine());
             switch (userChoose)
             {
                 case 1:
@@ -179,6 +181,25 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine($"{userChoose}\n");
                     Console.ResetColor();
                     break;
+            }
+        }
+        public void DeletePurchaseList()
+        {
+            Console.WriteLine("Choose list that you want to delete:");
+            Console.WriteLine();
+            int a = 1;
+            foreach (var samplelist in purchaselists)
+            {
+                string[] listnamearray = samplelist.Split(';');
+                Console.WriteLine($"[{a++}]{listnamearray[0]}");
+            }
+            Console.WriteLine();
+            int userChoose = Int32.Parse(Console.ReadLine());
+            purchaselists.RemoveAt(userChoose - 1);
+            Console.WriteLine("Purchase list is deleted!");
+            foreach (var testa in purchaselists)
+            {
+                Console.WriteLine(testa);
             }
         }
     }

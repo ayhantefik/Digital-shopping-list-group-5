@@ -104,11 +104,10 @@ namespace Digital_shopping_list_group_5
                                 RunMenu();
                                 break;
                             case 2: // Edit list option
-                                data1.EditLists(userInput);
+                                data1.EditLists();
                                 break;
                             case 3: // Delete list option
-                                Console.WriteLine("Code missing..");
-                                RunMenu();
+                                data1.DeletePurchaseList();
                                 break;
                             case 4: // Show list option
                                 data1.ShowLists();
