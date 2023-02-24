@@ -117,6 +117,8 @@ namespace Digital_shopping_list_group_5
                                 RunMenu();
                                 break;
                             case 6: // Share list option
+                                //data1.ShareList();
+                                //This method is waiting on user list
                                 Console.WriteLine("Code missing..");
                                 RunMenu();
                                 break;
