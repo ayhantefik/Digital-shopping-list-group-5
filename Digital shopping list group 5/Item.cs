@@ -8,23 +8,24 @@ namespace Digital_shopping_list_group_5
     //Description 
     //...
     //...
-    public class Item : IAct
+    public class Item
     {
-        int quantity;
+        int quantity, price, ID;
         string name = "null";
-        int ID = -1;
         bool isBought = false;
         
 
         
         public Item()
         { }
-        public Item(int iD, int quantity,string name, bool isBought)
+        public Item(int ID, int quantity,int price,string name, bool isBought)
         {
+            this.ID = ID;
             this.quantity = quantity;
             this.name = name;
-            ID = iD;
             this.isBought = isBought;
+            this.price = price; 
+            
         }
 
 
@@ -32,51 +33,48 @@ namespace Digital_shopping_list_group_5
         //=====================================================
         //Setters (Getters TBD)
         public int SetQuantity(int value) => quantity = value;
-        public int SetID(int value) => ID = value;
+        //public int SetID(int value) => ID = value;
         public string SetName(string value) => name = value;
         public bool SetIsBought(bool value) => isBought = value;
+        public int Id => ID;
+        public int Quantity => quantity;
+        public string Name => name;
+        public bool IsBought => isBought;
 
         //=====================================================
 
 
 
-
-
-
-
-
-        //=====================================================
-        //recording & retrieving data
-        void IAct.SaveToDb(Object obj)
-        {
-            string str = $"{ID};{quantity};{name};{isBought};";
-
-            using (var streamWriter = new StreamWriter(@"Path/items.csv", true))
-            {
-                streamWriter.WriteLine(str);
-            }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("SUCCESS: ");
-            Console.WriteLine(str);
-            Console.ResetColor();
-
-
+        public override string ToString()
+        {             
+            return $"{ID};{quantity};{price};{name};{isBought}";
         }
-        List<Object> IAct.LoadFromDb()
+
+
+
+
+
+        public void EditItem(Object obj)
         {
-            List<Object> listOfItems = new List<Object>();
+            //if (obj.GetType() == typeof(Item))
 
-            using (StreamReader str = new StreamReader(@"Path/items.csv"))
+
+            string strObj = obj.ToString();
+            string[] arrObj = obj.ToString().Split(';');
+            string[] arrLine = File.ReadAllLines(@"Path/items.csv");
+
+            for(int i = 0; i<arrLine.Length;i++)
             {
-                string line;
-                while ((line = str.ReadLine()) != null)
+                string[] str = arrLine[i].Split(';');
+                if (str[0] == arrObj[0]) // using item´s ID, search for the line that needs to be replaced
                 {
-
-                    listOfItems.Add(line);
+                    arrLine[i] = strObj;
                 }
-
             }
-            return listOfItems;
+            File.WriteAllLines(@"Path/items.csv", arrLine);
+
+            //Read the file into an array using ReadAllLines.
+            //Replace a line.  Write the array to a file using WriteAllLines.
         }
         //=====================================================
 
@@ -88,15 +86,6 @@ namespace Digital_shopping_list_group_5
 
         //======================================================
         //Following 3 functions TBD
-        public override string ToString()
-        {
-            return $"lol {ID};{quantity};{name};{isBought};";
-        }
-        public void Display()
-        {
-            //NYI
-            ToString();
-        }
         public void Remove()
         {
             throw new NotImplementedException();

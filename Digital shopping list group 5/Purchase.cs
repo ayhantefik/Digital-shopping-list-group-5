@@ -9,7 +9,7 @@ namespace Digital_shopping_list_group_5
 {   
 
     // Purchase is the old "Receipts"...
-    internal class Purchase: IAct
+    public class Purchase
     {
         DateTime dateCheck;
         int ID = -1;
@@ -25,6 +25,7 @@ namespace Digital_shopping_list_group_5
 
         public Purchase() { }
 
+
         public Purchase(DateTime dateCheck, int iD, PurchaseList purchase, double totalPrice)
         {
             this.dateCheck = DateTime.Now;
@@ -35,10 +36,10 @@ namespace Digital_shopping_list_group_5
 
         public override string ToString()
         {
-            return $" {DateTime.Now};{ID};{purchase};{totalPrice};";
+            return $" {DateTime.Now};{ID};{purchase};{totalPrice}";
         }
 
-        void IAct.SaveToDb(Object obj)
+        void SaveToDb(Object obj) // Move to Database class
         {
             string str = $"{DateTime.Now};{ID};{purchase};{totalPrice};";
 
@@ -46,13 +47,13 @@ namespace Digital_shopping_list_group_5
             {
                 streamWriter.WriteLine(str);
             }
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("SUCCESS: ");
-            Console.WriteLine(str);
-            Console.ResetColor();
+            //Console.ForegroundColor = ConsoleColor.Green;
+            //Console.Write("SUCCESS: ");
+            //Console.WriteLine(str);
+            //Console.ResetColor();
 
         }
-        List<Object> IAct.LoadFromDb()
+        List<Object> LoadFromDb() // move to Database class
         {
             List<Object> listOfItems = new List<Object>();
 

@@ -12,7 +12,7 @@ namespace Digital_shopping_list_group_5
         //Admin´s arcitecture TBD if time allows.
         string filePath;
         public Admin(string name, string email, string password, bool loggedIn, string filePath)
-            : base(email, password, loggedIn,name)
+            : base(email, password,name)
         {
             this.filePath = filePath;
         }

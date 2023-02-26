@@ -9,13 +9,13 @@ namespace Digital_shopping_list_group_5
     public class User   // CHANGED ACCESSIBILITY TO PUBLIC
     {
         string name, email, password;
-        bool loggedIn;
+        //bool loggedIn;
 
-        public User(string email, string password, bool loggedIn, string name)
+        public User(string email, string password, string name)
         {            
             this.email = email;
             this.password = password;
-            this.loggedIn = loggedIn;
+            //this.loggedIn = loggedIn;
             this.name = name;
         }
 
@@ -25,7 +25,7 @@ namespace Digital_shopping_list_group_5
 
         public string Password => password; public void SetPassword(string value) => password = value;
         public string Name => name; public void SetName(string value) => name = value;
-        public bool LoggedIn => loggedIn; public void SetLoggedIn(bool value) => loggedIn = value;
+        //public bool LoggedIn => loggedIn; public void SetLoggedIn(bool value) => loggedIn = value;
         //=============================================================================================================
 
 

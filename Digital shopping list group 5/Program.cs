@@ -11,197 +11,119 @@ using static Digital_shopping_list_group_5.Program;
 
 namespace Digital_shopping_list_group_5
 {
-     class Program
+    class Program
     {
-        
+
         //Description TBD
 
         static void Main(string[] args)
         {
-            //=============================================================================================================
-            //The proccess of recording & retrieving data
+            //The security system was embedded to RunMenu().
 
-            /*Item item1 = new Item("milk", 1, false);
-            Do make = new Do(item1);
-            make.SaveToDb(item1);
+            Database db = new Database();
+            db.LoadAllFromDatabase();
 
-            Item item2 = new Item("sugar", 2, false);
-            make = new Do(item2);
-            make.SaveToDb(item2);
+            Consumer consumer = new Consumer();
+            do
+            {
+                consumer = consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
+                if (db.GetConsumer != null) RunMenu(db, consumer);
 
-            List<Object> listOfItems = make.LoadFromDb(); //retrieving Items for purchase1
-            Purchase purchaseList = new Purchase("Biltema", listOfItems);
+            } while (db.GetConsumer == null);
 
-            make = new Do(purchaseList);
-            make.SaveToDb(purchaseList);
-
-
-            Item item3 = new Item("coffe", 1, false);
-            make = new Do(item3);
-            make.SaveToDb(item3);
-
-            Item item4 = new Item("juice", 2, false);
-            make = new Do(item4);
-            make.SaveToDb(item4);
-
-
-            List<Object> listOfItems2 = make.LoadFromDb(); //retrieving Items for purchase2
-            Purchase purchaseList2 = new Purchase("Willys", listOfItems2);
-            make = new Do(purchaseList2);
-            make.SaveToDb(purchaseList2);
-
-            
-            List<Object> listOfPurchases = make.LoadFromDb(); //retrieving purchases and add them to the account1
-
-            //The proccess of writing down the purchase lists into the file. 
-            // TO BE EXTENDED 
-
-            var person1 = new Consumer("Stanislav", "test@mail.ua","password", true, 3, 666, listOfPurchases);
-            make = new Do(person1);
-            make.SaveToDb(person1);
-
-            List<Object> listOfAccounts = make.LoadFromDb(); //retrieving accounts */
-
-            //=============================================================================================================
-
-            Consumer test = new Consumer("Olle", "olle@olle.se");
-            Item product = new Item(1010, 1, "tidning", false);
-
-            Database shop = new Database(product);
-            shop.SaveToDb(product);
-
-            List<object> listOfItems = shop.LoadFromDb();
-
-            PurchaseList list1 = new PurchaseList(1335, test, "Fredagsinköp", listOfItems);
-
-            Purchase purchase1 = new Purchase(DateTime.Now, 212323, list1, 89.99);
-
-
-
-
-            //RunSecuritySystem(); // TBD
-            RunMenu();           
         }
-        public static void RunMenu()
+        static void RunMenu(Database db, Consumer consumer)
         {
-            
-            Database data1 = new Database();
-            data1.LoadLists();
-            data1.LoadItems();
-            Console.WriteLine("[1] Purchase lists");
-            Console.WriteLine("[2] Receipts");
-            Console.WriteLine("[3] Make a purchase");
+
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("[1] Purchase lists");  // it works
+            Console.WriteLine("[2] Receipts"); // TBD
+            Console.WriteLine("[3] Make a purchase"); // TBD, pay for the existing purchase list
+            Console.WriteLine("[0] Log out"); // it works
             try
             {
                 int userInput = Int32.Parse(Console.ReadLine());
                 switch (userInput)
                 {
+                    case 0:
+                        db.SetConsumer(null); break;
                     case 1:
-                        Console.WriteLine("[1] Create list");
-                        Console.WriteLine("[2] Edit list");
-                        Console.WriteLine("[3] Delete list");
-                        Console.WriteLine("[4] Show lists ");
-                        Console.WriteLine("[5] Merge lists");
-                        Console.WriteLine("[6] Share list");
-                        Console.WriteLine("[7] Change list name"); //Det kanske ska ligga i create och edit
+
+                        // displaying the Consumer´s existing purchase lists.
+                        // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
+                        db.Display(db, db.GetConsumer.ListOfPurchases, true);
+
+                        Console.WriteLine();
+                        Console.WriteLine("[1] Create a new purchase list"); // it works
+                        Console.WriteLine("[2] Edit an existing purchase list"); //TBD, be able to change the list´s name, the items´s names, their quantity & price
+                        Console.WriteLine("[3] Delete a purchase list"); // it works
+
+                        Console.WriteLine("[4] Merge lists"); //TBD
+                        Console.WriteLine("[5] Share list"); // TBD                       
                         Console.WriteLine();
                         Console.WriteLine("[0] Back");
                         userInput = Int32.Parse(Console.ReadLine());
                         switch (userInput)
                         {
-                            case 1: // Create list option
-                                Console.WriteLine("Code missing..");
-                                RunMenu();
+                            case 0: RunMenu(db, consumer);
+                                break;
+                            case 1:
+                                PurchaseList pl = new PurchaseList();
+                                pl.NewPurchase(db, consumer);
                                 break;
                             case 2: // Edit list option
-                                data1.EditLists();
+
+                                //db.EditLists();
+                                //db.ChangePurchaseListName();
                                 break;
-                            case 3: // Delete list option
-                                data1.DeletePurchaseList();
+                            case 3:
+                                PurchaseList list = new PurchaseList();
+                                list.RemovePurchaseList(db, consumer);
                                 break;
-                            case 4: // Show list option
-                                data1.ShowLists();
-                                break;
-                            case 5: // Merge list option
+
+
+
+                            case 4: // Merge list option
                                 Console.WriteLine("Code missing..");
-                                RunMenu();
+                                RunMenu(db, consumer);
                                 break;
-                            case 6: // Share list option
-                                //data1.ShareList();
+                            case 5: // Share list option
                                 //This method is waiting on user list
                                 Console.WriteLine("Code missing..");
-                                RunMenu();
-                                break;
-                            case 7: // Change list name option
-                                data1.ChangePurchaseListName();
-                                break;
-                            case 0:
-                                RunMenu();
+                                RunMenu(db, consumer);
                                 break;
                             default:
                                 Console.Write($"\nInvalid option: ");
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine($"{userInput}\n");
                                 Console.ResetColor();
-                                RunMenu();
+                                RunMenu(db, consumer);
                                 break;
                         }
                         break;
-                    case 2: // Receipts menu option
+                    case 2: // Receipts menu option, TBD
                         Console.WriteLine("Here is a a list of all receipts: ");
                         Console.WriteLine("Code missing..");
-                        RunMenu();
+                        RunMenu(db, consumer);
                         break;
-                    case 3: // Purchase menu option
+                    case 3: // Make a purchase menu option, TBD
                         Console.WriteLine("Code missing..");
-                        RunMenu();
+                        RunMenu(db, consumer);
                         break;
                     default:
                         Console.Write($"\nInvalid option: ");
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"{userInput}\n");
                         Console.ResetColor();
-                        RunMenu();
+                        RunMenu(db, consumer);
                         break;
                 }
-            }
-            catch
+            }catch
             {
                 Console.WriteLine("\nInvalid option\n");
-                RunMenu();
+                RunMenu(db, consumer);
             }
-
-
+            
         }
-
-        static void RunSecuritySystem()
-        {
-            Console.WriteLine("[1]Login");
-            Console.WriteLine("[2] Registration");
-            try
-            {
-                int userInput = Int32.Parse(Console.ReadLine());
-
-                //only consumers can log in so far. Admins TBD 
-                var person = new Consumer(); 
-                switch (userInput)
-                {                    
-                    case 1:
-                        person.LoginAccount();
-                        break;
-                    case 2:                        
-                        person.RegisterAccount();
-                        break;
-                    default:
-                        break;
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Invalid option");
-                RunSecuritySystem();
-            }
-        } // TBD
-
-     }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -6,98 +7,263 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Digital_shopping_list_group_5
 {
-    //Disconnected class (löst kopplad klass).
-    //When initiated, it takes advantage of the interface <<IAct>> through the concrete classes <Item>, <Purchase>, <Consumer> & <Receipt>
-    internal class Database
+    //The security system was embedded to 
+    public class Database
     {
-        public List<string> purchaselists = new List<string>();
-        public List<string> itemlist = new List<string>();
-
-        List<Consumer> listOfAccounts = new List<Consumer>();
-
-        private readonly IAct act;
-
-        public Database() { }
-        public Database(IAct act)
-        {
-            this.act = act;
-        }
+        public List<string> itemlist = new List<string>(); // Can we try to replace?
+        public List<string> purchaselists = new List<string>(); // Can we try to replace?
 
 
-        public List<Consumer> GetListOfAccounts() => listOfAccounts;
+        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+        List<Consumer> listOfConsumers = new List<Consumer>();
+        Consumer consumer = null;
+
+        List<Purchase> listOfReceipts = new List<Purchase>(); // TBD
 
 
-        //=============================================================================
-        //recording & retrievinhg data 
+        public List<Consumer> ListOfConsumers => listOfConsumers;
+        public List<PurchaseList> ListOfPurchases => listOfPurchases; public void AddToListOfPurchases(PurchaseList value) => listOfPurchases.Add(value);
 
-        public List<Object> LoadFromDb()
-        {
-            //Merge the function LoadFromDb()  from the classes Item,Purchase,Account.
-            //The same code in all 3 classes.
 
-            List<Object> list = act.LoadFromDb();
-            return list;
-        }
-        public void SaveToDb(object obj)
-        {
-            act.SaveToDb(obj);
-        }
-        //=============================================================================
+        //===============================================================================================================================
+        //Getters & Setters
+        public Consumer GetConsumer => consumer;  public void SetConsumer(Consumer value) => consumer = value;
+        //===============================================================================================================================
 
 
 
 
 
-        public void LoadLists()
-        {
-            string file = "Path/listOfPurchases.csv";
-            using (StreamReader sr = new StreamReader(file))
+        //===============================================================================================================================
+        //retrieving,adding and removing data: interaction with DB 
+
+        public void LoadAllFromDatabase() //rewritten and merged
+        {            
+            StreamReader str;
+            string path = "";
+
+            path = "Path/listOfPurchases.csv";
+            using (str = new StreamReader(path))
             {
                 string line;
-                while ((line = sr.ReadLine()) != null)
+                while ((line = str.ReadLine()) != null)
                 {
-                    purchaselists.Add(line);
+                    string[] splittedObject = line.Split(';');
+
+                    List<Item> listOfItems = new List<Item>();
+                    if (splittedObject.Length > 2)
+                    {
+                        for (int i = 2; i < splittedObject.Length-1; i+=5)
+                        {
+                            Item item = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]),
+                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i+4]));                            
+                            listOfItems.Add(item);    
+                        }
+                    }
+                    PurchaseList pl = new PurchaseList(Int32.Parse(splittedObject[0]),splittedObject[1],listOfItems);                    
+                    listOfPurchases.Add(pl);
+                }
+                
+            }
+            path = "Path/accounts.csv";
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    string[] splittedObject = line.Split(';');
+                    List<int> IDsOfPurchases = new List<int>(); // IDs of purchase lists that belong to the account
+
+                    if (splittedObject.Length > 5)
+                    {
+                        for (int i = 5; i < splittedObject.Length-1; i++)
+                        {
+                            IDsOfPurchases.Add(Int32.Parse(splittedObject[i]));
+                            //Console.WriteLine
+                        }
+                    }
+                    Consumer acc = new Consumer(splittedObject[0], splittedObject[1], splittedObject[2],
+                        Int32.Parse(splittedObject[3]), Int32.Parse(splittedObject[4]), IDsOfPurchases);
+                    listOfConsumers.Add(acc);                    
+                }
+            }
+
+            /*path = "Path/listOfReceipts.csv"; // TBD
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    string[] splittedObject = line.Split(';');
+                    Purchase receipt = new Purchase(); // TBD
+                    listOfReceipts.Add(receipt);
+                }
+            }*/
+
+        }
+
+        public void AddObjectToDatabase(object obj)
+        {
+            if (obj.GetType() == typeof(PurchaseList))
+            {
+                string str = obj.ToString();
+                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.csv", true))
+                {
+                    streamwriter.WriteLine( str);
+                }
+            }
+
+            else if (obj.GetType() == typeof(Consumer))
+            {
+                string str = obj.ToString();
+                using (var streamwriter = new StreamWriter(@"Path/accounts.csv", true))
+                {                    
+                    streamwriter.WriteLine(str);
                 }
             }
         }
-
-        public void LoadItems()
+        public void EditObjectInDatabase(object obj) // edits a line that exists in one of the files
         {
-            string file = "Path/items.csv";
-            Console.WriteLine();
-            using (StreamReader sr = new StreamReader(file))
+            if (obj.GetType() == typeof(PurchaseList))
             {
-                string line1;
-                while ((line1 = sr.ReadLine()) != null)
+                string strObj = obj.ToString();
+                string[] arrObj = obj.ToString().Split(';');
+                string[] arrLine = File.ReadAllLines(@"Path/listOfPurchases.csv");
+
+                for (int i = 0; i < arrLine.Length; i++)
                 {
-                    itemlist.Add(line1);
+                    string[] str = arrLine[i].Split(';');
+                    if (str[0] == arrObj[0])
+                    {
+                        arrLine[i] = strObj;
+                    }
+                }
+                File.WriteAllLines(@"Path/listOfPurchases.csv", arrLine);
+            }
+
+            else if (obj.GetType() == typeof(Consumer))
+            {
+                string strObj = obj.ToString();
+                string[] arrObj = obj.ToString().Split(';');
+                string[] arrLine = File.ReadAllLines(@"Path/accounts.csv");
+
+                for (int i = 0; i < arrLine.Length; i++)
+                {
+                    string[] str = arrLine[i].Split(';');
+                    if (str[0] == arrObj[0])
+                    {
+                        arrLine[i] = strObj;
+                    }
+                }
+                File.WriteAllLines(@"Path/accounts.csv", arrLine);
+            }
+
+            else if (obj.GetType() == typeof(Purchase)) // TBD
+            { }
+        }
+        public void UpdateFileInDataBase(int number) // 1 for <listOfPurchases.csv, 2 for <accounts.csv>, 3 for <listOfReceipts.csv>
+        {
+            if (number == 1)
+            {
+
+                using (var streamwriter = new StreamWriter(@"Path/listOfPurchases.csv", false))
+                {
+                    foreach (PurchaseList pl in listOfPurchases)
+                    {
+                        streamwriter.WriteLine(pl.ToString());
+                    }
+
                 }
             }
-        }
-        public void ShowLists()
-        {
-            int a = 1;
-            foreach (var samplelist in purchaselists)
+            else if (number == 2)
             {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[0]}");
+                using (var streamwriter = new StreamWriter(@"Path/accounts.csv", false))
+                {
+                    //streamwriter.Write(string.Empty);
+                    //streamwriter.Flush();                    
+
+                    foreach (Consumer c in listOfConsumers)
+                    {
+                        streamwriter.WriteLine(c.ToString()); ;
+                    }
+
+                }
             }
-            Console.WriteLine();
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine(purchaselists[userChoose - 1]);
+
+            else if (number == 3) { }// TBD 
+            
+
         }
 
+        //================================================================================================================================
 
-        public void EditLists()
+
+
+
+
+
+
+        //================================================================================================================================
+        //manipulating with the objects: no interaction with the files.
+        public void Display(Database db,object obj,bool displayExtended = false) 
+        {
+            //displays the purchase lists pinned to the loggedIn Consumer, NO items
+            if (obj.GetType() == typeof(List<PurchaseList>) && !displayExtended) 
+            {
+                foreach (PurchaseList list in db.GetConsumer.ListOfPurchases) 
+                {
+                    Console.WriteLine($"[{list.Id}] <{list.Name}>");
+                }
+            }
+
+
+            //displays the purchase lists pinned to the loggedIn Consumer and their items
+            else if (obj.GetType() == typeof(List<PurchaseList>) && displayExtended)
+            {
+                foreach (PurchaseList pl in db.GetConsumer.ListOfPurchases) 
+                {
+                    Console.Write($"[{pl.Id}] <{pl.Name}>: ");
+
+                    foreach (Item item in pl.ListOfItems)
+                    {
+                        Console.Write(item.Name + ", ");
+                    }
+                    Console.WriteLine();
+                    //Console.WriteLine($"[{list.Id}] <{list.Name}>");
+                }
+
+            }
+
+
+            else if (obj.GetType() == typeof(List<Consumer>))
+            {
+                foreach (Consumer c in db.ListOfConsumers)
+                {
+                    Console.WriteLine($"{c.Email}, {c.Name}");
+                }
+            }
+
+            else if (obj.GetType() == typeof(Purchase)) { } // TBD
+
+        }
+        //================================================================================================================================
+
+
+
+
+
+
+        public void EditLists() //edits an item in a purchase list. Can we move the method to <PurchaseList> class?
         {
             Console.WriteLine("Choose list to edit:");
             Console.WriteLine();
             int z = 1;
-            foreach (var samplelist in purchaselists)
+            foreach (var samplelist in purchaselists) //Can we use the attribute listOfPurchases instead ?
             {
                 string[] listnamearray = samplelist.Split(';');
                 Console.WriteLine($"[{z++}]{listnamearray[0]}");
@@ -115,7 +281,7 @@ namespace Digital_shopping_list_group_5
                 case 1:
                     int j = 1;
                     Console.WriteLine("Choose item to add:");
-                    foreach (var ilist in itemlist)
+                    foreach (var ilist in itemlist) //Can we use foreach Item in db.listOfPurchases ?
                     {
                         string[] itemarray = ilist.Split(';');
                         Console.WriteLine($"[{j++}]{itemarray[1]}");
@@ -183,31 +349,14 @@ namespace Digital_shopping_list_group_5
                     break;
             }
         }
-        public void DeletePurchaseList()
-        {
-            Console.WriteLine("Choose list that you want to delete:");
-            Console.WriteLine();
-            int a = 1;
-            foreach (var samplelist in purchaselists)
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[0]}");
-            }
-            Console.WriteLine();
-            int userChoose = Int32.Parse(Console.ReadLine());
-            purchaselists.RemoveAt(userChoose - 1);
-            Console.WriteLine("Purchase list is deleted!");
-            foreach (var testa in purchaselists)
-            {
-                Console.WriteLine(testa);
-            }
-        }
-        public void ChangePurchaseListName()
+
+        // public void DeletePurchaseList() HAS BEEN MOVED to <PurchaseList> class.
+        public void ChangePurchaseListName() // Can we move the method to <PurchaseList> class?
         {
             Console.WriteLine("Choose list that you want to change name:");
             Console.WriteLine();
             int a = 1;
-            foreach (var samplelist in purchaselists)
+            foreach (var samplelist in purchaselists)  //Can we use the attribute listOfPurchases instead ?
             {
                 string[] listnamearray = samplelist.Split(';');
                 Console.WriteLine($"[{a++}]{listnamearray[0]}");
@@ -232,7 +381,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine();
             Console.WriteLine(purchaselists[userChoose - 1]);
         }
-        public void ShareList()
+        public void ShareList() // can we move the method to <PurchaseList> class?
         {
             Console.WriteLine("Choose list that you want to share:");
             Console.WriteLine();
@@ -249,10 +398,53 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine(purchaselists[userChoose - 1]);
             Console.WriteLine();
             Console.WriteLine("Choose a user that you want to send list:");
-            //Stop here.. we need a list of users
+            //Stop here.. we need a list of users. 
             Console.WriteLine("The list is sent!");
             //Print out all users and choose one of them, sent to existing registred email
         }
+
+
+        /*public void LoadLists() //replaced by LoadAllFromDatabase()
+        {
+            string file = "Path/listOfPurchases.csv";
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    purchaselists.Add(line);
+                }
+            }
+        } 
+        public void LoadItems() //replaced by LoadAllFromDatabase()
+        {
+            string file = "Path/items.csv";
+            Console.WriteLine();
+            using (StreamReader sr = new StreamReader(file))
+            {
+                string line1;
+                while ((line1 = sr.ReadLine()) != null)
+                {
+                    itemlist.Add(line1);
+                }
+            }
+        } 
+
+        public void ShowLists() // replaced by Display()
+        {
+            int a = 1;
+            foreach (var samplelist in purchaselists)
+            {
+                string[] listnamearray = samplelist.Split(';');
+                Console.WriteLine($"[{a++}]{listnamearray[1]}");
+            }
+            Console.WriteLine();
+            int userChoose = Int32.Parse(Console.ReadLine());
+            Console.WriteLine(purchaselists[userChoose - 1]);
+        } */
+
+
+
     }
 
 }
