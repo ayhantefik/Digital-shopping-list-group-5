@@ -200,6 +200,74 @@ namespace Digital_shopping_list_group_5
                 i++;
             }
         }
+        public void ShareList(Database db, Consumer consumer) // can we move the method to <PurchaseList> class?
+        {
+            Console.WriteLine();
+            db.Display(db, db.GetConsumer.ListOfPurchases, true);
+            Console.WriteLine();
+            Console.WriteLine("Choose list number that you want to share:");
+            int userInput = Int32.Parse(Console.ReadLine());
+            foreach (PurchaseList l in consumer.ListOfPurchases)
+            {
+                if (l.id == userInput)
+                {
+                    Console.WriteLine(l);
+                }
+            }
+            Console.WriteLine("Send to:");
+            Console.WriteLine();
+            Console.WriteLine("[1] Existing member");
+            Console.WriteLine("[2] Non existing member");
+            int index = 1;
+            int chooseex = Int32.Parse(Console.ReadLine());
+            switch (chooseex)
+            {
+                case 1:
+                    Console.WriteLine();
+                    Console.WriteLine("Choose member to send to:");
+                    foreach (Consumer w in db.ListOfConsumers)
+                    {
+                        if (consumer.Email != w.Email)
+                        {
+                            Console.WriteLine($"[{index++}] {w.Name} {w.Email}");
+                        }
+                    }
+                    int choosemember = Int32.Parse(Console.ReadLine());
+                    using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
+                    {
+                        foreach (PurchaseList l in consumer.ListOfPurchases)
+                        {
+                            if (l.id == userInput)
+                            {
+                                sw.WriteLine($"{consumer.Email};{db.ListOfConsumers[choosemember].Email};{l}");
+                            }
+                        }
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("The list is shared!");
+                    break;
+                case 2:
+                    Console.WriteLine();
+                    Console.WriteLine("To email:");
+                    string emailto = Console.ReadLine();
+                    using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
+                    {
+                        foreach (PurchaseList l in consumer.ListOfPurchases)
+                        {
+                            if (l.id == userInput)
+                            {
+                                sw.WriteLine($"{consumer.Email};{emailto};{l}");
+                            }
+                        }
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("The list is shared!");
+                    break;
+            }
+            
+
+
+        }
     }
 }
 

@@ -381,27 +381,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine();
             Console.WriteLine(purchaselists[userChoose - 1]);
         }
-        public void ShareList() // can we move the method to <PurchaseList> class?
-        {
-            Console.WriteLine("Choose list that you want to share:");
-            Console.WriteLine();
-            int a = 1;
-            foreach (var samplelist in purchaselists)
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[0]}");
-            }
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-            Console.WriteLine("Choosen list:");
-            Console.WriteLine();
-            Console.WriteLine(purchaselists[userChoose - 1]);
-            Console.WriteLine();
-            Console.WriteLine("Choose a user that you want to send list:");
-            //Stop here.. we need a list of users. 
-            Console.WriteLine("The list is sent!");
-            //Print out all users and choose one of them, sent to existing registred email
-        }
+        
 
 
         /*public void LoadLists() //replaced by LoadAllFromDatabase()
