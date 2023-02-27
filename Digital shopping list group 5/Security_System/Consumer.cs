@@ -18,7 +18,7 @@ namespace Digital_shopping_list_group_5
         int accountLvl, points;
         bool loggedIn = false;
 
-        List<PurchaseList> listOfPurchases;
+        List<PurchaseList> listOfPurchase;
         List<int> idsOfPurchaseLists = new List<int>();
         List<int> idsOfReceipts = new List<int>(); //TBD
 
@@ -37,7 +37,7 @@ namespace Digital_shopping_list_group_5
         //Setters & Getters
         public void SetAccountLvl(int value) => accountLvl = value;
         public void SetPoints(int value) => points = value;
-        public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
+        public List<PurchaseList> ListOfPurchases { get => listOfPurchase; set => listOfPurchase = value; }
         public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
@@ -67,7 +67,7 @@ namespace Digital_shopping_list_group_5
         public Consumer RunSecuritySystem(Database db) //only consumers can log in / register so far. (TBD with admins)
         {
             Consumer consumer = new Consumer();
-            Console.WriteLine("[1]Login");
+            Console.WriteLine("[1] Login");
             Console.WriteLine("[2] Registration");
             try
             {

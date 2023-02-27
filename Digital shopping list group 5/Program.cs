@@ -51,7 +51,7 @@ namespace Digital_shopping_list_group_5
 
                         // displaying the Consumer´s existing purchase lists.
                         // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
-                        db.Display(db, db.GetConsumer.ListOfPurchases, true);
+                        db.Display(db.GetConsumer.ListOfPurchases, true);
 
                         Console.WriteLine();
                         Console.WriteLine("[1] Create a new purchase list"); // it works
@@ -69,7 +69,7 @@ namespace Digital_shopping_list_group_5
                                 break;
                             case 1:
                                 PurchaseList pl = new PurchaseList();
-                                pl.NewPurchase(db, consumer);
+                                pl.NewPurchaseList(db, consumer);
                                 break;
                             case 2: // Edit list option
 
