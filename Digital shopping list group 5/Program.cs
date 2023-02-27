@@ -88,9 +88,8 @@ namespace Digital_shopping_list_group_5
                                 RunMenu(db, consumer);
                                 break;
                             case 5: // Share list option
-                                //This method is waiting on user list
-                                Console.WriteLine("Code missing..");
-                                RunMenu(db, consumer);
+                                PurchaseList list1 = new PurchaseList();
+                                list1.ShareList(db, consumer);
                                 break;
                             default:
                                 Console.Write($"\nInvalid option: ");
