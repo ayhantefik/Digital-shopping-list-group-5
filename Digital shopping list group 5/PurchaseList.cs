@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 
 namespace Digital_shopping_list_group_5
 {
