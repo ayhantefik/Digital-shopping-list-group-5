@@ -102,11 +102,15 @@ namespace Digital_shopping_list_group_5
                         }
                         break;
                     case 2: // Receipts menu option, TBD
-                        Console.WriteLine("Here is a a list of all receipts: ");
+                        Console.WriteLine("Here is a list of all receipts: ");
                         Console.WriteLine("Code missing..");
                         RunMenu(db, consumer);
                         break;
                     case 3: // Make a purchase menu option, TBD
+                        Console.WriteLine("Choose an existing purschase list.");
+                        db.Display(db, db.GetConsumer.ListOfPurchases, true);
+                        userInput = Int32.Parse(Console.ReadLine());
+                        
                         Console.WriteLine("Code missing..");
                         RunMenu(db, consumer);
                         break;

@@ -10,6 +10,7 @@ namespace Digital_shopping_list_group_5
     //Description PurchaseList is the old "Purchase"...
     //...
     //...
+    //Object class PurchaseList
     public class PurchaseList
     {
         //The security system was embedded to NewPurchase() & RemovePurchaseList()
@@ -20,13 +21,25 @@ namespace Digital_shopping_list_group_5
         string name { get; set; }
         List<Item> listOfItems = new List<Item>();
 
+        // Fields
+        private int _id;
+        private string _name;
+        private List<Item> _listOfItems = new List<Item>();
 
+
+        // Properties (Setters & Getters)
+        public int Id => _id;
+        public void SetID(int value) => _id = value;
+        public string Name => _name;
+        public void SetName(string value) => _name = value;
+        public List<Item> ListOfItems => _listOfItems;
+        public void SetListOfItems(List<Item> value) => _listOfItems = value;
         public PurchaseList() { }
         public PurchaseList(int id, string name,List<Item> listOfItems)
         {
-            this.id = id;
-            this.name = name;
-            this.listOfItems = listOfItems;
+            _id = id;
+            _name = name;
+            _listOfItems = listOfItems;
         }
 
 
@@ -37,11 +50,12 @@ namespace Digital_shopping_list_group_5
         public List<Item> ListOfItems => listOfItems; public void SetListOfItems(List<Item> value) => listOfItems = value;
         //=======================================================================
 
+        // Methods
 
         public override string ToString()
         {
-            string str = id + ";" + name + ";";
-            foreach (Item item in listOfItems)
+            string str = _id + ";" + _name + ";";
+            foreach (Item item in _listOfItems)
             { str += item.ToString() + ";"; }
             return str;
         }
