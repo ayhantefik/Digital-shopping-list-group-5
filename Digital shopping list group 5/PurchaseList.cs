@@ -200,13 +200,14 @@ namespace Digital_shopping_list_group_5
                 i++;
             }
         }
-        public void ShareList(Database db, Consumer consumer) // can we move the method to <PurchaseList> class?
+        public void ShareList(Database db, Consumer consumer)
         {
             Console.WriteLine();
             db.Display(db, db.GetConsumer.ListOfPurchases, true);
             Console.WriteLine();
             Console.WriteLine("Choose list number that you want to share:");
             int userInput = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Choosen list:");
             foreach (PurchaseList l in consumer.ListOfPurchases)
             {
                 if (l.id == userInput)
@@ -214,6 +215,7 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine(l);
                 }
             }
+            Console.WriteLine();
             Console.WriteLine("Send to:");
             Console.WriteLine();
             Console.WriteLine("[1] Existing member");
