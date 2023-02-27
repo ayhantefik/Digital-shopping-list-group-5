@@ -63,13 +63,18 @@ namespace Digital_shopping_list_group_5
 
             //=============================================================================================================
 
-
+            Receipt test = new Receipt(455, 6, "äpplen", true, DateTime.Now);
+            Console.WriteLine(test.ToString());
+            
 
             RunMenu();           
         }
         public static void RunMenu()
         {
+            
             Database data1 = new Database();
+            data1.LoadListsAddinList();
+            data1.LoadItemListAddinList();
             Console.WriteLine("[1] Purchase lists");
             Console.WriteLine("[2] Receipts");
             Console.WriteLine("[3] Shopping");
@@ -103,8 +108,7 @@ namespace Digital_shopping_list_group_5
                                 RunMenu();
                                 break;
                             case 4: // Show list option
-                                data1.LoadLists(userInput);
-                                userInput = Int32.Parse(Console.ReadLine());
+                                data1.LoadLists();
                                 break;
                             case 5: // Merge list option
                                 Console.WriteLine("Code missing..");
@@ -131,6 +135,7 @@ namespace Digital_shopping_list_group_5
                         }
                         break;
                     case 2: // Receipts menu option
+                        Console.WriteLine("Here is a a list of all receipts: ");
                         Console.WriteLine("Code missing..");
                         RunMenu();
                         break;

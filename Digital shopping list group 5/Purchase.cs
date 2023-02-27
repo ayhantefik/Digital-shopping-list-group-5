@@ -89,12 +89,13 @@ namespace Digital_shopping_list_group_5
 
         //Adds new purschases to customers list of purchases.
         //TBD: Not finalized!
-        public static void NewPurchase()
+        public static void NewPurchase(Consumer consumer)   // USER,CONSUMER ACCESSIBILITY
         {
             string input;
             bool quit = false;
-            Purchase newPurchase = new Purchase();
-            List<Object> newList = new List<Object>();
+            var newPurchase = new Purchase();
+            var newList = new List<Object>();
+
             while (quit == false)
             {
                 Console.WriteLine("[1] Create new purchase list.");
@@ -108,17 +109,17 @@ namespace Digital_shopping_list_group_5
                         quit = true;
                         break;
                     case "2":
-                        // METHOD: View/Select purchase lists from customers lists.
-                        // newList = ... // newPurchaseList = ...
-
+                        newPurchase = SelectPurchase(consumer);
                         Console.WriteLine("Purchase list created from existing list.");
+                        quit = true;
                         break;
                     case "3": return;
                     default: Console.WriteLine($"Unknown input: {input}"); break;
                 }
             }
+
             quit = false;
-            Console.Write("Enter name of new purchase list: ");
+            Console.Write($"Enter name of new purchase list \"{newPurchase.name}\": ");
             newPurchase.name = Console.ReadLine();
             while (quit == false)
             {
@@ -148,13 +149,33 @@ namespace Digital_shopping_list_group_5
                     default: Console.WriteLine($"Unknown input: {input}"); break;
                 }
             }
-            public static Purchase SelectPurchase() { }
-            public static void ViewPurchase() {  }
-
-
-
-
         }
+        public static Purchase SelectPurchase(Consumer consumer)    // USER,CONSUMER ACCESSIBILITY
+        {
+            ViewPurchase(consumer);
+            Console.Write("Enter the number of the purchase list: ");
+            int.TryParse(Console.ReadLine(), out int input);
 
+            if (input > 0 && input <= consumer.ListOfPurchases.Count)
+            {
+                return (Purchase)consumer.ListOfPurchases[input - 1];
+            }
+            else
+            {
+                Console.WriteLine("Could not find the purchase list.");
+            }
+            return null;
+        }
+        public static void ViewPurchase(Consumer consumer)
+        {
+            int i = 1;
+            Console.WriteLine($"{consumer.Name}'s purchase lists: ");
+            foreach (Purchase p in consumer.ListOfPurchases)
+            {
+                Console.WriteLine($"{i} . {p.name}");
+                i++;
+            }
+        }
+    }
 }
 
