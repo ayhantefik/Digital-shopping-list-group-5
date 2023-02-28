@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>304</x>
+      <y>344</y>
+      <w>112</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>Item
+--
+-id: int
+-quantity: int
+-name: string 
+-isBought: bool
+-price: int
+--
++SetQuantity()
++SetName()
++SetIsBought()
++ToString()
++EditItem()
++Remove()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>552</y>
+      <w>208</w>
+      <h>248</h>
+    </coordinates>
+    <panel_attributes>Consumer
+--
+-accountLvl: int
+-points: int
+-loggedIn: bool
+-listOfPurchases: List&lt;PurchaseList&gt;
+-idsOfPurchaseLists: List&lt;int&gt;
+-idsOfReceipts: List&lt;int&gt;
+--
++SetAccountLvl()
++SetPoints()
++List&lt;PurchaseList&gt;ListOfPurchases
++List&lt;int&gt;IdsOfPurchaseLists
++InitiateIdsOfPurchaseLists()
++ToString()
+-StringOfIdsOfPurchaseLists()
++RunSecuritySystem()
++LoginAccount()
++RegisterAccount()
++CheckInput()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>304</x>
+      <y>688</y>
+      <w>112</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>User
+--
+-name:string
+-email:string
+-password:string
+--
++SetEmail()
++SetPassword()
++SetName()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>304</x>
+      <y>552</y>
+      <w>112</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>Admin
+--
+-filePath: string
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>344</x>
+      <y>608</y>
+      <w>24</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>344</x>
+      <y>792</y>
+      <w>288</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0;340.0;50.0;340.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>784</x>
+      <y>760</y>
+      <w>112</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+CustomerLvl
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>320</y>
+      <w>80</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;80.0;120.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>464</x>
+      <y>320</y>
+      <w>80</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0;80.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>72</y>
+      <w>224</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>Database
+--
+-listOfPurchases: List&lt;PurchaseList&gt;
+-listOfConsumers: List&lt;Consumer&gt;
+-consumer: Consumer
+--
++List&lt;string&gt; itemlist()
++List&lt;string&gt; purchaselists()
++List&lt;Consumer&gt; ListOfConsumers
++List&lt;PurchaseList&gt; ListOfPurchases
++Consumer
++AddToListOfPurchases()
++SetConsumer()
++LoadAllFromDatabase()
++EditObjectInDatabase()
++UpdateFileInDataBase()
++Display()
++EditLists()
++ChangePurchaseListName()
++ShareList()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>632</x>
+      <y>72</y>
+      <w>120</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>The database system: 
+
+accounts.csv;
+listOfPurchases.csv;
+listOfReceipts.csv;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>792</x>
+      <y>344</y>
+      <w>128</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Purchase
+--
+-dateCheck: DateTime
+-id: int
+-purchase: PurchaseList
+-totalPrice: double
+--
++DateTime DateCheck
++SetID()
++SetTotalPrice()
++Purchase()
++ToString()
++SaveToDb()
++LoadFromDb()
++Display()
++Remove()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>720</x>
+      <y>416</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>344</y>
+      <w>200</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>PurchaseList
+--
+-id: int
+-name: string
+-listOfItems: List&lt;Item&gt;
+--
++PurchaseList()
++List&lt;Item&gt; ListOfItems
++ToString()
++NewPurchase()
++RemovePurchaseList()
++SelectPurchase()
++ViewPurchase()
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
