@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Dynamic;
+using System.Security.Cryptography;
 
 namespace Digital_shopping_list_group_5
 {
@@ -36,7 +37,9 @@ namespace Digital_shopping_list_group_5
         }
 
         //=======================================================================================
-        public DateTime DateCheck { get; } 
+        public int Id => ID;
+        public DateTime DateCheck { get; }
+        public void SetDateTime(DateTime value) => dateCheck =value;
         public int SetID(int value) => ID = value;
         public double SetTotalPrice(double value) => totalPrice = value;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void SetListOfPurchases(List<PurchaseList> value) => listOfPurchases = value;
@@ -87,47 +90,59 @@ namespace Digital_shopping_list_group_5
             throw new NotImplementedException();
         }
 
-        public void MakeAPurchase(Database db, Consumer consumer)
-        {
-            string userInput;
-            //Database db = new Database();
-            db.LoadAllFromDatabase();
+        //public void MakeAPurchase(Database db, Consumer consumer)
+        //{
+        //    string userInput;
+        //    db.LoadAllFromDatabase();
 
-            var makePurchase = new Purchase();
-            var newListOfReceipts = new List<PurchaseList>();
+        //    var makePurchase = new Purchase();
+        //    var newListOfReceipts = new List<PurchaseList>();
 
-            Console.WriteLine("Choose an existing purschase list.");
-            db.Display(db, db.GetConsumer.ListOfPurchases, true);
-            userInput = Console.ReadLine();
+        //    db.Display(consumer.ListOfPurchases);
+        //    Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
+        //    PurchaseList.SelectPurchaseList(db, consumer);
+        //    userInput = Console.ReadLine();
 
-            if (db.GetPurchaseListId != null)
-            {
-                //Show the purchase list with the correct purchase id
-                //PurchaseList.SelectPurchase();
-                Console.WriteLine("Do you want to make a purchase?");
-                Console.WriteLine("Write [Y] for YES and [N] for NO.");
-                userInput = Console.ReadLine();
-                if(userInput == "Y")
-                {
-                    // assign the unique ID to the receipt
-                   int lastExistingID = 0;
-                    foreach (Purchase p in db.ListOfReceipts)
-                    {
-                        if (p.ID > lastExistingID) lastExistingID = p.ID;
-                    }
-                    lastExistingID += 1;
-                    ID = makePurchase.SetID(lastExistingID);
+        //    if (db.GetPurchaseListId != null)
+        //    {
+        //        //Show the purchase list with the correct purchase id
+        //        Console.WriteLine();
+        //        db.Display(consumer.ListOfPurchases);
+        //        Console.Write("Enter the ID number of the purchase list: ");
+        //        int.TryParse(Console.ReadLine(), out int input);
+
+        //        // Loops through consumer.ListOfPurchases to find List based on List.Id(input)
+        //        foreach (PurchaseList pL in consumer.ListOfPurchases)
+        //        {
+        //            if (pL.Id == input) return pL;
+        //        }
+        //        return null;
+
+        //        Console.WriteLine("Do you want to make a purchase?");
+        //        Console.WriteLine("Write [Y] for YES and [N] for NO.");
+        //        userInput = Console.ReadLine();
+        //        if (userInput == "Y")
+        //        {
+        //            // assign the unique ID to the receipt
+        //            int lastExistingID = 0;
+        //            foreach (Purchase p in db.ListOfReceipts)
+        //            {
+        //                if (p.ID > lastExistingID) lastExistingID = p.ID;
+        //            }
+        //            lastExistingID += 1;
+        //            ID = makePurchase.SetID(lastExistingID);
                     
-                    makePurchase = (ID, DateCheck); 
-                    //Create an purchase with datetime and listOfPurchases and totalPrice
-                   // add the purchase to the listofreceipts
+        //            makePurchase = (ID, DateTime.Now, );
+        //            //Create an purchase with datetime and listOfPurchases and totalPrice
+        //            // add the purchase to the listofreceipts
 
-                    consumer.ListOfReceipts.Add(makePurchase);// add list of receipts to consumer?
-                }
+        //            /* consumer.ListOfReceipts.Add(makePurchase);*/// add list of receipts to consumer?
+        //        }
 
-            }
-            else { Console.WriteLine($"Unknown input: {userInput}"); }
+        //    }
+        //    else { Console.WriteLine($"Unknown input: {userInput}"); }
+        //
         }
     }
 
-}
+

@@ -94,6 +94,51 @@ namespace Digital_shopping_list_group_5
                     listOfConsumers.Add(acc);                    
                 }
             }
+            path = "Path/accounts.csv";
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    string[] splittedObject = line.Split(';');
+                    List<int> IDsOfPurchases = new List<int>(); // IDs of purchase lists that belong to the account
+
+                    if (splittedObject.Length > 5)
+                    {
+                        for (int i = 5; i < splittedObject.Length - 1; i++)
+                        {
+                            IDsOfPurchases.Add(Int32.Parse(splittedObject[i]));
+                            //Console.WriteLine
+                        }
+                    }
+                    Consumer acc = new Consumer(splittedObject[0], splittedObject[1], splittedObject[2],
+                        Int32.Parse(splittedObject[3]), Int32.Parse(splittedObject[4]), IDsOfPurchases);
+                    listOfConsumers.Add(acc);
+                }
+            }
+            //path = "Path/listOfReceipts.csv";
+            //using (str = new StreamReader(path))
+            //{
+            //    string line;
+            //    while ((line = str.ReadLine()) != null)
+            //    {
+            //        string[] splittedObject = line.Split(';');
+
+            //        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+            //        if (splittedObject.Length > 2)
+            //        {
+            //            for (int i = 2; i < splittedObject.Length - 1; i += 3)
+            //            {
+            //                PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[i]), (splittedObject[i + 1]),
+            //                    splittedObject[i + 2]);
+            //                listOfPurchases.Add(purchaseList);
+            //            }
+            //        }
+            //        PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], listOfPurchases);
+            //        listOfReceipts.Add(purchaseList);
+            //    }
+            //}
+
 
             /*path = "Path/listOfReceipts.csv"; // TBD
             using (str = new StreamReader(path))

@@ -21,7 +21,7 @@ namespace Digital_shopping_list_group_5
         List<PurchaseList> listOfPurchases;
         List<PurchaseList> listOfPurchase;
         List<PurchaseList> listOfReceipts;
-        List<PurchaseList> listOfPurchase;
+
         List<int> idsOfPurchaseLists = new List<int>();
         List<int> idsOfReceipts = new List<int>(); //TBD
 
@@ -44,7 +44,7 @@ namespace Digital_shopping_list_group_5
         public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
         public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
         public List<PurchaseList> ListOfReceipts { get => listOfReceipts; set => listOfReceipts = value; }
-        public List<PurchaseList> ListOfPurchases { get => listOfPurchase; set => listOfPurchase = value; }
+
         public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
