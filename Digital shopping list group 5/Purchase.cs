@@ -174,7 +174,7 @@ namespace Digital_shopping_list_group_5
                     if (p.Id > lastExistingID) lastExistingID = p.Id;
                 }
                 lastExistingID += 1;
-                DateTime newpurchasedate = new DateTime();
+                DateTime newpurchasedate = DateTime.Now;
                 using (StreamWriter sw = new StreamWriter("Path/listOfReceipts.csv"))
                 {
                     foreach (PurchaseList l in consumer.ListOfPurchases)
@@ -185,7 +185,8 @@ namespace Digital_shopping_list_group_5
                         }
                     }
                 }
-                Console.WriteLine("Köpet är gjord!");
+                Console.WriteLine();
+                Console.WriteLine("Purchase is done and receipt is saved!");
 
 
             }
