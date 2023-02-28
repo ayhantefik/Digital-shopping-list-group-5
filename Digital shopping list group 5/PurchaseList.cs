@@ -292,10 +292,164 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine();
                     Console.WriteLine("The list is shared!");
                     break;
+            } 
+        }
+
+        public Database MergeLists(Database db, Consumer consumer)
+        {
+            Console.Write("IDs of two lists to be merged (write using comma: ex 100,102)");
+            string input = Console.ReadLine();
+
+            if (CheckInput(db, consumer, input))
+            {
+                Console.Write("Select a new name for the merged purchase list: ");
+                string newName = Console.ReadLine();
+
+                if (newName.Length > 0)
+                {
+                    string[] str = input.Split(','); 
+
+                    PurchaseList mergedPurchaseList = new PurchaseList();
+                    mergedPurchaseList.SetName(newName);
+
+                    foreach (PurchaseList pl in consumer.ListOfPurchases) //retrieving list of items
+                    {
+                        if (pl._id == Int32.Parse(str[0])) // 670 == 670
+                        {
+                            foreach (Item item in pl.ListOfItems)
+                            {
+                                mergedPurchaseList._listOfItems.Add(item);
+                            }
+                            int indx = db.ListOfPurchases.IndexOf(pl); 
+                            db.ListOfPurchases.RemoveAt(indx); //remove the old Purchase List from Database
+                        }
+                    }
+
+                    /*foreach (PurchaseList pl in consumer.ListOfPurchases) 
+                    {
+                        if (pl._id == Int32.Parse(str[0])) // 670 == 670
+                        {
+                            int indx = consumer.ListOfPurchases.IndexOf(pl);
+                            consumer.ListOfPurchases.RemoveAt(indx);
+                        }
+                    }*/
+
+
+
+                    foreach (PurchaseList pl in consumer.ListOfPurchases)
+                    {
+                        if (pl._id == Int32.Parse(str[1]))
+                        {
+                            foreach (Item item in pl.ListOfItems)
+                            {
+                                mergedPurchaseList._listOfItems.Add(item);
+                            }
+                            int indx = db.ListOfPurchases.IndexOf(pl); //remove the old Purchase List from Database
+                            db.ListOfPurchases.RemoveAt(indx);
+                        }
+                    }
+
+
+                    int index = -1;
+                    foreach (int i in consumer.IdsOfPurchaseLists) //removing first ID from Consumer
+                    {
+                        if (i == Int32.Parse(str[0])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                    }
+                    if (index != -1)
+                    {
+                        consumer.IdsOfPurchaseLists.RemoveAt(index);                        
+                        //remove also list of purchases itself
+
+                    }
+                    index = -1;
+                    foreach (int i in consumer.IdsOfPurchaseLists) //removing second ID from Consumer
+                    {
+                        if (i == Int32.Parse(str[1])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                    }
+                    if (index != -1)
+                    {
+                        consumer.IdsOfPurchaseLists.RemoveAt(index);                        
+                    }
+
+                    int lastExistingID = 0;
+                    foreach (PurchaseList pl in db.ListOfPurchases)
+                    {
+                        if (pl._id > lastExistingID) lastExistingID = pl.Id;
+                    }
+                    mergedPurchaseList.SetID(lastExistingID+1);  // add ID to MergedList
+
+                    consumer.IdsOfPurchaseLists.Add(lastExistingID+1); // to be able to see the changes without reopening the Console
+                    consumer.ListOfPurchases.Add(mergedPurchaseList);
+
+
+                    //db.SetConsumer(consumer);
+
+                    db.ListOfPurchases.Add(mergedPurchaseList); // add the new merged purchase list to Database
+                    db.UpdateFileInDataBase(1); // updating the whole file  <listOfPurchases.csv>
+                    db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
+
+                    Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
+                    Console.WriteLine();
+
+                    db.SetListOfConsumers(new List<Consumer>());
+                    db.SetListOfPurchases(new List<PurchaseList>());
+                    db.LoadAllFromDatabase();
+
+
+                    string mail = consumer.Email;
+
+                    foreach (Consumer c in db.ListOfConsumers)
+                    {
+                        if (mail == c.Email)
+                        {
+                            Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                            List<PurchaseList> plList = new List<PurchaseList>();
+
+                            foreach (int i in cons.IdsOfPurchaseLists)
+                            {
+                                foreach (PurchaseList pl in db.ListOfPurchases)
+                                {
+                                    if (i == pl.Id) plList.Add(pl);
+                                }
+                            }
+                            cons.ListOfPurchases = plList;
+                            db.SetConsumer(cons);
+                        }
+                    }
+                }
             }
-            
+            else MergeLists(db, consumer);
+            return db;
+        }
+        static bool CheckInput(Database db, Consumer consumer,string input)
+        {
+            bool success = false;
+            string[] IDsToBeMerged = input.Split(',');
 
+            if (input.Trim().Length == 0) return false;
 
+           try
+           {
+                foreach (int i in consumer.IdsOfPurchaseLists)
+                {
+                    if (i == Int32.Parse(IDsToBeMerged[0]))
+                        success = true;
+                }
+                if (!success) Console.WriteLine($"ID [{IDsToBeMerged[0]}] not registered for {consumer.Email}");
+                foreach (int i in consumer.IdsOfPurchaseLists)
+                {
+                    if (i == Int32.Parse(IDsToBeMerged[1]))
+                        success = true;
+                }
+                if (!success) Console.WriteLine($"ID [{IDsToBeMerged[1]}] not registered for {consumer.Email}");
+           }
+          catch
+            { 
+                
+            }
+           
+            return success;
         }
     }
 }

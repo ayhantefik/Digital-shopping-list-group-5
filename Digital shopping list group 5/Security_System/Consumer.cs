@@ -64,7 +64,7 @@ namespace Digital_shopping_list_group_5
 
         //==============================================================================================================
         // Login- and Registration System
-        public Consumer RunSecuritySystem(Database db) //only consumers can log in / register so far. (TBD with admins)
+        public Consumer RunSecuritySystem(Database db) //only consumers can log in or register so far. (TBD with admins)
         {
             Consumer consumer = new Consumer();
             Console.WriteLine("[1] Login");
@@ -165,7 +165,7 @@ namespace Digital_shopping_list_group_5
 
            return consumer;
         }        
-        public static bool CheckInput(Database db,int positionInTheProcess, string input)
+        static bool CheckInput(Database db,int positionInTheProcess, string input)
         {
             bool success = false;
 

@@ -26,8 +26,9 @@ namespace Digital_shopping_list_group_5
         List<Purchase> listOfReceipts = new List<Purchase>(); // TBD
 
 
-        public List<Consumer> ListOfConsumers => listOfConsumers;
+        public List<Consumer> ListOfConsumers => listOfConsumers; public void SetListOfConsumers(List<Consumer> value) => listOfConsumers = value;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void AddToListOfPurchases(PurchaseList value) => listOfPurchases.Add(value);
+        public void SetListOfPurchases(List<PurchaseList> value) => listOfPurchases = value;
 
 
         //===============================================================================================================================

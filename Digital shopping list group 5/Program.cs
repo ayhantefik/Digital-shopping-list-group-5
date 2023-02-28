@@ -63,12 +63,13 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine();
                         Console.WriteLine("[0] Back");
                         userInput = Int32.Parse(Console.ReadLine());
+                        PurchaseList pl = new PurchaseList();
                         switch (userInput)
                         {
                             case 0: RunMenu(db, consumer);
                                 break;
                             case 1:
-                                PurchaseList pl = new PurchaseList();
+                                
                                 pl.NewPurchaseList(db, consumer);
                                 break;
                             case 2: // Edit list option
@@ -76,16 +77,15 @@ namespace Digital_shopping_list_group_5
                                 //db.EditLists();
                                 //db.ChangePurchaseListName();
                                 break;
-                            case 3:
-                                PurchaseList list = new PurchaseList();
-                                list.RemovePurchaseList(db, consumer);
+
+                            case 3:                                
+                                pl.RemovePurchaseList(db, consumer);
                                 break;
 
-
-
-                            case 4: // Merge list option
-                                Console.WriteLine("Code missing..");
-                                RunMenu(db, consumer);
+                            case 4:
+                                db = pl.MergeLists(db, consumer);
+                                RunMenu(db, db.GetConsumer);
+                                
                                 break;
                             case 5: // Share list option
                                 PurchaseList list1 = new PurchaseList();
