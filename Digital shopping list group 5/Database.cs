@@ -116,28 +116,30 @@ namespace Digital_shopping_list_group_5
                     listOfConsumers.Add(acc);
                 }
             }
-            //path = "Path/listOfReceipts.csv";
-            //using (str = new StreamReader(path))
-            //{
-            //    string line;
-            //    while ((line = str.ReadLine()) != null)
-            //    {
-            //        string[] splittedObject = line.Split(';');
-
-            //        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
-            //        if (splittedObject.Length > 2)
-            //        {
-            //            for (int i = 2; i < splittedObject.Length - 1; i += 3)
-            //            {
-            //                PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[i]), (splittedObject[i + 1]),
-            //                    splittedObject[i + 2]);
-            //                listOfPurchases.Add(purchaseList);
-            //            }
-            //        }
-            //        PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], listOfPurchases);
-            //        listOfReceipts.Add(purchaseList);
-            //    }
-            //}
+            path = "Path/listOfReceipts.csv";
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    string[] splittedObject = line.Split(';');
+                    List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+                    List<Item> listOfItems = new List<Item>();
+                    if (splittedObject.Length > 2)
+                    {
+                        for (int i = 5; i < splittedObject.Length - 1; i += 4)
+                        {
+                            Item item = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]), Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], splittedObject[i + 4]);
+                            listOfItems.Add(item);
+                        }
+                        PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems);
+                        listOfPurchases.Add(purchaseList);
+                    }
+                    //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
+                    Purchase testafiesta = new Purchase(splittedObject[0], splittedObject[1], splittedObject[2], listOfPurchases);
+                    listOfReceipts.Add(testafiesta);
+                }
+            }
 
 
             /*path = "Path/listOfReceipts.csv"; // TBD

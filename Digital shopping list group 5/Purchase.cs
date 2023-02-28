@@ -15,12 +15,20 @@ namespace Digital_shopping_list_group_5
     // Purchase is the old "Receipts"...
     public class Purchase
     {
+        string email;
         DateTime dateCheck;
         int ID = -1;
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
         double totalPrice;
 
         public Purchase() { }
+        public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
+        {
+            this.email = email;
+            this.dateCheck = DateTime.Now;
+            this.ID = iD;
+            this.listOfPurchases = listOfPurchases;
+        }
 
         public Purchase(int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases, double totalPrice)
         {
@@ -44,7 +52,7 @@ namespace Digital_shopping_list_group_5
         public double SetTotalPrice(double value) => totalPrice = value;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void SetListOfPurchases(List<PurchaseList> value) => listOfPurchases = value;
         //=======================================================================================
-        public override string ToString()
+        public override string ToString() 
         {
             return $" {ID};{DateTime.Now};{listOfPurchases};{totalPrice}";
         }
@@ -181,7 +189,7 @@ namespace Digital_shopping_list_group_5
                     {
                         if (l.Id == userInput)
                         {
-                            sw.WriteLine($"{lastExistingID};{newpurchasedate.ToString("dd M yyyy HH:mm:ss")};{l}");
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd M yyyy HH:mm:ss")};{l}");
                         }
                     }
                 }
