@@ -1,133 +1,133 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 
 namespace Digital_shopping_list_group_5
 {
-
-    //Description PurchaseList is the old "Purchase"...
-    //...
-    //...
+    // Object class PurchaseList
     public class PurchaseList
     {
-        //The security system was embedded to NewPurchase() & RemovePurchaseList()
+        // Fields
+        private int _id;
+        private string _name;
+        private List<Item> _listOfItems = new List<Item>();
 
-        // SelectPurchase() & ViewPurchase, to be further developed
+        // Properties (Setters & Getters)
+        public int Id => _id;
+        public void SetID(int value) => _id = value;
+        public string Name => _name;
+        public void SetName(string value) => _name = value;
+        public List<Item> ListOfItems => _listOfItems;
+        public void SetListOfItems(List<Item> value) => _listOfItems = value;
 
-        int id;
-        string name { get; set; }
-        List<Item> listOfItems = new List<Item>();
-
-
+        // Constructors
         public PurchaseList() { }
-        public PurchaseList(int id, string name,List<Item> listOfItems)
+        public PurchaseList(int id, string name, List<Item> listOfItems)
         {
-            this.id = id;
-            this.name = name;
-            this.listOfItems = listOfItems;
+            _id = id;
+            _name = name;
+            _listOfItems = listOfItems;
         }
 
-
-        //======================================================================
-        //Setters & Getters
-        public int Id => id; public void SetID(int value) => id = value;
-        public string Name => name; public void SetName(string value) => name = value;
-        public List<Item> ListOfItems => listOfItems; public void SetListOfItems(List<Item> value) => listOfItems = value;
-        //=======================================================================
-
-
+        // Methods
         public override string ToString()
         {
-            string str = id + ";" + name + ";";
-            foreach (Item item in listOfItems)
+            string str = _id + ";" + _name + ";";
+            foreach (Item item in _listOfItems)
             { str += item.ToString() + ";"; }
             return str;
         }
 
-
-
-
-        //Adds new purschases to consumers list of purchases.
-        //TBD: Not finalized!
-        public void NewPurchase(Database db, Consumer consumer) 
+        // NewPurchaseList(): Creates new PurchaseList and adds to Consumer.ListOfPurchases & Consumer.IdsOfPurchaseLists.
+        public void NewPurchaseList(Database db, Consumer consumer)
         {
             string input;
             bool quit = false;
-            var newPurchase = new PurchaseList(); 
+            var newPurchaseList = new PurchaseList();
             var newItemList = new List<Item>();
 
+            Console.Clear();
+            Console.WriteLine("NEW PURCHASE LIST:");
+            Console.WriteLine();
+
+            // First option selection loop:
             while (quit == false)
             {
-                Console.WriteLine("[1] Create new purchase list."); // it works
-                Console.WriteLine("[2] Create new purchase list from template (existing list)"); // TBD
-                Console.WriteLine("[3] Quit.");
+                Console.WriteLine("[1] Create new purchase list.");
+                Console.WriteLine("[2] Create new purchase list from template (existing list)");
+                Console.WriteLine("[3] Quit and return.");
                 input = Console.ReadLine();
+
                 switch (input)
                 {
                     case "1":
+                        Console.WriteLine("Purchase list created from new list.");
 
-                        Console.Write($"Name: ");
-                        input = Console.ReadLine();
-                        if (!String.IsNullOrEmpty(input))
-                        {
-                            newPurchase.SetName(input);
-
-                            // assign the unique ID
-                            int lastExistingID = 0;
-                            foreach (PurchaseList pl in db.ListOfPurchases)
-                            {
-                                if (pl.id > lastExistingID) lastExistingID = pl.Id;
-                            }
-                            lastExistingID += 1;
-                            newPurchase.SetID(lastExistingID);
-                            newPurchase.SetListOfItems(newItemList);
-
-                            consumer.ListOfPurchases.Add(newPurchase); // add the newly created purchase list to Consumer
-                            consumer.IdsOfPurchaseLists.Add(lastExistingID);//add the newly created purchase list´s ID to Consumer
-                            db.AddObjectToDatabase(newPurchase); // add the newly created purchase list to <listOfPurchases.csv> file
-                            db.EditObjectInDatabase(consumer);//update Consumer in the <accounts.csv> file
-                            Console.WriteLine($"<{newPurchase.Name}> [ID: {newPurchase.Id}] successfully added to {db.GetConsumer.Email}");
-                            
-                        }
                         quit = true;
                         break;
                     case "2": // TBD
-                        newPurchase = SelectPurchase(db,consumer);
-                        Console.WriteLine("Purchase list created from existing list.");
+                        var templatePurchaseList = SelectPurchaseList(db, consumer);
+                        newItemList = templatePurchaseList.ListOfItems;
+                        Console.WriteLine($"Purchase list created from existing list \"{templatePurchaseList.Name}\".");
+
                         quit = true;
                         break;
-                    case "3": return;
-                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                    case "3":
+                        return;
+                    default:
+                        Console.WriteLine($"Unknown input: {input}");
+                        break;
                 }
             }
             quit = false;
-            
-            while (quit == false) // TBD
-            {
-                //update all the other depended objects and update DB afterwards.
 
-                Console.WriteLine($"[1] Add items to \"{newPurchase.Name}\"."); 
-                Console.WriteLine($"[2] Remove items from \"{newPurchase.Name}\".");
-                Console.WriteLine($"[3] Discard list (\"{newPurchase.Name}\") and quit."); // The same as <[3] Delete a purchase list> in the previous menu
+            // Assigns unique ID
+            // TBD: Create method?
+            int lastExistingID = 0;
+            foreach (PurchaseList pl in db.ListOfPurchases)
+            {
+                if (pl._id > lastExistingID) lastExistingID = pl.Id;
+            }
+            lastExistingID += 1;
+            newPurchaseList.SetID(lastExistingID);
+
+            Console.Write($"Enter name of new purchase list: ");
+            input = Console.ReadLine();
+            newPurchaseList.SetName(input);
+
+            newPurchaseList.SetListOfItems(newItemList);
+
+            // Second option selection loop.
+            while (quit == false)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"[1] Edit items of \"{newPurchaseList.Name}\".");
+                Console.WriteLine($"[2] Finalize list \"{newPurchaseList.Name}\" and save");
+                Console.WriteLine($"[3] Discard list (\"{newPurchaseList.Name}\") and quit."); // The same as <[3] Delete a purchase list> in the previous menu
                 input = Console.ReadLine();
+
                 switch (input)
                 {
                     case "1":
-                        //TBD                        
+                        newPurchaseList.EditPurchaseList(db);
+
                         break;
                     case "2":
-                        // METHOD: Remove items from list.
-                        break;
-                    case "3":
-                        //Remove purchase list from Consumer and then from DB
-                        //(remove purchase list´s ID from  <accounts.csv>, and remove purchaselist itself from <listOfPurchaseLists.csv>)
+                        consumer.ListOfPurchases.Add(newPurchaseList); // Adds the newly created purchase list to Consumer.
+                        consumer.IdsOfPurchaseLists.Add(newPurchaseList.Id); // Adds the newly created purchase list´s ID to Consumer.
+                        db.AddObjectToDatabase(newPurchaseList); // Adds the newly created purchase list to "listOfPurchases.csv" file.
+                        db.EditObjectInDatabase(consumer);// Updates Consumer in the "accounts.csv" file.
+                        Console.WriteLine($"New purchase list \"{newPurchaseList.Name}\" [ID: {newPurchaseList.Id}] successfully added to {db.GetConsumer.Email}");
 
-                        Console.WriteLine($"New list \"{newPurchase.name}\" discarded.");
                         quit = true;
                         break;
-                    default: Console.WriteLine($"Unknown input: {input}"); break;
+                    case "3":
+                        Console.WriteLine($"New list \"{newPurchaseList._name}\" discarded.");
+
+                        return;
+                    default: 
+                        Console.WriteLine($"Unknown input: {input}"); 
+                        break;
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("Choose an ID that you want to delete:");
             Console.WriteLine();
 
-            db.Display(db, consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
+            db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
 
 
             Console.WriteLine();
@@ -145,60 +145,157 @@ namespace Digital_shopping_list_group_5
             foreach (PurchaseList pl in consumer.ListOfPurchases)
             {
                 if (userInput == pl.Id)
-                { 
-                    index = consumer.ListOfPurchases.IndexOf(pl);                    
+                {
+                    index = consumer.ListOfPurchases.IndexOf(pl);
                 }
             }
             if (index != -1)
             {
                 db.ListOfPurchases.RemoveAt(index); // removing the purchase list from the <List> of purchases
-            }else Console.WriteLine($"ID [{userInput}] not found");
+            }
+            else Console.WriteLine($"ID [{userInput}] not found");
 
 
             index = -1;
-            foreach(int i in consumer.IdsOfPurchaseLists)
+            foreach (int i in consumer.IdsOfPurchaseLists)
             {
                 if (i == userInput)
-                { 
+                {
                     index = consumer.IdsOfPurchaseLists.IndexOf(i);
                 }
             }
             if (index != -1)
-            { 
+            {
                 consumer.IdsOfPurchaseLists.RemoveAt(index); // removing purchase list´s ID from Consumer
             }
             db.UpdateFileInDataBase(1); // updating <listOfPurchases.csv>
             db.UpdateFileInDataBase(2); // updating <accounts.csv>
         }
 
-
-
-
-        public static PurchaseList SelectPurchase(Database db,Consumer consumer) // TBD
+        // EditPurchaseList(): Views and edits items in PurchaseList.
+        public void EditPurchaseList(Database db)
         {
-            ViewPurchase(db,consumer);
-            Console.Write("Enter the number of the purchase list: ");
+            Console.Clear();
+            Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
+            Console.WriteLine();
+
+            // db.Display(): Displays all items in current PurchaseList.
+            if (_listOfItems != null) db.Display(this);
+            else Console.WriteLine("<EMPTY LIST>");
+
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("[1] Add new item.");
+                Console.WriteLine("[2] Edit existing item.");
+                Console.WriteLine("[3] Remove existing item.");
+                Console.WriteLine("[4] Quit and return.");
+                string input = Console.ReadLine();
+
+                switch (input)
+                {
+                    case "1": // NYI: Call method NewItemToList()
+                        Console.WriteLine("Not yet implemented!");
+                        break;
+                    case "2": // NYI: Call method EditItemInList(), change amount & change bought status.
+                        Console.WriteLine("Not yet implemented!");
+                        break;
+                    case "3": // NYI: Call method RemoveItemFromList()
+                        Console.WriteLine("Not yet implemented!");
+                        break;
+                    case "4":
+                        return;
+                    default:
+                        Console.WriteLine($"Unknown input: {input}");
+                        break;
+                }
+            }
+        }
+
+        // SelectPurchaseList(): Views Consumer.ListOfPurchaseLists and returns a selected PurchaseList.
+        public static PurchaseList SelectPurchaseList(Database db, Consumer consumer)
+        {
+            // db.Display(): Views consumer.ListOfPurchases
+            db.Display(consumer.ListOfPurchases);
+            Console.Write("Enter the ID number of the purchase list: ");
             int.TryParse(Console.ReadLine(), out int input);
 
-            if (input > 0 && input <= consumer.ListOfPurchases.Count)
+            // Loops through consumer.ListOfPurchases to find List based on List.Id(input)
+            foreach (PurchaseList pL in consumer.ListOfPurchases)
             {
-                return (PurchaseList)consumer.ListOfPurchases[input - 1];
-            }
-            else
-            {
-                Console.WriteLine("Could not find the purchase list.");
+                if (pL.Id == input) return pL;
             }
             return null;
         }
-        public static void ViewPurchase(Database db,Consumer consumer) //TBD
+        public void ShareList(Database db, Consumer consumer)
         {
-            int i = 1;
-            Console.WriteLine($"{consumer.Name}'s purchase lists: ");
-            foreach (PurchaseList p in consumer.ListOfPurchases)
+            Console.WriteLine();
+            db.Display(db.GetConsumer.ListOfPurchases, true);
+            Console.WriteLine();
+            Console.WriteLine("Choose list number that you want to share:");
+            int userInput = Int32.Parse(Console.ReadLine());
+            Console.WriteLine("Choosen list:");
+            foreach (PurchaseList l in consumer.ListOfPurchases)
             {
-                Console.WriteLine($"{i} . {p.name}");
-                i++;
+                if (l.Id == userInput)
+                {
+                    Console.WriteLine(l);
+                }
             }
+            Console.WriteLine();
+            Console.WriteLine("Send to:");
+            Console.WriteLine();
+            Console.WriteLine("[1] Existing member");
+            Console.WriteLine("[2] Non existing member");
+            int index = 1;
+            int chooseex = Int32.Parse(Console.ReadLine());
+            switch (chooseex)
+            {
+                case 1:
+                    Console.WriteLine();
+                    Console.WriteLine("Choose member to send to:");
+                    foreach (Consumer w in db.ListOfConsumers)
+                    {
+                        if (consumer.Email != w.Email)
+                        {
+                            Console.WriteLine($"[{index++}] {w.Name} {w.Email}");
+                        }
+                    }
+                    int choosemember = Int32.Parse(Console.ReadLine());
+                    using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
+                    {
+                        foreach (PurchaseList l in consumer.ListOfPurchases)
+                        {
+                            if (l.Id == userInput)
+                            {
+                                sw.WriteLine($"{consumer.Email};{db.ListOfConsumers[choosemember].Email};{l}");
+                            }
+                        }
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("The list is shared!");
+                    break;
+                case 2:
+                    Console.WriteLine();
+                    Console.WriteLine("To email:");
+                    string emailto = Console.ReadLine();
+                    using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
+                    {
+                        foreach (PurchaseList l in consumer.ListOfPurchases)
+                        {
+                            if (l.Id == userInput)
+                            {
+                                sw.WriteLine($"{consumer.Email};{emailto};{l}");
+                            }
+                        }
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine("The list is shared!");
+                    break;
+            }
+            
+
+
         }
     }
 }
