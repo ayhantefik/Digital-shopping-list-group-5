@@ -59,7 +59,7 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine("[2] Edit an existing purchase list"); //TBD, be able to change the list´s name, the items´s names, their quantity & price
                         Console.WriteLine("[3] Delete a purchase list"); // it works
 
-                        Console.WriteLine("[4] Merge lists"); //TBD
+                        Console.WriteLine("[4] Merge lists"); // it works
                         Console.WriteLine("[5] Share list"); // TBD                       
                         Console.WriteLine();
                         Console.WriteLine("[0] Back");
@@ -70,8 +70,9 @@ namespace Digital_shopping_list_group_5
                             case 0: RunMenu(db, consumer);
                                 break;
                             case 1:
-                                
-                                pl.NewPurchaseList(db, consumer);
+                                //return db with an update Consumer in it 
+                                db = pl.NewPurchaseList(db, consumer);
+                                RunMenu(db, db.GetConsumer);
                                 break;
                             case 2: // Edit list option
 
@@ -80,7 +81,8 @@ namespace Digital_shopping_list_group_5
                                 break;
 
                             case 3:                                
-                                pl.RemovePurchaseList(db, consumer);
+                                db = pl.RemovePurchaseList(db, consumer);
+                                RunMenu(db, db.GetConsumer);
                                 break;
 
                             case 4:
