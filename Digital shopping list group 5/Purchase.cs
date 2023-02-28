@@ -131,7 +131,7 @@ namespace Digital_shopping_list_group_5
         //            }
         //            lastExistingID += 1;
         //            ID = makePurchase.SetID(lastExistingID);
-                    
+
         //            makePurchase = (ID, DateTime.Now, );
         //            //Create an purchase with datetime and listOfPurchases and totalPrice
         //            // add the purchase to the listofreceipts
@@ -142,7 +142,63 @@ namespace Digital_shopping_list_group_5
         //    }
         //    else { Console.WriteLine($"Unknown input: {userInput}"); }
         //
+
+        public void MakePurchase(Database db, Consumer consumer)
+        {
+            Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
+            Console.WriteLine();
+            db.Display(consumer.ListOfPurchases, true);
+            Console.WriteLine();
+            int userInput = Int32.Parse(Console.ReadLine());
+            int index = -1;
+            foreach (PurchaseList pl in consumer.ListOfPurchases)
+            {
+                if (userInput == pl.Id)
+                {
+                    index = consumer.ListOfPurchases.IndexOf(pl);
+                    db.Display(pl);
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("Do you want to make a purchase?");
+            Console.WriteLine("Write [6] for YES and [7] for NO.");
+            //string uInput = Console.ReadLine();
+            int userInput2 = Int32.Parse(Console.ReadLine());
+            var newListOfReceipts = new List<PurchaseList>();
+            if (userInput2 == 6)
+            {
+                // assign the unique ID to the receipt
+                int lastExistingID = 0;
+                foreach (Purchase p in db.ListOfReceipts)
+                {
+                    if (p.Id > lastExistingID) lastExistingID = p.Id;
+                }
+                lastExistingID += 1;
+                DateTime newpurchasedate = new DateTime();
+                using (StreamWriter sw = new StreamWriter("Path/listOfReceipts.csv"))
+                {
+                    foreach (PurchaseList l in consumer.ListOfPurchases)
+                    {
+                        if (l.Id == userInput)
+                        {
+                            sw.WriteLine($"{lastExistingID};{newpurchasedate.ToString("dd M yyyy HH:mm:ss")};{l}");
+                        }
+                    }
+                }
+                Console.WriteLine("Köpet är gjord!");
+
+
+            }
+            else if (userInput2 == 7)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Ok, you do not want to make a purchase.");
+                Console.WriteLine("Please go back to the menu and choose your next action.");
+            }
+
+            Console.WriteLine();
         }
     }
+}
 
 

@@ -106,52 +106,9 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine("Code missing..");
                         RunMenu(db, consumer);
                         break;
-                    case 3: 
-                        Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
-                        Console.WriteLine();
-                        db.Display(consumer.ListOfPurchases, true);
-                        Console.WriteLine();
-                        userInput = Int32.Parse(Console.ReadLine());
-                        int index = -1;
-                        foreach (PurchaseList pl in consumer.ListOfPurchases)
-                        {
-                            if (userInput == pl.Id)
-                            {
-                                index = consumer.ListOfPurchases.IndexOf(pl);
-                                db.Display(pl);
-                            }
-                        }
-                        Console.WriteLine();
-                        Console.WriteLine("Do you want to make a purchase?");
-                        Console.WriteLine("Write [6] for YES and [7] for NO.");
-                        //string uInput = Console.ReadLine();
-                        userInput = Int32.Parse(Console.ReadLine());
-                        var makePurchase = new Purchase();
-                        var newListOfReceipts = new List<PurchaseList>();
-                        if (userInput == 6)
-                        {
-                            // assign the unique ID to the receipt
-                            int lastExistingID = 0;
-                            foreach (Purchase p in db.ListOfReceipts)
-                            {
-                                if (p.Id > lastExistingID) lastExistingID = p.Id;
-                            }
-                            lastExistingID += 1;
-                            makePurchase.SetID(lastExistingID);
-                            makePurchase.SetDateTime(DateTime.Now);
-                           
-
-                        }
-                        else if (userInput == 7)
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine("Ok, you do not want to make a purchase.");
-                            Console.WriteLine("Please go back to the menu and choose your next action.");
-                        }
-
-                        Console.WriteLine();
-                        Console.WriteLine("Code missing..");
-                        RunMenu(db, consumer);
+                    case 3:
+                        Purchase newpurchase = new Purchase();
+                        newpurchase.MakePurchase(db, consumer);
                         break;
                     default:
                         Console.Write($"\nInvalid option: ");
