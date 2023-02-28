@@ -2,81 +2,234 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Digital_shopping_list_group_5
 {
-    public class Consumer : User, IAct    // CHANGED ACCESSIBILITY TO PUBLIC
+    public class Consumer : User 
     {
+        //The receipt system NYI
+        //The security system was embedded to RunSecuritySystem(),LoginAccount(),RegisterAccount(),CheckInput()
+
         int accountLvl, points;
-        List<Object> purchases;        
-        private List<object> listOfPurchases;
-        public List<object> ListOfPurchases { get => listOfPurchases; } // ADDED GETTER!
-        public Consumer(string name, string email, string password,bool loggedIn, int v1, int v2, List<object> listOfPurchases)
-            :base(name,email,password,loggedIn)
+        bool loggedIn = false;
+
+        List<PurchaseList> listOfPurchases;
+        List<int> idsOfPurchaseLists = new List<int>();
+        List<int> idsOfReceipts = new List<int>(); //TBD
+
+        public Consumer(string email = "", string password = "", string name = "", int accountLvl = -1, int points = -1, List<int> idsOfPurchaseLists = null)
+            : base(email, password, name)
         {
-            accountLvl = v1;
-            points = v2;
-            this.listOfPurchases = listOfPurchases;
+            this.accountLvl = accountLvl;
+            this.points = points;
+            //this.listOfPurchases = listOfPurchases;
+            this.idsOfPurchaseLists = idsOfPurchaseLists;
         }
 
 
-        //=============================================================================================================
-        //Setters,Getters NYI
-        public override string ToString() => $"{Name},{Email},{Password};"; // TBD
-        //=============================================================================================================
-
-
-
-
 
         //=============================================================================================================
-        //recording & retrieving data
-        void IAct.SaveToDb(object obj)
+        //Setters & Getters
+        public void SetAccountLvl(int value) => accountLvl = value;
+        public void SetPoints(int value) => points = value;
+        public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
+        public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
+        public bool LoggedIn => loggedIn;
+        public int AccountLvl => accountLvl;
+        public int Points => points;
+        //=============================================================================================================
+
+
+
+
+        //ToString() only for recording to DB. Not for displaying in the Console. It doesn´t work.
+        public override string ToString() => $"{Email};{Password};{Name};{AccountLvl};{Points};" + StringOfIdsOfPurchaseLists(); 
+        private string StringOfIdsOfPurchaseLists()
         {
-            string str = obj.ToString();
-            using (var streamwriter = new StreamWriter(@"Path/accounts.csv", true))
+            string str = "";
+            foreach (int i in idsOfPurchaseLists)
             {
-                streamwriter.WriteLine(str);
+                str += i.ToString() + ";";
             }
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("SUCCESS: ");
-            Console.WriteLine(str);
+            return str;
         }
-        List<object> IAct.LoadFromDb()
-        {
-            List<Object> listOfAccounts = new List<Object>();
 
-            using (StreamReader str = new StreamReader(@"Path/accounts.csv"))
+
+
+
+        //==============================================================================================================
+        // Login- and Registration System
+        public Consumer RunSecuritySystem(Database db) //only consumers can log in / register so far. (TBD with admins)
+        {
+            Consumer consumer = new Consumer();
+            Console.WriteLine("[1]Login");
+            Console.WriteLine("[2] Registration");
+            try
             {
-                string line;
-                while ((line = str.ReadLine()) != null)
+                int userInput = Int32.Parse(Console.ReadLine());
+                switch (userInput)
                 {
-
-                    listOfPurchases.Add(line);
+                    case 1:
+                        return LoginAccount(db);                        
+                    case 2:
+                        consumer = RegisterAccount(db);
+                        Console.WriteLine(consumer.Points);
+                        return consumer;
+                    default: 
+                        break;
                 }
-
             }
-            return listOfPurchases;
+            catch
+            {
+                Console.WriteLine("Invalid option");
+             RunSecuritySystem(db);
+            }
+            return consumer;
         }
-        //=============================================================================================================
-
-
-
-
-
-        void IAct.Display()
+        static Consumer LoginAccount(Database db)
         {
-            throw new NotImplementedException();
-        }     
-        void IAct.Remove()
-        {
-            throw new NotImplementedException();
+            bool quit = false;
+            do
+            {                
+                Console.Write("Your email: ");
+                string str = Console.ReadLine();
+                bool success = CheckInput(db, 4, str);
+                if (success)
+                {
+                    Console.Write($"Password to {str}: ");
+                    str += ";"+ Console.ReadLine();
+                    success = CheckInput(db, 5, str);
+                    if (success)
+                    {
+                        if (db.GetConsumer != null)
+                        {                            
+                            return db.GetConsumer;
+                        } 
+
+                    }else Console.WriteLine("Password and email don´t match");
+                }else Console.WriteLine($"{str} not found in the database");
+            } while (!quit);
+            return null;
+
+            
         }
+        static Consumer RegisterAccount(Database db)
+        {
+            Consumer consumer = new Consumer();
+            bool success;
+            string str;
+            do
+            {
+                Console.Write("Your email: ");
+                str = Console.ReadLine();
+                success = CheckInput(db,1,str); // 1 - position in the registration proccess 
+                if (success)
+                {
+                    consumer.SetEmail(str);
 
-        
+                    Console.Write("Create password: ");
+                    str = Console.ReadLine();
+                    success = CheckInput(db,2, str);
+
+                    if (success)
+                    {
+                        consumer.SetPassword(str);
+
+                        Console.Write("Your name: ");
+                        str = Console.ReadLine();
+                        success = CheckInput(db,3, str);
+
+                        if (success)
+                        {
+                            consumer.SetName(str);
+                            consumer.SetAccountLvl(0);
+                            consumer.SetPoints(0);                            
+                            consumer.InitiateIdsOfPurchaseLists();
+
+
+                            db.ListOfConsumers.Add(consumer);
+                            db.AddObjectToDatabase(consumer);
+                            return consumer;
+                        }
+                        else Console.WriteLine("Name can not be empty");
+                    }
+                    else Console.WriteLine("Password can not be empty");
+                }
+                //else Console.WriteLine("Email can not be empty");                
+            }while (!success);
+
+           return consumer;
+        }        
+        public static bool CheckInput(Database db,int positionInTheProcess, string input)
+        {
+            bool success = false;
+
+            if (input.Trim().Length == 0) return false;
+
+            //positions 1-3 are for registration
+            if (positionInTheProcess == 1)
+            {
+                // check if no email address already is registered!
+                //Database db = new Database(new Consumer());
+                //List<Object> listOfAccounts = db.LoadFromDb();
+
+                bool alreadyExisted = false;
+                foreach (Consumer account in db.ListOfConsumers)
+                {
+                    if (account.Email == input.Trim())
+                    {
+                        alreadyExisted = true;                        
+                    } 
+                }
+                if (alreadyExisted) Console.WriteLine($"Account {input} already registered in our system");
+                else success = true;
+            }
+            else if(positionInTheProcess == 2 || positionInTheProcess == 3) return true; 
+
+            //positions 4-5 are for login
+            else if (positionInTheProcess == 4)
+            {
+                foreach (Consumer c in db.ListOfConsumers)
+                {
+                    if (input == c.Email)
+                    {                        
+                        return true;
+                    }
+                }
+            }
+            else if (positionInTheProcess == 5)
+            {
+                string[] str = input.Split(';'); //input contains both email and password
+                foreach (Consumer c in db.ListOfConsumers)
+                {
+                    if ((str[0] == c.Email) && (str[1]== c.Password))
+                    {
+                        Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+                        List<PurchaseList> plList = new List<PurchaseList>();
+
+                        foreach (int i in cons.idsOfPurchaseLists) 
+                        {
+                            foreach (PurchaseList pl in db.ListOfPurchases)
+                            {
+                                if (i == pl.Id) plList.Add(pl);
+                            }
+                        }
+                        cons.ListOfPurchases = plList;
+                        db.SetConsumer(cons);
+                       
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Welcome {db.GetConsumer.Name}");
+                        return true;
+                    }
+                }
+            }
+            return success;
+        }
+        //==============================================================================================================
     }
 }

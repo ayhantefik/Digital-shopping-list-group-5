@@ -8,9 +8,11 @@ namespace Digital_shopping_list_group_5
 {
     public class Admin : User
     {
+
+        //Admin´s arcitecture TBD if time allows.
         string filePath;
         public Admin(string name, string email, string password, bool loggedIn, string filePath)
-            : base(name, email, password, loggedIn)
+            : base(email, password,name)
         {
             this.filePath = filePath;
         }

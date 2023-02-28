@@ -43,18 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Receipt.cs" />
+    <Compile Include="Purchase.cs" />
     <Compile Include="Security_System\Admin.cs" />
     <Compile Include="Security_System\Consumer.cs" />
     <Compile Include="Security_System\User.cs" />
     <Compile Include="CustomerLevel.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="Do.cs" />
-    <Compile Include="IAct.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Purchase.cs" />
+    <Compile Include="PurchaseList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
