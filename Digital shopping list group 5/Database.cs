@@ -212,22 +212,21 @@ namespace Digital_shopping_list_group_5
 
         //================================================================================================================================
         //manipulating with the objects: no interaction with the files.
-        public void Display(Database db,object obj,bool displayExtended = false) 
+        public void Display(object obj,bool displayExtended = false) 
         {
-            //displays the purchase lists pinned to the loggedIn Consumer, NO items
+            // Displays the purchase lists pinned to the loggedIn Consumer, NO items.
             if (obj.GetType() == typeof(List<PurchaseList>) && !displayExtended) 
             {
-                foreach (PurchaseList list in db.GetConsumer.ListOfPurchases) 
+                foreach (PurchaseList list in GetConsumer.ListOfPurchases) 
                 {
                     Console.WriteLine($"[{list.Id}] <{list.Name}>");
                 }
             }
 
-
-            //displays the purchase lists pinned to the loggedIn Consumer and their items
+            // Displays the purchase lists pinned to the loggedIn Consumer and their items.
             else if (obj.GetType() == typeof(List<PurchaseList>) && displayExtended)
             {
-                foreach (PurchaseList pl in db.GetConsumer.ListOfPurchases) 
+                foreach (PurchaseList pl in GetConsumer.ListOfPurchases) 
                 {
                     Console.Write($"[{pl.Id}] <{pl.Name}>: ");
 
@@ -241,10 +240,23 @@ namespace Digital_shopping_list_group_5
 
             }
 
+            // Displays items in a specific PurchaseList.
+            else if (obj.GetType() == typeof(PurchaseList))
+            {
+                PurchaseList pL = (PurchaseList)obj;
 
+                Console.WriteLine("ID: |BOUGHT: |AMOUNT: |ITEM:");
+
+                foreach (Item item in pL.ListOfItems)
+                {
+                    Console.WriteLine($"{item.Id,-4}|{item.IsBought,-8}|{item.Quantity,-8}|{item.Name}");
+                }
+            }
+
+            // Displays all consumers in ListOfConsumers.
             else if (obj.GetType() == typeof(List<Consumer>))
             {
-                foreach (Consumer c in db.ListOfConsumers)
+                foreach (Consumer c in ListOfConsumers)
                 {
                     Console.WriteLine($"{c.Email}, {c.Name}");
                 }
@@ -383,27 +395,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine();
             Console.WriteLine(purchaselists[userChoose - 1]);
         }
-        public void ShareList() // can we move the method to <PurchaseList> class?
-        {
-            Console.WriteLine("Choose list that you want to share:");
-            Console.WriteLine();
-            int a = 1;
-            foreach (var samplelist in purchaselists)
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[0]}");
-            }
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-            Console.WriteLine("Choosen list:");
-            Console.WriteLine();
-            Console.WriteLine(purchaselists[userChoose - 1]);
-            Console.WriteLine();
-            Console.WriteLine("Choose a user that you want to send list:");
-            //Stop here.. we need a list of users. 
-            Console.WriteLine("The list is sent!");
-            //Print out all users and choose one of them, sent to existing registred email
-        }
+        
 
 
         /*public void LoadLists() //replaced by LoadAllFromDatabase()
