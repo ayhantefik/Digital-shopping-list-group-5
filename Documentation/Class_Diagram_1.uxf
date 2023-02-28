@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>304</x>
-      <y>344</y>
+      <x>416</x>
+      <y>360</y>
       <w>112</w>
       <h>176</h>
     </coordinates>
@@ -28,8 +28,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>528</x>
-      <y>552</y>
+      <x>640</x>
+      <y>568</y>
       <w>208</w>
       <h>248</h>
     </coordinates>
@@ -58,8 +58,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>304</x>
-      <y>688</y>
+      <x>416</x>
+      <y>704</y>
       <w>112</w>
       <h>112</h>
     </coordinates>
@@ -79,8 +79,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>304</x>
-      <y>552</y>
+      <x>416</x>
+      <y>568</y>
       <w>112</w>
       <h>64</h>
     </coordinates>
@@ -93,8 +93,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>344</x>
-      <y>608</y>
+      <x>456</x>
+      <y>624</y>
       <w>24</w>
       <h>96</h>
     </coordinates>
@@ -104,8 +104,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>344</x>
-      <y>792</y>
+      <x>456</x>
+      <y>808</y>
       <w>288</w>
       <h>56</h>
     </coordinates>
@@ -115,8 +115,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>784</x>
-      <y>760</y>
+      <x>896</x>
+      <y>776</y>
       <w>112</w>
       <h>40</h>
     </coordinates>
@@ -128,8 +128,8 @@ CustomerLvl
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>408</x>
-      <y>320</y>
+      <x>520</x>
+      <y>336</y>
       <w>80</w>
       <h>112</h>
     </coordinates>
@@ -139,8 +139,8 @@ CustomerLvl
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>464</x>
-      <y>320</y>
+      <x>576</x>
+      <y>336</y>
       <w>80</w>
       <h>112</h>
     </coordinates>
@@ -150,8 +150,8 @@ CustomerLvl
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>392</x>
-      <y>72</y>
+      <x>504</x>
+      <y>88</y>
       <w>224</w>
       <h>256</h>
     </coordinates>
@@ -182,8 +182,8 @@ CustomerLvl
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>632</x>
-      <y>72</y>
+      <x>744</x>
+      <y>88</y>
       <w>120</w>
       <h>88</h>
     </coordinates>
@@ -197,8 +197,8 @@ listOfReceipts.csv;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>792</x>
-      <y>344</y>
+      <x>904</x>
+      <y>360</y>
       <w>128</w>
       <h>200</h>
     </coordinates>
@@ -225,8 +225,8 @@ listOfReceipts.csv;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>720</x>
-      <y>416</y>
+      <x>832</x>
+      <y>432</y>
       <w>88</w>
       <h>24</h>
     </coordinates>
@@ -236,8 +236,8 @@ listOfReceipts.csv;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>528</x>
-      <y>344</y>
+      <x>640</x>
+      <y>360</y>
       <w>200</w>
       <h>176</h>
     </coordinates>
