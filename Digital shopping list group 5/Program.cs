@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,13 +102,13 @@ namespace Digital_shopping_list_group_5
                         }
                         break;
                     case 2: // Receipts menu option, TBD
-                        Console.WriteLine("Here is a a list of all receipts: ");
+                        Console.WriteLine("Here is a list of all receipts: ");
                         Console.WriteLine("Code missing..");
                         RunMenu(db, consumer);
                         break;
-                    case 3: // Make a purchase menu option, TBD
-                        Console.WriteLine("Code missing..");
-                        RunMenu(db, consumer);
+                    case 3:
+                        Purchase newpurchase = new Purchase();
+                        newpurchase.MakePurchase(db, consumer);
                         break;
                     default:
                         Console.Write($"\nInvalid option: ");
@@ -119,7 +120,7 @@ namespace Digital_shopping_list_group_5
                 }
             }catch
             {
-                Console.WriteLine("\nInvalid option\n");
+                Console.WriteLine("\nInvalid option.\n");
                 RunMenu(db, consumer);
             }
             

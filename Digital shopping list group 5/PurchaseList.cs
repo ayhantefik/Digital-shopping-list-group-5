@@ -20,6 +20,9 @@ namespace Digital_shopping_list_group_5
         public List<Item> ListOfItems => _listOfItems;
         public void SetListOfItems(List<Item> value) => _listOfItems = value;
 
+        string name { get; set; }
+        List<Item> listOfItems = new List<Item>();
+
         // Constructors
         public PurchaseList() { }
         public PurchaseList(int id, string name, List<Item> listOfItems)
@@ -30,6 +33,7 @@ namespace Digital_shopping_list_group_5
         }
 
         // Methods
+
         public override string ToString()
         {
             string str = _id + ";" + _name + ";";
@@ -227,6 +231,7 @@ namespace Digital_shopping_list_group_5
             }
             return null;
         }
+
         public void ShareList(Database db, Consumer consumer)
         {
             Console.WriteLine();
