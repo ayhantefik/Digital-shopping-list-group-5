@@ -119,7 +119,7 @@ namespace Digital_shopping_list_group_5
                 }
             }catch
             {
-                Console.WriteLine("\nInvalid option\n");
+                Console.WriteLine("\nInvalid option.\n");
                 RunMenu(db, consumer);
             }
             
