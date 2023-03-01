@@ -37,7 +37,7 @@ namespace Digital_shopping_list_group_5
         // Properties (Getters & Setters)
         public List<Item> AllItems => _allItems; 
         public void SetAllItems(List<Item> value) => _allItems = value;
-        public List<Consumer> AllConsumers => _allConsumers; 
+        public List<Consumer> AllConsumers => _allConsumers;  
         public void SetAllConsumers(List<Consumer> value) => _allConsumers = value;
         public List<PurchaseList> AllPurchaseLists => _allPurchaseLists; 
         public void AddToPurchaseLists(PurchaseList value) => _allPurchaseLists.Add(value);
@@ -116,7 +116,7 @@ namespace Digital_shopping_list_group_5
                     }
                 }
             }
-            path = _purchasesFile;
+            /*path = _purchasesFile;
             using (str = new StreamReader(path))
             {
                 string line;

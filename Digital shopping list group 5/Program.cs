@@ -91,7 +91,7 @@ namespace Digital_shopping_list_group_5
                             case 5: 
                                 
                                 db = pl.ShareList(db, consumer);
-                                RunMenu(db, db.GetConsumer);
+                                RunMenu(db, db.GetCurrentConsumer);
                                 break;
                             default:
                                 Console.Write($"\nInvalid option: ");

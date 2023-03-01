@@ -226,7 +226,7 @@ namespace Digital_shopping_list_group_5
                             }
                         }
                         cons.ListOfPurchases = plList;
-                        db.SetConsumer(cons);
+                        db.SetCurrentConsumer(cons);
 
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;

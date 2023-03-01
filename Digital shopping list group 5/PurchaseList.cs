@@ -178,7 +178,6 @@ namespace Digital_shopping_list_group_5
             db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
 
             Console.WriteLine();
-            int userInput = Int32.Parse(Console.ReadLine()); //CHECK INPUT !!
             bool success = int.TryParse(Console.ReadLine(), out int userInput);
             if (success)
             {
@@ -213,7 +212,7 @@ namespace Digital_shopping_list_group_5
                 db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
                 db.UpdateFileInDataBase(1); // update the whole <listOfPurchases.csv>
 
-            foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
+                foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
                 {
                     if (consumer.Email == c.Email)
                     {
@@ -221,23 +220,24 @@ namespace Digital_shopping_list_group_5
 
                         List<PurchaseList> plList = new List<PurchaseList>();
 
-                    foreach (int i in cons.IdsOfPurchaseLists)
-                    {
-                        foreach (PurchaseList pl in db.AllPurchaseLists)
+                        foreach (int i in cons.IdsOfPurchaseLists)
                         {
-                            if (i == pl.Id) plList.Add(pl);
+                            foreach (PurchaseList pl in db.AllPurchaseLists)
+                            {
+                                if (i == pl.Id) plList.Add(pl);
+                            }
                         }
+                        cons.ListOfPurchases = plList;
+                        db.SetCurrentConsumer(cons);
                     }
-                    cons.ListOfPurchases = plList;
-                    db.SetConsumer(cons);
                 }
-            }else Console.WriteLine("wrong input");
+            } else Console.WriteLine("wrong input");
 
             return db;
         }
 
 
-        
+        //KOLLA HIT
         public void EditPurchaseList(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
             Console.Clear();
@@ -271,7 +271,7 @@ namespace Digital_shopping_list_group_5
                         break;
                 }
             }
-        } 
+        }
 
         public Database ShareList(Database db, Consumer consumer)
         {
@@ -283,18 +283,18 @@ namespace Digital_shopping_list_group_5
             bool success = CheckInput(consumer, inputID, 2);
             if (success)
             {
-                if (l.Id == userInput)
+                Console.WriteLine();
+                Console.WriteLine("Send to:");
+                Console.WriteLine();
+                Console.WriteLine("[1] Registered member");
+                Console.WriteLine("[2] Non registered member");
+                string str = Console.ReadLine();
+
+                if (int.TryParse(str, out int result))
                 {
-                    Console.WriteLine(l);
-                }
-            }
-            Console.WriteLine();
-            Console.WriteLine("Send to:");
-            Console.WriteLine();
-            Console.WriteLine("[1] Existing member");
-            Console.WriteLine("[2] Non existing member");
-            int index = 1;
-            int chooseex = Int32.Parse(Console.ReadLine());
+                    switch (result)
+                    {
+                        case 1:
                             Console.WriteLine();
                             Console.WriteLine("Receiver´s email address: ");
 
@@ -302,7 +302,7 @@ namespace Digital_shopping_list_group_5
                             if (!String.IsNullOrEmpty(receiverEmail))
                             {
                                 bool emailFound = false;
-                                foreach (Consumer c in db.ListOfConsumers)
+                                foreach (Consumer c in db.AllConsumers)
                                 {
                                     if (receiverEmail.Trim() == c.Email)
                                     {
@@ -322,7 +322,7 @@ namespace Digital_shopping_list_group_5
                             }
 
                             // UPDATE APPLICATION 
-                            db.SetListOfConsumers(new List<Consumer>());
+                            db.SetAllConsumers(new List<Consumer>());
                             db.SetListOfPurchases(new List<PurchaseList>());
                             db.LoadAllFromDatabase();
                             return db;
@@ -384,8 +384,8 @@ namespace Digital_shopping_list_group_5
                             {
                                 mergedPurchaseList._listOfItems.Add(item);
                             }
-                            int indx = db.AllPurchaseLists.IndexOf(pl); 
-                            db.AllPurchaseLists.RemoveAt(indx); 
+                            int indx = db.AllPurchaseLists.IndexOf(pl);
+                            db.AllPurchaseLists.RemoveAt(indx);
                         }
                         else if (pl._id == Int32.Parse(str[1]))  //remove that second old Purchase List from <Database> class
                         {
@@ -397,6 +397,7 @@ namespace Digital_shopping_list_group_5
                             db.AllPurchaseLists.RemoveAt(indx);
                         }
                     }
+
 
 
                     int index = -1;
@@ -440,23 +441,22 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
                     Console.WriteLine();
 
-                    db.SetListOfConsumers(new List<Consumer>());
+
+                    //This code repeats, rewrite.
+
+                    // UPDATE APPLICATION METHOD 
+                    db.SetAllConsumers(new List<Consumer>());
                     db.SetListOfPurchases(new List<PurchaseList>());
                     db.LoadAllFromDatabase();
 
 
-                   
-                    //This code repeats, rewrite.
+
                     foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
                     {
                         if (consumer.Email == c.Email)
                         {
                             Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
-                        if (consumer.Email == c.Email)
-                        {
-                            Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
 
-                            List<PurchaseList> plList = new List<PurchaseList>();
                             List<PurchaseList> plList = new List<PurchaseList>();
 
                             foreach (int i in cons.IdsOfPurchaseLists)
@@ -475,6 +475,7 @@ namespace Digital_shopping_list_group_5
             else MergeLists(db, consumer);
             return db;
         }
+
 
         // TBD: SetQuantity not updating? 
         private void AddItemToPurchaseList(Database db)
@@ -542,21 +543,8 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("Item not found, try again!");
 
         }
-        static bool CheckInput(Consumer consumer,string input)
-        {
-            bool success1 = false;
-            bool success2 = false;
-            string[] IDsToBeMerged = input.Split(',');
-
-            if (input.Trim().Length == 0) return false;
-
-            if (actionNumber == 1)
-            {
-                try
-                {
-                    foreach (int i in consumer.IdsOfPurchaseLists)
-                    {
-            // <1> to merge; <2> to share list within application, <3> to delete PurchaseList
+        static bool CheckInput(Consumer consumer, string input, int actionNumber)
+        // <1> to merge; <2> to share list within application, <3> to delete PurchaseList
         {
             bool success1 = false;
             bool success2 = false;
@@ -599,8 +587,9 @@ namespace Digital_shopping_list_group_5
             { }
 
             return false;
-            
+
         }
+
 
         // SelectPurchaseList(): Views Consumer.ListOfPurchaseLists and returns a selected PurchaseList.
         static PurchaseList SelectPurchaseList(Database db, Consumer consumer)
