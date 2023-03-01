@@ -59,34 +59,36 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine("[2] Edit an existing purchase list"); //TBD, be able to change the list´s name, the items´s names, their quantity & price
                         Console.WriteLine("[3] Delete a purchase list"); // it works
 
-                        Console.WriteLine("[4] Merge lists"); //TBD
+                        Console.WriteLine("[4] Merge lists"); // it works
                         Console.WriteLine("[5] Share list"); // TBD                       
                         Console.WriteLine();
                         Console.WriteLine("[0] Back");
                         userInput = Int32.Parse(Console.ReadLine());
+                        PurchaseList pl = new PurchaseList();
                         switch (userInput)
                         {
                             case 0: RunMenu(db, consumer);
                                 break;
                             case 1:
-                                PurchaseList pl = new PurchaseList();
-                                pl.NewPurchaseList(db, consumer);
+                                //return db with an update Consumer in it 
+                                db = pl.NewPurchaseList(db, consumer);
+                                RunMenu(db, db.GetConsumer);
                                 break;
                             case 2: // Edit list option
 
                                 //db.EditLists();
                                 //db.ChangePurchaseListName();
                                 break;
-                            case 3:
-                                PurchaseList list = new PurchaseList();
-                                list.RemovePurchaseList(db, consumer);
+
+                            case 3:                                
+                                db = pl.RemovePurchaseList(db, consumer);
+                                RunMenu(db, db.GetConsumer);
                                 break;
 
-
-
-                            case 4: // Merge list option
-                                Console.WriteLine("Code missing..");
-                                RunMenu(db, consumer);
+                            case 4:
+                                db = pl.MergeLists(db, consumer);
+                                RunMenu(db, db.GetConsumer);
+                                
                                 break;
                             case 5: // Share list option
                                 PurchaseList list1 = new PurchaseList();
