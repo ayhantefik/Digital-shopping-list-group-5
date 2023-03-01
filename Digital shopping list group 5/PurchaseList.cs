@@ -476,7 +476,6 @@ namespace Digital_shopping_list_group_5
             return db;
         }
 
-        // TBD: SetQuantity not updating? 
         private void AddItemToPurchaseList(Database db)
         {
             db.Display(db.ListOfItems);
@@ -508,9 +507,9 @@ namespace Digital_shopping_list_group_5
                     newItem.SetID(item.Id); // UNIQUE ID FOR UNIQUE INSTANCE??
                     newItem.SetName(item.Name);
                     newItem.SetPrice(item.Price);
-                    newItem.SetQuantity(amount); // TBD: SET QUANITITY NOT CHANGING??
+                    newItem.SetQuantity(amount);
                     newItem.SetIsBought(false);
-                    _listOfItems.Add(item);
+                    _listOfItems.Add(newItem);
 
                     Console.WriteLine($"Item \"{item.Name}\" added to list \"{Name}\"");
                     return;
