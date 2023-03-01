@@ -19,11 +19,18 @@ namespace Digital_shopping_list_group_5
         bool loggedIn = false;
 
         List<PurchaseList> listOfPurchases;
-        List<PurchaseList> listOfPurchase;
+
+        //List<PurchaseList> listOfPurchase;
+
         List<PurchaseList> listOfReceipts;
 
         List<int> idsOfPurchaseLists = new List<int>();
         List<int> idsOfReceipts = new List<int>(); //TBD
+
+        public Consumer(string email, string password, string name) : base(email, password, name)
+        { 
+
+        }
 
         public Consumer(string email = "", string password = "", string name = "", int accountLvl = -1, int points = -1, List<int> idsOfPurchaseLists = null, List<int>idsOfReceipts = null)
             : base(email, password, name)
@@ -42,10 +49,11 @@ namespace Digital_shopping_list_group_5
         public void SetAccountLvl(int value) => accountLvl = value;
         public void SetPoints(int value) => points = value;
         public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
-        public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
+        //public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
         public List<PurchaseList> ListOfReceipts { get => listOfReceipts; set => listOfReceipts = value; }
 
-        public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
+        public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void SetIdsOfPurchaseLists(List<int> value) => idsOfPurchaseLists = value;
+        public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
         public int Points => points;
@@ -156,6 +164,9 @@ namespace Digital_shopping_list_group_5
                             consumer.SetAccountLvl(0);
                             consumer.SetPoints(0);                            
                             consumer.InitiateIdsOfPurchaseLists();
+
+                            Console.Clear();
+                            Console.WriteLine($"{consumer.Email} was successfully registered in our app. Please login");
 
 
                             db.AllConsumers.Add(consumer);

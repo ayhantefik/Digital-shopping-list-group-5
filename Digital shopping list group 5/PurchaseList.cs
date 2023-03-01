@@ -48,6 +48,7 @@ namespace Digital_shopping_list_group_5
             var newItemList = new List<Item>();
 
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("NEW PURCHASE LIST:");
             Console.WriteLine();
 
@@ -111,7 +112,7 @@ namespace Digital_shopping_list_group_5
             while (quit == false)
             {
                 Console.WriteLine();
-                Console.WriteLine($"[1] Edit items of \"{newPurchaseList.Name}\".");
+                Console.WriteLine($"[1] Edit items of \"{newPurchaseList.Name}\"."); // TBD
                 Console.WriteLine($"[2] Finalize list \"{newPurchaseList.Name}\" and save");
                 Console.WriteLine($"[3] Discard list (\"{newPurchaseList.Name}\") and quit."); // The same as <[3] Delete a purchase list> in the previous menu
                 input = Console.ReadLine();
@@ -120,7 +121,6 @@ namespace Digital_shopping_list_group_5
                 {
                     case "1":
                         newPurchaseList.EditPurchaseList(db);
-
                         break;
                     case "2":
                         consumer.ListOfPurchases.Add(newPurchaseList); // Adds the newly created purchase list to Consumer.
@@ -154,16 +154,12 @@ namespace Digital_shopping_list_group_5
                                 db.SetCurrentConsumer(cons);
                             }
                         }                      
-
-                        //quit = true;
                         return db;
                     case "3":
                         Console.WriteLine($"New list \"{newPurchaseList._name}\" discarded.");
                         return db;
-                        //break;
                     default: 
                         Console.WriteLine($"Unknown input: {input}"); return db;
-                        //break;
                 }
             }
             return db;
@@ -172,6 +168,7 @@ namespace Digital_shopping_list_group_5
         public Database RemovePurchaseList(Database db, Consumer consumer) // the old DeletePurchaseList() method from <Database> class.
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Choose an ID that you want to delete:");
             Console.WriteLine();
 
@@ -202,6 +199,7 @@ namespace Digital_shopping_list_group_5
                     if (i == userInput)
                     {
                         index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                        Console.WriteLine($"Purchase List with ID [{i}] successfully deleted from {consumer.Email}");
                     }
                 }
                 if (index != -1)
@@ -302,20 +300,32 @@ namespace Digital_shopping_list_group_5
                             if (!String.IsNullOrEmpty(receiverEmail))
                             {
                                 bool emailFound = false;
+                                bool receiverAlreadyHaveThatPurchaseList = false;
+                                Consumer receiverOfNewPurchaseList;
                                 foreach (Consumer c in db.AllConsumers)
                                 {
-                                    if (receiverEmail.Trim() == c.Email)
+                                    if (receiverEmail.Trim() == c.Email) // finding that account in DB
                                     {
                                         emailFound = true;
-                                        emailFound = true;
-                                        c.IdsOfPurchaseLists.Add(Int32.Parse(inputID));
-                                        db.EditObjectInDatabase(c); // editing one line in <accounts.csv>                                       
+
+                                        foreach (int i in c.IdsOfPurchaseLists)
+                                        {
+                                            if (i == Int32.Parse(inputID)) // if the ID found...
+                                            {
+                                                receiverAlreadyHaveThatPurchaseList = true; 
+                                                Console.WriteLine($"{receiverEmail} already have that purchase list ID [{i}]");                                                
+                                                break;
+                                            }
+                                        }
                                     }
+                                    if (!receiverAlreadyHaveThatPurchaseList) db.EditObjectInDatabase(c); // editing one line in <accounts.csv> 
                                 }
+                                
+
                                 if (!emailFound) Console.WriteLine($"{receiverEmail} not registered in our system");
-                                if (emailFound)
-                                {
-                                    Console.Clear();
+                                if ((emailFound) && (!receiverAlreadyHaveThatPurchaseList))
+                                {                                    
+                                    Console.ForegroundColor = ConsoleColor.Yellow;
                                     Console.WriteLine($"ID [{Int32.Parse(inputID)}] successfully shared with {receiverEmail}");
                                     Console.WriteLine();
                                 }
@@ -361,10 +371,14 @@ namespace Digital_shopping_list_group_5
         }
         public Database MergeLists(Database db, Consumer consumer)
         {
+            Console.WriteLine("q to go back;");
             Console.Write("IDs of two lists to be merged (write using comma: ex 100,102): ");
+            
             string input = Console.ReadLine();
 
-            if (CheckInput(consumer, input, 1)) // 1 for Merge Lists 
+            if ((CheckInput(consumer, input, 1)) && (input.Trim() == "q")) { return db; }
+
+            else if (CheckInput(consumer, input, 1)) // 1 for Merge Lists 
             {
                 Console.Write("Select a new name for the merged purchase list: ");
                 string newName = Console.ReadLine();
@@ -437,7 +451,7 @@ namespace Digital_shopping_list_group_5
                     db.AllPurchaseLists.Add(mergedPurchaseList); // add the new merged purchase list to <Database> class
                     db.UpdateFileInDataBase(1); // update the whole file  <listOfPurchases.csv>
 
-
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
                     Console.WriteLine();
 
@@ -554,6 +568,7 @@ namespace Digital_shopping_list_group_5
 
             if (actionNumber == 1)
             {
+                if (input.Trim() == "q") { return true; }
                 try
                 {
                     foreach (int i in consumer.IdsOfPurchaseLists)

@@ -96,6 +96,15 @@ namespace Digital_shopping_list_group_5
                     }
                     Consumer acc = new Consumer(splittedObject[0], splittedObject[1], splittedObject[2],
                         Int32.Parse(splittedObject[3]), Int32.Parse(splittedObject[4]), IDsOfPurchases);
+
+                    /*foreach (PurchaseList pl in _allPurchaseLists)
+                    {
+                        foreach (int i in IDsOfPurchases)
+                        {
+                            if (i == pl.Id) acc.ListOfPurchases.Add(pl);
+                        }
+                    }*/
+                    
                     _allConsumers.Add(acc);                    
                 }
             }
