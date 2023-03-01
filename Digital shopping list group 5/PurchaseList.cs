@@ -302,12 +302,12 @@ namespace Digital_shopping_list_group_5
                                 bool emailFound = false;
                                 bool receiverAlreadyHaveThatPurchaseList = false;
                                 Consumer receiverOfNewPurchaseList;
+
                                 foreach (Consumer c in db.AllConsumers)
                                 {
                                     if (receiverEmail.Trim() == c.Email) // finding that account in DB
                                     {
                                         emailFound = true;
-
                                         foreach (int i in c.IdsOfPurchaseLists)
                                         {
                                             if (i == Int32.Parse(inputID)) // if the ID found...
@@ -317,8 +317,14 @@ namespace Digital_shopping_list_group_5
                                                 break;
                                             }
                                         }
+                                        if (!receiverAlreadyHaveThatPurchaseList)
+                                        {
+                                            c.IdsOfPurchaseLists.Add(Int32.Parse(inputID));
+                                            db.EditObjectInDatabase(c); // editing one line in <accounts.csv> 
+                                        }
+                                        
                                     }
-                                    if (!receiverAlreadyHaveThatPurchaseList) db.EditObjectInDatabase(c); // editing one line in <accounts.csv> 
+                                    
                                 }
                                 
 
