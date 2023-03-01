@@ -112,9 +112,9 @@ namespace Digital_shopping_list_group_5
                     success = CheckInput(db, 5, str);
                     if (success)
                     {
-                        if (db.GetConsumer != null)
+                        if (db.GetCurrentConsumer != null)
                         {                            
-                            return db.GetConsumer;
+                            return db.GetCurrentConsumer;
                         } 
 
                     }else Console.WriteLine("Password and email don´t match");
@@ -158,7 +158,7 @@ namespace Digital_shopping_list_group_5
                             consumer.InitiateIdsOfPurchaseLists();
 
 
-                            db.ListOfConsumers.Add(consumer);
+                            db.AllConsumers.Add(consumer);
                             db.AddObjectToDatabase(consumer);
                             return consumer;
                         }
@@ -185,7 +185,7 @@ namespace Digital_shopping_list_group_5
                 //List<Object> listOfAccounts = db.LoadFromDb();
 
                 bool alreadyExisted = false;
-                foreach (Consumer account in db.ListOfConsumers)
+                foreach (Consumer account in db.AllConsumers)
                 {
                     if (account.Email == input.Trim())
                     {
@@ -200,7 +200,7 @@ namespace Digital_shopping_list_group_5
             //positions 4-5 are for login
             else if (positionInTheProcess == 4)
             {
-                foreach (Consumer c in db.ListOfConsumers)
+                foreach (Consumer c in db.AllConsumers)
                 {
                     if (input == c.Email)
                     {                        
@@ -211,7 +211,7 @@ namespace Digital_shopping_list_group_5
             else if (positionInTheProcess == 5)
             {
                 string[] str = input.Split(';'); //input contains both email and password
-                foreach (Consumer c in db.ListOfConsumers)
+                foreach (Consumer c in db.AllConsumers)
                 {
                     if ((str[0] == c.Email) && (str[1]== c.Password))
                     {
@@ -220,7 +220,7 @@ namespace Digital_shopping_list_group_5
 
                         foreach (int i in cons.idsOfPurchaseLists) 
                         {
-                            foreach (PurchaseList pl in db.ListOfPurchases)
+                            foreach (PurchaseList pl in db.AllPurchaseLists)
                             {
                                 if (i == pl.Id) plList.Add(pl);
                             }
@@ -230,7 +230,7 @@ namespace Digital_shopping_list_group_5
 
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Welcome {db.GetConsumer.Name}");
+                        Console.WriteLine($"Welcome {db.GetCurrentConsumer.Name}");
                         return true;
                     }
                 }

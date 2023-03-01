@@ -26,9 +26,9 @@ namespace Digital_shopping_list_group_5
             do
             {
                 consumer = consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
-                if (db.GetConsumer != null) RunMenu(db, consumer);
+                if (db.GetCurrentConsumer != null) RunMenu(db, consumer);
 
-            } while (db.GetConsumer == null);
+            } while (db.GetCurrentConsumer == null);
 
         }
         static void RunMenu(Database db, Consumer consumer)
@@ -45,12 +45,12 @@ namespace Digital_shopping_list_group_5
                 switch (userInput)
                 {
                     case 0:
-                        db.SetConsumer(null); Console.Clear(); break;
+                        db.SetCurrentConsumer(null); Console.Clear(); break;
                     case 1:
 
                         // displaying the Consumer´s existing purchase lists.
                         // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
-                        db.Display(db.GetConsumer.ListOfPurchases, true);
+                        db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
 
                         Console.WriteLine();
                         Console.WriteLine("[1] Create a new purchase list"); // it works
@@ -67,9 +67,10 @@ namespace Digital_shopping_list_group_5
                         {
                             case 0: RunMenu(db, consumer);
                                 break;
-                            case 1:                                
-                                db = pl.NewPurchaseList(db, consumer); //return db with an updated Consumer in it 
-                                RunMenu(db, db.GetConsumer);
+                            case 1:
+                                //return db with an update Consumer in it 
+                                db = pl.NewPurchaseList(db, consumer);
+                                RunMenu(db, db.GetCurrentConsumer);
                                 break;
                             case 2: // Edit list option
 
@@ -79,12 +80,13 @@ namespace Digital_shopping_list_group_5
 
                             case 3:                                
                                 db = pl.RemovePurchaseList(db, consumer);
-                                RunMenu(db, db.GetConsumer);
+                                RunMenu(db, db.GetCurrentConsumer);
                                 break;
 
                             case 4:
                                 db = pl.MergeLists(db, consumer);
-                                RunMenu(db, db.GetConsumer);                                
+                                RunMenu(db, db.GetCurrentConsumer);
+                                //RunMenu(db, db.GetConsumer);                                
                                 break;
                             case 5: 
                                 

@@ -94,7 +94,7 @@ namespace Digital_shopping_list_group_5
             // Assigns unique ID
             // TBD: Create method?
             int lastExistingID = 0;
-            foreach (PurchaseList pl in db.ListOfPurchases)
+            foreach (PurchaseList pl in db.AllPurchaseLists)
             {
                 if (pl._id > lastExistingID) lastExistingID = pl.Id;
             }
@@ -127,15 +127,15 @@ namespace Digital_shopping_list_group_5
                         consumer.IdsOfPurchaseLists.Add(newPurchaseList.Id); // Adds the newly created purchase list´s ID to Consumer.
                         db.AddObjectToDatabase(newPurchaseList); // Adds the newly created purchase list to "listOfPurchases.csv" file.
                         db.EditObjectInDatabase(consumer);// Updates Consumer in the "accounts.csv" file.
-                        Console.WriteLine($"New purchase list \"{newPurchaseList.Name}\" [ID: {newPurchaseList.Id}] successfully added to {db.GetConsumer.Email}");
+                        Console.WriteLine($"New purchase list \"{newPurchaseList.Name}\" [ID: {newPurchaseList.Id}] successfully added to {db.GetCurrentConsumer.Email}");
 
-
-                        //This code repeats, rewrite.
-                        db.SetListOfConsumers(new List<Consumer>());
+                        //this code repeats, rewrite
+                        db.SetAllConsumers(new List<Consumer>());
                         db.SetListOfPurchases(new List<PurchaseList>());
                         db.LoadAllFromDatabase();
 
-                        foreach (Consumer c in db.ListOfConsumers) //update <Consumer> class => see the changes without reopening the Console
+                        
+                        foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
                         {
                             if (consumer.Email == c.Email)
                             {
@@ -145,13 +145,13 @@ namespace Digital_shopping_list_group_5
 
                                 foreach (int i in cons.IdsOfPurchaseLists)
                                 {
-                                    foreach (PurchaseList pl in db.ListOfPurchases)
+                                    foreach (PurchaseList pl in db.AllPurchaseLists)
                                     {
                                         if (i == pl.Id) plList.Add(pl);
                                     }
                                 }
                                 cons.ListOfPurchases = plList;
-                                db.SetConsumer(cons);
+                                db.SetCurrentConsumer(cons);
                             }
                         }                      
 
@@ -178,7 +178,7 @@ namespace Digital_shopping_list_group_5
             db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
 
             Console.WriteLine();
-
+            int userInput = Int32.Parse(Console.ReadLine()); //CHECK INPUT !!
             bool success = int.TryParse(Console.ReadLine(), out int userInput);
             if (success)
             {
@@ -187,12 +187,12 @@ namespace Digital_shopping_list_group_5
                 {
                     if (userInput == pl.Id)
                     {
-                        index = db.ListOfPurchases.IndexOf(pl);
+                        index = db.AllPurchaseLists.IndexOf(pl);
                     }
                 }
                 if (index != -1)
                 {
-                    db.ListOfPurchases.RemoveAt(index); // remove the purchase list from <Database> class
+                    db.AllPurchaseLists.RemoveAt(index); // remove the purchase list from <Database> class
                 }
                 else Console.WriteLine($"ID [{userInput}] not registered to {consumer.Email}");
 
@@ -213,7 +213,7 @@ namespace Digital_shopping_list_group_5
                 db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
                 db.UpdateFileInDataBase(1); // update the whole <listOfPurchases.csv>
 
-                foreach (Consumer c in db.ListOfConsumers) //update <Consumer> class => to see the changes without reopening the Console
+            foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
                 {
                     if (consumer.Email == c.Email)
                     {
@@ -221,19 +221,18 @@ namespace Digital_shopping_list_group_5
 
                         List<PurchaseList> plList = new List<PurchaseList>();
 
-                        foreach (int i in cons.IdsOfPurchaseLists)
+                    foreach (int i in cons.IdsOfPurchaseLists)
+                    {
+                        foreach (PurchaseList pl in db.AllPurchaseLists)
                         {
-                            foreach (PurchaseList pl in db.ListOfPurchases)
-                            {
-                                if (i == pl.Id) plList.Add(pl);
-                            }
+                            if (i == pl.Id) plList.Add(pl);
                         }
-                        cons.ListOfPurchases = plList;
-                        db.SetConsumer(cons);
                     }
+                    cons.ListOfPurchases = plList;
+                    db.SetConsumer(cons);
                 }
-            }
-            else Console.WriteLine("wrong input");     
+            }else Console.WriteLine("wrong input");
+
             return db;
         }
 
@@ -253,9 +252,8 @@ namespace Digital_shopping_list_group_5
             {
                 Console.WriteLine();
                 Console.WriteLine("[1] Add new item.");
-                Console.WriteLine("[2] Edit existing item.");
-                Console.WriteLine("[3] Remove existing item.");
-                Console.WriteLine("[4] Quit and return.");
+                Console.WriteLine("[2] Remove existing item.");
+                Console.WriteLine("[3] Quit and return.");
                 string input = Console.ReadLine();
 
                 switch (input)
@@ -263,13 +261,10 @@ namespace Digital_shopping_list_group_5
                     case "1":
                         AddItemToPurchaseList(db);
                         break;
-                    case "2": // NYI: Call method EditItemInList(), change amount & change bought status.
-                        Console.WriteLine("Not yet implemented!");
+                    case "2":
+                        DeleteItemFromPurchaseList(db);
                         break;
-                    case "3": // NYI: Call method RemoveItemFromList()
-                        Console.WriteLine("Not yet implemented!");
-                        break;
-                    case "4":
+                    case "3":
                         return;
                     default:
                         Console.WriteLine($"Unknown input: {input}");
@@ -281,25 +276,25 @@ namespace Digital_shopping_list_group_5
         public Database ShareList(Database db, Consumer consumer)
         {
             Console.WriteLine();
-            db.Display(db.GetConsumer.ListOfPurchases, true);
+            db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
             Console.WriteLine();
             Console.WriteLine("Choose ID that you want to share:");
             string inputID = Console.ReadLine();
             bool success = CheckInput(consumer, inputID, 2);
             if (success)
             {
-                Console.WriteLine();
-                Console.WriteLine("Send to:");
-                Console.WriteLine();
-                Console.WriteLine("[1] Registered member");
-                Console.WriteLine("[2] Non registered member");
-                string str = Console.ReadLine();
-
-                if (int.TryParse(str, out int result))
+                if (l.Id == userInput)
                 {
-                    switch (result)
-                    {
-                        case 1:
+                    Console.WriteLine(l);
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine("Send to:");
+            Console.WriteLine();
+            Console.WriteLine("[1] Existing member");
+            Console.WriteLine("[2] Non existing member");
+            int index = 1;
+            int chooseex = Int32.Parse(Console.ReadLine());
                             Console.WriteLine();
                             Console.WriteLine("Receiver´s email address: ");
 
@@ -389,8 +384,8 @@ namespace Digital_shopping_list_group_5
                             {
                                 mergedPurchaseList._listOfItems.Add(item);
                             }
-                            int indx = db.ListOfPurchases.IndexOf(pl);
-                            db.ListOfPurchases.RemoveAt(indx);
+                            int indx = db.AllPurchaseLists.IndexOf(pl); 
+                            db.AllPurchaseLists.RemoveAt(indx); 
                         }
                         else if (pl._id == Int32.Parse(str[1]))  //remove that second old Purchase List from <Database> class
                         {
@@ -398,11 +393,10 @@ namespace Digital_shopping_list_group_5
                             {
                                 mergedPurchaseList._listOfItems.Add(item);
                             }
-                            int indx = db.ListOfPurchases.IndexOf(pl);
-                            db.ListOfPurchases.RemoveAt(indx);
+                            int indx = db.AllPurchaseLists.IndexOf(pl);
+                            db.AllPurchaseLists.RemoveAt(indx);
                         }
                     }
-
 
 
                     int index = -1;
@@ -428,7 +422,7 @@ namespace Digital_shopping_list_group_5
 
 
                     int lastExistingID = 0;
-                    foreach (PurchaseList pl in db.ListOfPurchases)
+                    foreach (PurchaseList pl in db.AllPurchaseLists)
                     {
                         if (pl._id > lastExistingID) lastExistingID = pl.Id;
                     }
@@ -439,40 +433,41 @@ namespace Digital_shopping_list_group_5
                     db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
 
 
-                    db.ListOfPurchases.Add(mergedPurchaseList); // add the new merged purchase list to <Database> class
+                    db.AllPurchaseLists.Add(mergedPurchaseList); // add the new merged purchase list to <Database> class
                     db.UpdateFileInDataBase(1); // update the whole file  <listOfPurchases.csv>
 
 
                     Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
                     Console.WriteLine();
 
-
-                    //This code repeats, rewrite.
-
-                    // UPDATE APPLICATION METHOD 
                     db.SetListOfConsumers(new List<Consumer>());
                     db.SetListOfPurchases(new List<PurchaseList>());
                     db.LoadAllFromDatabase();
 
 
-
-                    foreach (Consumer c in db.ListOfConsumers) //update <Consumer> class => see the changes without reopening the Console
+                   
+                    //This code repeats, rewrite.
+                    foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
                     {
+                        if (consumer.Email == c.Email)
+                        {
+                            Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
                         if (consumer.Email == c.Email)
                         {
                             Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
 
                             List<PurchaseList> plList = new List<PurchaseList>();
+                            List<PurchaseList> plList = new List<PurchaseList>();
 
                             foreach (int i in cons.IdsOfPurchaseLists)
                             {
-                                foreach (PurchaseList pl in db.ListOfPurchases)
+                                foreach (PurchaseList pl in db.AllPurchaseLists)
                                 {
                                     if (i == pl.Id) plList.Add(pl);
                                 }
                             }
                             cons.ListOfPurchases = plList;
-                            db.SetConsumer(cons);
+                            db.SetCurrentConsumer(cons);
                         }
                     }
                 }
@@ -481,11 +476,10 @@ namespace Digital_shopping_list_group_5
             return db;
         }
 
-
-
+        // TBD: SetQuantity not updating? 
         private void AddItemToPurchaseList(Database db)
         {
-            db.Display(db.ListOfItems);
+            db.Display(db.AllItems);
 
             Console.Write("Enter id of item to add to list: ");
             bool idParse = int.TryParse(Console.ReadLine(), out int id);
@@ -496,8 +490,7 @@ namespace Digital_shopping_list_group_5
                 return;
             }
 
-            // Creates new Item instance and copies content attributes from existing Item to new Item.
-            foreach (var item in db.ListOfItems)
+            foreach (var item in db.AllItems)
             {
                 if (item.Id == id)
                 {
@@ -514,31 +507,55 @@ namespace Digital_shopping_list_group_5
                     newItem.SetID(item.Id); // UNIQUE ID FOR UNIQUE INSTANCE??
                     newItem.SetName(item.Name);
                     newItem.SetPrice(item.Price);
-                    newItem.SetQuantity(amount); // TBD: SET QUANITITY NOT CHANGING??
+                    newItem.SetQuantity(amount);
                     newItem.SetIsBought(false);
-                    _listOfItems.Add(item);
+                    _listOfItems.Add(newItem);
 
                     Console.WriteLine($"Item \"{item.Name}\" added to list \"{Name}\"");
                     return;
                 }
             }
-
             Console.WriteLine("Item not found, try again!");
         }
-        //private void EditItemInList()
-        //private void RemoveItemFromList()
 
+        private void DeleteItemFromPurchaseList(Database db)
+        {
+            db.Display(this);
+            Console.Write("Enter ID of item to remove: ");
+            bool idParse = int.TryParse(Console.ReadLine(), out int id);
 
+            if (!idParse)
+            {
+                Console.WriteLine("Wrong format, delete item cancelled!");
+                return;
+            }
 
-        
+            foreach (var item in ListOfItems)
+            {
+                if (item.Id == id)
+                {
+                    Console.WriteLine($"Item \"{item.Name}\" removed from list \"{Name}\"");
+                    ListOfItems.Remove(item);
+                    return;
+                }
+            }
+            Console.WriteLine("Item not found, try again!");
 
-        
+        }
+        static bool CheckInput(Consumer consumer,string input)
+        {
+            bool success1 = false;
+            bool success2 = false;
+            string[] IDsToBeMerged = input.Split(',');
 
-        // TBD: SetQuantity not updating? 
+            if (input.Trim().Length == 0) return false;
 
-
-        
-        static bool CheckInput(Consumer consumer,string input,int actionNumber) 
+            if (actionNumber == 1)
+            {
+                try
+                {
+                    foreach (int i in consumer.IdsOfPurchaseLists)
+                    {
             // <1> to merge; <2> to share list within application, <3> to delete PurchaseList
         {
             bool success1 = false;
