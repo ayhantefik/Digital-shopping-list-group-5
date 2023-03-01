@@ -39,8 +39,8 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("[2] Receipts"); // TBD
             Console.WriteLine("[3] Make a purchase"); // TBD, pay for the existing purchase list
             Console.WriteLine("[0] Log out"); // it works
-           // try
-            //{
+           try
+            {
                 int userInput = Int32.Parse(Console.ReadLine());
                 switch (userInput)
                 {
@@ -118,11 +118,11 @@ namespace Digital_shopping_list_group_5
                         RunMenu(db, consumer);
                         break;
                 }
-            /*}catch
+            }catch
             {
                 Console.WriteLine("\nInvalid option.\n");
                 RunMenu(db, consumer);
-            }*/
+            }
             
         }
     }
