@@ -81,23 +81,6 @@ namespace Digital_shopping_list_group_5
         }
         //=====================================================
 
-
-
-
-
-
-
-        //======================================================
-        //Following 3 functions TBD
-        public void Remove()
-        {
-            throw new NotImplementedException();
-        }
-        //======================================================
-
-
-
-
         
     }        
 

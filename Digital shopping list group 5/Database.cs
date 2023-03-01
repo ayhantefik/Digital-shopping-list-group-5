@@ -114,7 +114,7 @@ namespace Digital_shopping_list_group_5
                     }
                 }
             }
-            path = "Path/listOfReceipts.csv";
+            /*path = "Path/listOfReceipts.csv";
             using (str = new StreamReader(path))
             {
                 string line;
@@ -139,7 +139,7 @@ namespace Digital_shopping_list_group_5
                     //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
 
                 }
-            }
+            }*/
 
             /*path = "Path/listOfReceipts.csv"; // TBD
             using (str = new StreamReader(path))

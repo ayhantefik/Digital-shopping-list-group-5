@@ -84,8 +84,7 @@ namespace Digital_shopping_list_group_5
                     case 1:
                         return LoginAccount(db);                        
                     case 2:
-                        consumer = RegisterAccount(db);
-                        Console.WriteLine(consumer.Points);
+                        consumer = RegisterAccount(db);                        
                         return consumer;
                     default: 
                         break;
@@ -94,7 +93,7 @@ namespace Digital_shopping_list_group_5
             catch
             {
                 Console.WriteLine("Invalid option");
-             RunSecuritySystem(db);
+                RunSecuritySystem(db);
             }
             return consumer;
         }
@@ -170,7 +169,7 @@ namespace Digital_shopping_list_group_5
                 //else Console.WriteLine("Email can not be empty");                
             }while (!success);
 
-           return consumer;
+        return consumer;
         }        
         static bool CheckInput(Database db,int positionInTheProcess, string input)
         {
@@ -228,7 +227,8 @@ namespace Digital_shopping_list_group_5
                         }
                         cons.ListOfPurchases = plList;
                         db.SetConsumer(cons);
-                       
+
+                        Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Welcome {db.GetConsumer.Name}");
                         return true;

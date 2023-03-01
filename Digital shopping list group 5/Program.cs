@@ -18,9 +18,7 @@ namespace Digital_shopping_list_group_5
         //Description TBD
 
         static void Main(string[] args)
-        {
-            //The security system was embedded to RunMenu().
-
+        {          
             Database db = new Database();
             db.LoadAllFromDatabase();
 
@@ -47,7 +45,7 @@ namespace Digital_shopping_list_group_5
                 switch (userInput)
                 {
                     case 0:
-                        db.SetConsumer(null); break;
+                        db.SetConsumer(null); Console.Clear(); break;
                     case 1:
 
                         // displaying the Consumer´s existing purchase lists.
@@ -60,7 +58,7 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine("[3] Delete a purchase list"); // it works
 
                         Console.WriteLine("[4] Merge lists"); // it works
-                        Console.WriteLine("[5] Share list"); // TBD                       
+                        Console.WriteLine("[5] Share list"); // it works                     
                         Console.WriteLine();
                         Console.WriteLine("[0] Back");
                         userInput = Int32.Parse(Console.ReadLine());
@@ -69,9 +67,8 @@ namespace Digital_shopping_list_group_5
                         {
                             case 0: RunMenu(db, consumer);
                                 break;
-                            case 1:
-                                //return db with an update Consumer in it 
-                                db = pl.NewPurchaseList(db, consumer);
+                            case 1:                                
+                                db = pl.NewPurchaseList(db, consumer); //return db with an updated Consumer in it 
                                 RunMenu(db, db.GetConsumer);
                                 break;
                             case 2: // Edit list option
@@ -87,12 +84,12 @@ namespace Digital_shopping_list_group_5
 
                             case 4:
                                 db = pl.MergeLists(db, consumer);
-                                RunMenu(db, db.GetConsumer);
-                                
+                                RunMenu(db, db.GetConsumer);                                
                                 break;
-                            case 5: // Share list option
-                                PurchaseList list1 = new PurchaseList();
-                                list1.ShareList(db, consumer);
+                            case 5: 
+                                
+                                db = pl.ShareList(db, consumer);
+                                RunMenu(db, db.GetConsumer);
                                 break;
                             default:
                                 Console.Write($"\nInvalid option: ");
