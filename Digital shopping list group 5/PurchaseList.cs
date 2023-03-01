@@ -21,9 +21,6 @@ namespace Digital_shopping_list_group_5
         public List<Item> ListOfItems => _listOfItems;
         public void SetListOfItems(List<Item> value) => _listOfItems = value;
 
-        string name { get; set; }
-        List<Item> listOfItems = new List<Item>();
-
         // Constructors
         public PurchaseList() { }
         public PurchaseList(int id, string name, List<Item> listOfItems)
@@ -69,15 +66,25 @@ namespace Digital_shopping_list_group_5
                         Console.WriteLine("Purchase list created from new list.");
                         quit = true;
                         break;
-                    case "2": // TBD
+                    case "2": 
+                        // Creates new instances of Item and copies Items attributes from templatePurchaseList
                         var templatePurchaseList = SelectPurchaseList(db, consumer);
-                        newItemList = templatePurchaseList.ListOfItems;
+
+                        foreach (Item item in templatePurchaseList.ListOfItems)
+                        {
+                            var newItem = new Item();
+                            newItem.SetID(item.Id);
+                            newItem.SetName(item.Name);
+                            newItem.SetPrice(item.Price);
+                            newItemList.Add(newItem);
+                        }
+
                         Console.WriteLine($"Purchase list created from existing list \"{templatePurchaseList.Name}\".");
 
                         quit = true;
                         break;
                     case "3":
-                        //return;
+                        return db;
                     default:
                         Console.WriteLine($"Unknown input: {input}");
                         break;
@@ -226,8 +233,6 @@ namespace Digital_shopping_list_group_5
             return db;
         }
 
-
-
         // EditPurchaseList(): Views and edits items in PurchaseList.
         public void EditPurchaseList(Database db)
         {
@@ -250,8 +255,8 @@ namespace Digital_shopping_list_group_5
 
                 switch (input)
                 {
-                    case "1": // NYI: Call method NewItemToList()
-                        Console.WriteLine("Not yet implemented!");
+                    case "1":
+                        AddItemToPurchaseList(db);
                         break;
                     case "2": // NYI: Call method EditItemInList(), change amount & change bought status.
                         Console.WriteLine("Not yet implemented!");
@@ -351,9 +356,6 @@ namespace Digital_shopping_list_group_5
                     break;
             } 
         }
-
-
-
 
         public Database MergeLists(Database db, Consumer consumer)
         {
@@ -472,6 +474,49 @@ namespace Digital_shopping_list_group_5
             }
             else MergeLists(db, consumer);
             return db;
+        }
+
+        private void AddItemToPurchaseList(Database db)
+        {
+            db.Display(db.ListOfItems);
+
+            Console.Write("Enter id of item to add to list: ");
+            bool idParse = int.TryParse(Console.ReadLine(), out int id);
+
+            if (!idParse)
+            {
+                Console.WriteLine("Wrong format, add item cancelled!");
+                return;
+            }
+
+            // Creates new Item instance and copies content attributes from existing Item to new Item.
+            foreach (var item in db.ListOfItems)
+            {
+                if (item.Id == id)
+                {
+                    var newItem = new Item();
+                    Console.Write($"Enter amount of \"{item.Name}\" to add to list \"{Name}\": ");
+                    bool amountParse = int.TryParse(Console.ReadLine(), out int amount);
+
+                    if (!amountParse)
+                    {
+                        Console.WriteLine("Wrong format, add item cancelled!");
+                        return;
+                    }
+
+                    newItem.SetID(item.Id); // UNIQUE ID FOR UNIQUE INSTANCE??
+                    newItem.SetName(item.Name);
+                    newItem.SetPrice(item.Price);
+                    newItem.SetQuantity(amount); // TBD: SET QUANITITY NOT CHANGING??
+                    newItem.SetIsBought(false);
+                    _listOfItems.Add(item);
+
+                    Console.WriteLine($"Item \"{item.Name}\" added to list \"{Name}\"");
+                    return;
+                }
+            }
+
+            Console.WriteLine("Item not found, try again!");
         }
         static bool CheckInput(Consumer consumer,string input)
         {

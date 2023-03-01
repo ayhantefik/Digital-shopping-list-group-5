@@ -18,7 +18,7 @@ namespace Digital_shopping_list_group_5
         public List<string> itemlist = new List<string>(); // Can we try to replace?
         public List<string> purchaselists = new List<string>(); // Can we try to replace?
 
-
+        List<Item> listOfItems = new List<Item>(); // List of all available items. TBD: Load/Add items to list!
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
         List<Consumer> listOfConsumers = new List<Consumer>();
         Consumer consumer = null;
@@ -26,7 +26,7 @@ namespace Digital_shopping_list_group_5
 
         List<Purchase> listOfReceipts = new List<Purchase>(); // TBD
 
-
+        public List<Item> ListOfItems => listOfItems; public void SetListOfItems(List<Item> value) => listOfItems = value;
         public List<Consumer> ListOfConsumers => listOfConsumers; public void SetListOfConsumers(List<Consumer> value) => listOfConsumers = value;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void AddToListOfPurchases(PurchaseList value) => listOfPurchases.Add(value);
         public List<Purchase> ListOfReceipts => listOfReceipts; public void AddToListOfReceipts(Purchase value) => listOfReceipts.Add(value);
@@ -117,6 +117,24 @@ namespace Digital_shopping_list_group_5
                     listOfConsumers.Add(acc);
                 }
             }
+            path = "Path/items.csv";
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    var newItem = new Item();
+                    string[] splittedObject = line.Split(';');
+                    if (splittedObject.Length > 2)
+                    {
+                        newItem.SetID(int.Parse(splittedObject[0]));
+                        newItem.SetName(splittedObject[1]);
+                        newItem.SetPrice(double.Parse(splittedObject[2]));
+                        ListOfItems.Add(newItem);
+                    }
+                }
+            }
+
             //path = "Path/listOfReceipts.csv";
             //using (str = new StreamReader(path))
             //{
@@ -293,11 +311,11 @@ namespace Digital_shopping_list_group_5
             {
                 PurchaseList pL = (PurchaseList)obj;
 
-                Console.WriteLine("ID: |BOUGHT: |AMOUNT: |ITEM:");
+                Console.WriteLine("ID: |BOUGHT: |AMOUNT: |ITEM:         |PRICE: ");
 
                 foreach (Item item in pL.ListOfItems)
                 {
-                    Console.WriteLine($"{item.Id,-4}|{item.IsBought,-8}|{item.Quantity,-8}|{item.Name}");
+                    Console.WriteLine($"{item.Id,-4}|{item.IsBought,-8}|{item.Quantity,-8}|{item.Name, -14}|{item.Price}");
                 }
             }
 
@@ -307,6 +325,15 @@ namespace Digital_shopping_list_group_5
                 foreach (Consumer c in ListOfConsumers)
                 {
                     Console.WriteLine($"{c.Email}, {c.Name}");
+                }
+            }
+
+            else if (obj.GetType() == typeof(List<Item>))
+            {
+                Console.WriteLine("ID: |NAME:         |PRICE:");
+                foreach (Item i in ListOfItems)
+                {
+                    Console.WriteLine($"{i.Id, -4}{i.Name, -14}{i.Price}");
                 }
             }
 
