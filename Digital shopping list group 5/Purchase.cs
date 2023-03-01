@@ -183,13 +183,14 @@ namespace Digital_shopping_list_group_5
                 }
                 lastExistingID += 1;
                 DateTime newpurchasedate = DateTime.Now;
-                using (StreamWriter sw = new StreamWriter("Path/listOfReceipts.csv"))
+                using (var sw = new StreamWriter("Path/listOfReceipts.csv", true))
                 {
                     foreach (PurchaseList l in consumer.ListOfPurchases)
                     {
                         if (l.Id == userInput)
                         {
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd M yyyy HH:mm:ss")};{l}");
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd/M/yyy")};{l}");
+                            sw.Close();
                         }
                     }
                 }

@@ -104,9 +104,8 @@ namespace Digital_shopping_list_group_5
                         }
                         break;
                     case 2: // Receipts menu option, TBD
-                        Console.WriteLine("Here is a list of all receipts: ");
-                        Console.WriteLine("Code missing..");
-                        RunMenu(db, consumer);
+                        //db.Display(db.ListOfReceipts, true);
+                        db.ShowReceipts();
                         break;
                     case 3:
                         Purchase newpurchase = new Purchase();
