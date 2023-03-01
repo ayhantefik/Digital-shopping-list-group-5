@@ -19,7 +19,6 @@ namespace Digital_shopping_list_group_5
         public List<string> itemlist = new List<string>(); // Can we try to replace?
         public List<string> purchaselists = new List<string>(); // Can we try to replace?
 
-        List<PurchaseList> listOfPurchasestest = new List<PurchaseList>();
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
         List<Consumer> listOfConsumers = new List<Consumer>();
         Consumer consumer = null;
@@ -32,7 +31,6 @@ namespace Digital_shopping_list_group_5
         public List<Consumer> ListOfConsumers => listOfConsumers;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void AddToListOfPurchases(PurchaseList value) => listOfPurchases.Add(value);
         public List<Purchase> ListOfReceipts => listOfReceipts; public void AddToListOfReceipts(Purchase value) => listOfReceipts.Add(value);
-        public List<PurchaseList> ListOfPurchasestest => listOfPurchasestest; public void AddToListOfPurchasestest(PurchaseList value) => listOfPurchasestest.Add(value);
         //===============================================================================================================================
         //Getters & Setters
         public Consumer GetConsumer => consumer;  public void SetConsumer(Consumer value) => consumer = value;
@@ -138,8 +136,8 @@ namespace Digital_shopping_list_group_5
                         }
                     }
                     PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems1);
-                    listOfPurchasestest.Add(purchaseList);
-                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), listOfPurchasestest);
+                    listOfPurchases.Add(purchaseList);
+                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), listOfPurchases);
                     listOfReceipts.Add(testafiesta);
                     //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
 
