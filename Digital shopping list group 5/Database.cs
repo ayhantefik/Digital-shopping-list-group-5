@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,12 @@ namespace Digital_shopping_list_group_5
         public List<string> itemlist = new List<string>(); // Can we try to replace?
         public List<string> purchaselists = new List<string>(); // Can we try to replace?
 
-
+        List<PurchaseList> listOfPurchasestest = new List<PurchaseList>();
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
         List<Consumer> listOfConsumers = new List<Consumer>();
         Consumer consumer = null;
-        PurchaseList purchaseList = null;
+        //PurchaseList purchaseList = null;
+        //Purchase purchase = null;
 
         List<Purchase> listOfReceipts = new List<Purchase>(); // TBD
 
@@ -30,11 +32,12 @@ namespace Digital_shopping_list_group_5
         public List<Consumer> ListOfConsumers => listOfConsumers;
         public List<PurchaseList> ListOfPurchases => listOfPurchases; public void AddToListOfPurchases(PurchaseList value) => listOfPurchases.Add(value);
         public List<Purchase> ListOfReceipts => listOfReceipts; public void AddToListOfReceipts(Purchase value) => listOfReceipts.Add(value);
-
+        public List<PurchaseList> ListOfPurchasestest => listOfPurchasestest; public void AddToListOfPurchasestest(PurchaseList value) => listOfPurchasestest.Add(value);
         //===============================================================================================================================
         //Getters & Setters
         public Consumer GetConsumer => consumer;  public void SetConsumer(Consumer value) => consumer = value;
-        public PurchaseList GetPurchaseListId => purchaseList;
+        //public PurchaseList GetPurchaseListId => purchaseList;
+        //public Purchase GetPurchase => purchase;
         //===============================================================================================================================
 
 
@@ -116,30 +119,32 @@ namespace Digital_shopping_list_group_5
                     listOfConsumers.Add(acc);
                 }
             }
-            //path = "Path/listOfReceipts.csv";
-            //using (str = new StreamReader(path))
-            //{
-            //    string line;
-            //    while ((line = str.ReadLine()) != null)
-            //    {
-            //        string[] splittedObject = line.Split(';');
-            //        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
-            //        List<Item> listOfItems = new List<Item>();
-            //        if (splittedObject.Length > 2)
-            //        {
-            //            for (int i = 5; i < splittedObject.Length - 1; i += 4)
-            //            {
-            //                Item item = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]), Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], splittedObject[i + 4]);
-            //                listOfItems.Add(item);
-            //            }
-            //            PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems);
-            //            listOfPurchases.Add(purchaseList);
-            //        }
-            //        //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
-            //        Purchase testafiesta = new Purchase(splittedObject[0], splittedObject[1], splittedObject[2], listOfPurchases);
-            //        listOfReceipts.Add(testafiesta);
-            //    }
-            //}
+            path = "Path/listOfReceipts.csv";
+            using (str = new StreamReader(path))
+            {
+                string line;
+                while ((line = str.ReadLine()) != null)
+                {
+                    string[] splittedObject = line.Split(';');
+                    //List<PurchaseList> listOfPurchases1 = new List<PurchaseList>();
+                    List<Item> listOfItems1 = new List<Item>();
+                    if (splittedObject.Length > 5)
+                    {
+                        for (int i = 5; i < splittedObject.Length - 1; i += 5)
+                        {
+                            Item item1 = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]),
+                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i + 4]));
+                            listOfItems1.Add(item1);
+                        }
+                    }
+                    PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems1);
+                    listOfPurchasestest.Add(purchaseList);
+                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), listOfPurchasestest);
+                    listOfReceipts.Add(testafiesta);
+                    //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
+
+                }
+            }
 
 
             /*path = "Path/listOfReceipts.csv"; // TBD
@@ -309,13 +314,30 @@ namespace Digital_shopping_list_group_5
                 }
             }
 
-            else if (obj.GetType() == typeof(Purchase)) { } // TBD
+            //else if (obj.GetType() == typeof(List<Purchase>))
+            //{
+            //    foreach (Purchase p in GetConsumer.ListOfReceipts)
+            //    {
+            //        Console.WriteLine($"{p.DateCheck}");
+            //        foreach (PurchaseList pl1 in GetConsumer.listOfPurchases)
+            //        {
+            //            Console.WriteLine($"{pl1.Name}");
+            //        }
+            //    }
+                
+            //}
 
         }
         //================================================================================================================================
 
 
-
+        public void ShowReceipts()
+        {
+            foreach (Purchase pw in listOfReceipts)
+            {
+                Console.WriteLine($"{pw.DateCheck} {pw.ListOfPurchases}");
+            }
+        }
 
 
 
