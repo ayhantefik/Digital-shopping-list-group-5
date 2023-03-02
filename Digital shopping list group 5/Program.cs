@@ -47,7 +47,9 @@ namespace Digital_shopping_list_group_5
                     switch (userInput)
                     {
                         case 0:
-                            db.SetCurrentConsumer(null); Console.Clear(); break;
+                            //db.SetCurrentConsumer(null); 
+                            //Console.Clear();
+                            db.SetCurrentConsumer(null); consumer.RunSecuritySystem(db); RunMenu(db, db.GetCurrentConsumer);  break;
                         case 1:
 
                             // displaying the Consumer´s existing purchase lists.
@@ -81,6 +83,8 @@ namespace Digital_shopping_list_group_5
                                     //db.EditLists();
                                     //db.ChangePurchaseListName();
                                     break;
+                                    
+                                    RunMenu(db, consumer);
 
                                 case 3:
                                     db = pl.RemovePurchaseList(db, db.GetCurrentConsumer);
