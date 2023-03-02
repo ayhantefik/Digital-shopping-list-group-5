@@ -180,7 +180,7 @@ namespace Digital_shopping_list_group_5
             {
                 // assign the unique ID to the receipt
                 int lastExistingID = 0;
-                foreach (Purchase p in db.ListOfReceipts)
+                foreach (Purchase p in db.AllPurchases)
                 {
                     if (p.Id > lastExistingID) lastExistingID = p.Id;
                 }

@@ -19,11 +19,18 @@ namespace Digital_shopping_list_group_5
         bool loggedIn = false;
 
         List<PurchaseList> listOfPurchases;
-        List<PurchaseList> listOfPurchase;
+
+        //List<PurchaseList> listOfPurchase;
+
         List<PurchaseList> listOfReceipts;
 
         List<int> idsOfPurchaseLists = new List<int>();
         List<int> idsOfReceipts = new List<int>(); //TBD
+
+        public Consumer(string email, string password, string name) : base(email, password, name)
+        { 
+
+        }
 
         public Consumer(string email = "", string password = "", string name = "", int accountLvl = -1, int points = -1, List<int> idsOfPurchaseLists = null, List<int>idsOfReceipts = null)
             : base(email, password, name)
@@ -42,11 +49,12 @@ namespace Digital_shopping_list_group_5
         public void SetAccountLvl(int value) => accountLvl = value;
         public void SetPoints(int value) => points = value;
         public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
-        public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
+        //public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
         public List<PurchaseList> ListOfReceipts { get => listOfReceipts; set => listOfReceipts = value; }
         public List<PurchaseList> IdofPurchaselistsForReceipt => listOfPurchases;
 
-        public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
+        public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void SetIdsOfPurchaseLists(List<int> value) => idsOfPurchaseLists = value;
+        public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
         public int Points => points;
@@ -86,8 +94,7 @@ namespace Digital_shopping_list_group_5
                     case 1:
                         return LoginAccount(db);                        
                     case 2:
-                        consumer = RegisterAccount(db);
-                        Console.WriteLine(consumer.Points);
+                        consumer = RegisterAccount(db);                        
                         return consumer;
                     default: 
                         break;
@@ -96,7 +103,7 @@ namespace Digital_shopping_list_group_5
             catch
             {
                 Console.WriteLine("Invalid option");
-             RunSecuritySystem(db);
+                RunSecuritySystem(db);
             }
             return consumer;
         }
@@ -115,9 +122,9 @@ namespace Digital_shopping_list_group_5
                     success = CheckInput(db, 5, str);
                     if (success)
                     {
-                        if (db.GetConsumer != null)
+                        if (db.GetCurrentConsumer != null)
                         {                            
-                            return db.GetConsumer;
+                            return db.GetCurrentConsumer;
                         } 
 
                     }else Console.WriteLine("Password and email don´t match");
@@ -160,8 +167,11 @@ namespace Digital_shopping_list_group_5
                             consumer.SetPoints(0);                            
                             consumer.InitiateIdsOfPurchaseLists();
 
+                            Console.Clear();
+                            Console.WriteLine($"{consumer.Email} was successfully registered in our app. Please login");
 
-                            db.ListOfConsumers.Add(consumer);
+
+                            db.AllConsumers.Add(consumer);
                             db.AddObjectToDatabase(consumer);
                             return consumer;
                         }
@@ -172,7 +182,7 @@ namespace Digital_shopping_list_group_5
                 //else Console.WriteLine("Email can not be empty");                
             }while (!success);
 
-           return consumer;
+        return consumer;
         }        
         static bool CheckInput(Database db,int positionInTheProcess, string input)
         {
@@ -188,7 +198,7 @@ namespace Digital_shopping_list_group_5
                 //List<Object> listOfAccounts = db.LoadFromDb();
 
                 bool alreadyExisted = false;
-                foreach (Consumer account in db.ListOfConsumers)
+                foreach (Consumer account in db.AllConsumers)
                 {
                     if (account.Email == input.Trim())
                     {
@@ -203,7 +213,7 @@ namespace Digital_shopping_list_group_5
             //positions 4-5 are for login
             else if (positionInTheProcess == 4)
             {
-                foreach (Consumer c in db.ListOfConsumers)
+                foreach (Consumer c in db.AllConsumers)
                 {
                     if (input == c.Email)
                     {                        
@@ -214,7 +224,7 @@ namespace Digital_shopping_list_group_5
             else if (positionInTheProcess == 5)
             {
                 string[] str = input.Split(';'); //input contains both email and password
-                foreach (Consumer c in db.ListOfConsumers)
+                foreach (Consumer c in db.AllConsumers)
                 {
                     if ((str[0] == c.Email) && (str[1]== c.Password))
                     {
@@ -223,16 +233,17 @@ namespace Digital_shopping_list_group_5
 
                         foreach (int i in cons.idsOfPurchaseLists) 
                         {
-                            foreach (PurchaseList pl in db.ListOfPurchases)
+                            foreach (PurchaseList pl in db.AllPurchaseLists)
                             {
                                 if (i == pl.Id) plList.Add(pl);
                             }
                         }
                         cons.ListOfPurchases = plList;
-                        db.SetConsumer(cons);
-                       
+                        db.SetCurrentConsumer(cons);
+
+                        Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Welcome {db.GetConsumer.Name}");
+                        Console.WriteLine($"Welcome {db.GetCurrentConsumer.Name}");
                         return true;
                     }
                 }
