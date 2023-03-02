@@ -178,7 +178,7 @@ namespace Digital_shopping_list_group_5
                     streamwriter.WriteLine( str);
                 }
             }
-
+             
             else if (obj.GetType() == typeof(Consumer))
             {
                 string str = obj.ToString();
