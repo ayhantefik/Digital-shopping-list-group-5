@@ -83,6 +83,8 @@ namespace Digital_shopping_list_group_5
                                     //db.EditLists();
                                     //db.ChangePurchaseListName();
                                     break;
+                                    
+                                    RunMenu(db, consumer);
 
                                 case 3:
                                     db = pl.RemovePurchaseList(db, consumer);
