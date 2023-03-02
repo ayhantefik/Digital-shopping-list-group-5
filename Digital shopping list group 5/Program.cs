@@ -26,7 +26,7 @@ namespace Digital_shopping_list_group_5
             do
             {
                 consumer = consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
-                if (db.GetCurrentConsumer != null) RunMenu(db, consumer);
+                if (db.GetCurrentConsumer != null) RunMenu(db, db.GetCurrentConsumer);
 
             } while (db.GetCurrentConsumer == null);
 
@@ -41,8 +41,8 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("[0] Log out"); // it works
             while (true)
             {
-                try
-                {
+                //try
+                //{
                     int userInput = Int32.Parse(Console.ReadLine());
                     switch (userInput)
                     {
@@ -71,11 +71,11 @@ namespace Digital_shopping_list_group_5
                             switch (userInput)
                             {
                                 case 0:
-                                    RunMenu(db, consumer);
+                                    RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 case 1:
                                     Console.Clear();
-                                    db = pl.NewPurchaseList(db, consumer); //return db with an update Consumer in it 
+                                    db = pl.NewPurchaseList(db, db.GetCurrentConsumer); //return db with an update Consumer in it 
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 case 2: // Edit list option
@@ -87,17 +87,17 @@ namespace Digital_shopping_list_group_5
                                     RunMenu(db, consumer);
 
                                 case 3:
-                                    db = pl.RemovePurchaseList(db, consumer);
+                                    db = pl.RemovePurchaseList(db, db.GetCurrentConsumer);
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
 
                                 case 4:
-                                    db = pl.MergeLists(db, consumer);
+                                    db = pl.MergeLists(db, db.GetCurrentConsumer);
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 case 5:
 
-                                    db = pl.ShareList(db, consumer);
+                                    db = pl.ShareList(db, db.GetCurrentConsumer);
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 default:
@@ -105,33 +105,34 @@ namespace Digital_shopping_list_group_5
                                     Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine($"{userInput}\n");
                                     Console.ResetColor();
-                                    RunMenu(db, consumer);
+                                    RunMenu(db, db.GetCurrentConsumer);
                                     break;
                             }
                             break;
                         case 2: // Receipts menu option, TBD
                                 //db.Display(db.ListOfReceipts, true);
-                            db.ShowReceipts(consumer);
+                            db.ShowReceipts(db.GetCurrentConsumer);
+                            RunMenu(db, db.GetCurrentConsumer);
                             break;
                         case 3:
                             Purchase newpurchase = new Purchase();
-                            newpurchase.MakePurchase(db, consumer);
-                            RunMenu(db, consumer);
+                            newpurchase.MakePurchase(db, db.GetCurrentConsumer);
+                            RunMenu(db, db.GetCurrentConsumer);
                             break;
                         default:
                             Console.Write($"\nInvalid option: ");
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"{userInput}\n");
                             Console.ResetColor();
-                            RunMenu(db, consumer);
+                            RunMenu(db, db.GetCurrentConsumer);
                             break;
                     }
-                }
-                catch
-                {
-                    Console.WriteLine("\nInvalid option.\n");
-                    RunMenu(db, consumer);
-                }
+                //}
+                //catch
+                //{
+                //    Console.WriteLine("\nInvalid option.\n");
+                //    RunMenu(db, db.GetCurrentConsumer);
+                //}
             }
 
         }

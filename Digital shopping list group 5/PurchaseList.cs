@@ -318,8 +318,20 @@ namespace Digital_shopping_list_group_5
                                         }
                                         if (!receiverAlreadyHaveThatPurchaseList)
                                         {
-                                            c.IdsOfPurchaseLists.Add(Int32.Parse(inputID));
-                                            db.EditObjectInDatabase(c); // editing one line in <accounts.csv> 
+                                            int i = Int32.Parse(inputID);
+                                            c.IdsOfPurchaseLists.Add(i + 1000);
+
+                                            db.EditObjectInDatabase(c); // editing one line in <accounts.csv>
+                                            foreach (PurchaseList pl in c.ListOfPurchases)
+                                            {
+                                                if (pl.Id == i)
+                                                {
+                                                    PurchaseList newpurch = pl;
+                                                    newpurch.SetID(i + 1000);
+                                                    db.AddObjectToDatabase(newpurch);
+                                                }
+                                            }
+
                                         }
                                         
                                     }
