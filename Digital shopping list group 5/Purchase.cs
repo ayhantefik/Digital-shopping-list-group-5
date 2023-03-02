@@ -27,24 +27,24 @@ namespace Digital_shopping_list_group_5
         public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
         {
             this.email = email;
-            this.dateCheck = DateTime.Now;
+            this.dateCheck = dateCheck;
             this.ID = iD;
             this._allPurchaseLists = _allPurchaseLists;
         }
 
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists, double totalPrice)
-        {
-            this.dateCheck = DateTime.Now;
-            this.ID = iD;
-            this._allPurchaseLists = _allPurchaseLists;
-            this.totalPrice = totalPrice;
-        }
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
-        {
-            this.dateCheck = DateTime.Now;
-            this.ID = iD;
-            this._allPurchaseLists = _allPurchaseLists;
-        }
+        //public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists, double totalPrice)
+        //{
+        //    this.dateCheck = DateTime.Now;
+        //    this.ID = iD;
+        //    this._allPurchaseLists = _allPurchaseLists;
+        //    this.totalPrice = totalPrice;
+        //}
+        //public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
+        //{
+        //    this.dateCheck = DateTime.Now;
+        //    this.ID = iD;
+        //    this._allPurchaseLists = _allPurchaseLists;
+        //}
 
         //=======================================================================================
         public string Email => email;
@@ -191,7 +191,8 @@ namespace Digital_shopping_list_group_5
                     {
                         if (l.Id == userInput)
                         {
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
+                            l.SetID(lastExistingID);
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy HH:mm:ss")};{l}");
                         }
                     }
                 }

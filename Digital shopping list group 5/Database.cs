@@ -147,7 +147,7 @@ namespace Digital_shopping_list_group_5
                     }
                     PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[1]), splittedObject[4], listOfItems1);
                     _allPurchaseLists.Add(purchaseList);
-                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), _allPurchaseLists);
+                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy HH:mm:ss", CultureInfo.InvariantCulture), _allPurchaseLists);
                     _allPurchases.Add(testafiesta);
                     //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
 
