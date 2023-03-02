@@ -237,7 +237,7 @@ namespace Digital_shopping_list_group_5
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("You don't have any list to delete!");
+                Console.WriteLine("You don't have registered list to delete!");
                 Console.WriteLine();
             }
             
@@ -399,7 +399,7 @@ namespace Digital_shopping_list_group_5
             else
             {
                 Console.WriteLine();
-                Console.WriteLine("You don't have list to share!");
+                Console.WriteLine("You don't have registered list to share!");
                 Console.WriteLine();
             }
             return db;
@@ -526,7 +526,9 @@ namespace Digital_shopping_list_group_5
             }
             else
             {
-                Console.WriteLine("You don't have list to merge!");
+                Console.WriteLine();
+                Console.WriteLine("You don't have registered list to merge!");
+                Console.WriteLine();
             }
             return db;
         }
