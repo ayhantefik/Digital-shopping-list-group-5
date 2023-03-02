@@ -19,6 +19,8 @@ namespace Digital_shopping_list_group_5
             this.name = name;
         }
 
+        public User() { }
+
         //=============================================================================================================
         //Getters, setters, TBD
         public string Email => email;  public void SetEmail(string value) => email = value;

@@ -37,22 +37,32 @@ namespace Digital_shopping_list_group_5
         PurchaseList _currentPurchaseList = null;
 
         // Properties (Getters & Setters)
-        public List<Item> AllItems => _allItems; 
+        public List<Item> AllItems => _allItems;
+
         public void SetAllItems(List<Item> value) => _allItems = value;
-        public List<Consumer> AllConsumers => _allConsumers;  
+
+        public List<Consumer> AllConsumers => _allConsumers;
+
         public void SetAllConsumers(List<Consumer> value) => _allConsumers = value;
-        public List<PurchaseList> AllPurchaseLists => _allPurchaseLists; 
+
+        public List<PurchaseList> AllPurchaseLists => _allPurchaseLists;
+
         public void AddToPurchaseLists(PurchaseList value) => _allPurchaseLists.Add(value);
+
         public void SetListOfPurchases(List<PurchaseList> value) => _allPurchaseLists = value;
-        public List<Purchase> AllPurchases => _allPurchases; 
+
+        public List<Purchase> AllPurchases => _allPurchases;
+
         public void AddToPurchases(Purchase value) => _allPurchases.Add(value);
 
-        public Consumer GetCurrentConsumer => _currentConsumer;  
+        public Consumer GetCurrentConsumer => _currentConsumer;
+
         public void SetCurrentConsumer(Consumer value) => _currentConsumer = value;
+
         public PurchaseList GetCurrentPurchaseList => _currentPurchaseList;
 
         public void LoadAllFromDatabase() //rewritten and merged
-        {            
+        {
             StreamReader str;
             string path = "";
 
@@ -67,17 +77,17 @@ namespace Digital_shopping_list_group_5
                     List<Item> listOfItems = new List<Item>();
                     if (splittedObject.Length > 2)
                     {
-                        for (int i = 2; i < splittedObject.Length-1; i+=5)
+                        for (int i = 2; i < splittedObject.Length - 1; i += 5)
                         {
                             Item item = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]),
-                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i+4]));                            
-                            listOfItems.Add(item);    
+                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i + 4]));
+                            listOfItems.Add(item);
                         }
                     }
-                    PurchaseList pl = new PurchaseList(Int32.Parse(splittedObject[0]),splittedObject[1],listOfItems);                    
+                    PurchaseList pl = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], listOfItems);
                     _allPurchaseLists.Add(pl);
                 }
-                
+
             }
             path = _consumersFile;
             using (str = new StreamReader(path))
@@ -86,28 +96,28 @@ namespace Digital_shopping_list_group_5
                 while ((line = str.ReadLine()) != null)
                 {
                     string[] splittedObject = line.Split(';');
-                    List<int> IDsOfPurchases = new List<int>(); // IDs of purchase lists that belong to the account
+
+                    List<int> PurchaseListIds = new List<int>(); // IDs of purchase lists that belong to the account
+                    List<int> PurchaseIds = new List<int>(); // IDs of purchases(receipts) that belong to the account
 
                     if (splittedObject.Length > 5)
                     {
-                        for (int i = 5; i < splittedObject.Length-1; i++)
-                        {
-                            IDsOfPurchases.Add(Int32.Parse(splittedObject[i]));
-                            //Console.WriteLine
-                        }
+                        string[] idsPurchaseList = splittedObject[5].Split(',');
+                        List<string> idsPurchases = new List<string>();
+
+                        if (splittedObject.Length > 6) { idsPurchases = splittedObject[6].Split(',').ToList(); }
+
+                        foreach (string id in idsPurchaseList) 
+                            if (id != "") PurchaseListIds.Add(int.Parse(id));
+                        foreach (string id in idsPurchases)
+                            if (id != "") PurchaseIds.Add(int.Parse(id));
                     }
                     Consumer acc = new Consumer(splittedObject[0], splittedObject[1], splittedObject[2],
-                        Int32.Parse(splittedObject[3]), Int32.Parse(splittedObject[4]), IDsOfPurchases);
+                        Int32.Parse(splittedObject[3]), Int32.Parse(splittedObject[4]));
+                    acc.SetIdsOfPurchaseLists(PurchaseListIds);
+                    acc.SetIdsOfPurchases(PurchaseIds);
 
-                    /*foreach (PurchaseList pl in _allPurchaseLists)
-                    {
-                        foreach (int i in IDsOfPurchases)
-                        {
-                            if (i == pl.Id) acc.ListOfPurchases.Add(pl);
-                        }
-                    }*/
-                    
-                    _allConsumers.Add(acc);                    
+                    _allConsumers.Add(acc);
                 }
             }
             path = _itemsFile;
@@ -134,38 +144,21 @@ namespace Digital_shopping_list_group_5
                 while ((line = str.ReadLine()) != null)
                 {
                     string[] splittedObject = line.Split(';');
-                    //List<PurchaseList> listOfPurchases1 = new List<PurchaseList>();
                     List<Item> listOfItems1 = new List<Item>();
                     if (splittedObject.Length > 5)
                     {
                         for (int i = 5; i < splittedObject.Length - 1; i += 5)
                         {
                             Item item1 = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]),
-                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], true);
+                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i + 4]));
                             listOfItems1.Add(item1);
                         }
                     }
                     PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[1]), splittedObject[4], listOfItems1);
-                    listOfPurchases.Add(purchaseList);
-                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), listOfPurchases);
-                    listOfReceipts.Add(testafiesta);
-                    //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
-
+                    Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "yyyy-MM-dd", CultureInfo.InvariantCulture), purchaseList);
+                    _allPurchases.Add(testafiesta);
                 }
             }
-
-            /*path = "Path/listOfReceipts.csv"; // TBD
-            using (str = new StreamReader(path))
-            {
-                string line;
-                while ((line = str.ReadLine()) != null)
-                {
-                    string[] splittedObject = line.Split(';');
-                    Purchase receipt = new Purchase(); // TBD
-                    listOfReceipts.Add(receipt);
-                }
-            }*/
-
         }
 
         public void AddObjectToDatabase(object obj)
@@ -175,7 +168,7 @@ namespace Digital_shopping_list_group_5
                 string str = obj.ToString();
                 using (var streamwriter = new StreamWriter(_purchaseListsFile, true))
                 {
-                    streamwriter.WriteLine( str);
+                    streamwriter.WriteLine(str);
                 }
             }
 
@@ -183,11 +176,21 @@ namespace Digital_shopping_list_group_5
             {
                 string str = obj.ToString();
                 using (var streamwriter = new StreamWriter(_consumersFile, true))
-                {                    
+                {
+                    streamwriter.WriteLine(str);
+                }
+            }
+
+            else if (obj.GetType() == typeof(Purchase))
+            {
+                string str = obj.ToString();
+                using (var streamwriter = new StreamWriter(_purchasesFile, true))
+                {
                     streamwriter.WriteLine(str);
                 }
             }
         }
+
         public void EditObjectInDatabase(object obj) // edits a line that exists in one of the files
         {
             if (obj.GetType() == typeof(PurchaseList))
@@ -227,6 +230,7 @@ namespace Digital_shopping_list_group_5
             else if (obj.GetType() == typeof(Purchase)) // TBD
             { }
         }
+
         public void UpdateFileInDataBase(int number) // 1 for <listOfPurchases.csv, 2 for <accounts.csv>, 3 for <listOfReceipts.csv>
         {
             if (number == 1)
@@ -257,26 +261,18 @@ namespace Digital_shopping_list_group_5
             }
 
             else if (number == 3) { }// TBD 
-            
+
 
         }
 
-        //================================================================================================================================
-
-
-
-
-
-
-
-        //================================================================================================================================
         //manipulating with the objects: no interaction with the files.
-        public void Display(object obj,bool displayExtended = false) 
+        public void Display(object obj, bool displayExtended = false)
         {
             // Displays the purchase lists pinned to the loggedIn Consumer, NO items.
-            if (obj.GetType() == typeof(List<PurchaseList>) && !displayExtended) 
+            if (obj.GetType() == typeof(List<PurchaseList>) && !displayExtended)
             {
-                foreach (PurchaseList list in GetCurrentConsumer.ListOfPurchases) 
+                List<PurchaseList> purchaseList = (List<PurchaseList>)obj;
+                foreach (PurchaseList list in purchaseList) 
                 {
                     Console.WriteLine($"[{list.Id}] <{list.Name}>");
                 }
@@ -285,11 +281,12 @@ namespace Digital_shopping_list_group_5
             // Displays the purchase lists pinned to the loggedIn Consumer and their items.
             else if (obj.GetType() == typeof(List<PurchaseList>) && displayExtended)
             {
-                foreach (PurchaseList pl in GetCurrentConsumer.ListOfPurchases) 
+                List<PurchaseList> purchaseList = (List<PurchaseList>)obj;
+                foreach (PurchaseList list in purchaseList) 
                 {
-                    Console.Write($"[{pl.Id}] <{pl.Name}>: ");
+                    Console.Write($"[{list.Id}] <{list.Name}>: ");
 
-                    foreach (Item item in pl.ListOfItems)
+                    foreach (Item item in list.ListOfItems)
                     {
                         Console.Write(item.Name + ", ");
                     }
@@ -307,7 +304,7 @@ namespace Digital_shopping_list_group_5
 
                 foreach (Item item in pL.ListOfItems)
                 {
-                    Console.WriteLine($"{item.Id,-4}|{item.IsBought,-8}|{item.Quantity,-8}|{item.Name, -14}|{item.Price}");
+                    Console.WriteLine($"{item.Id,-4}|{item.IsBought,-8}|{item.Quantity,-8}|{item.Name,-14}|{item.Price}");
                 }
             }
 
@@ -325,7 +322,7 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine("ID: |NAME:         |PRICE:");
                 foreach (Item i in AllItems)
                 {
-                    Console.WriteLine($"{i.Id, -4}{i.Name, -14}{i.Price}");
+                    Console.WriteLine($"{i.Id,-4}{i.Name,-14}{i.Price}");
                 }
             }
 
@@ -341,77 +338,10 @@ namespace Digital_shopping_list_group_5
             //            Console.WriteLine($"{pl1.Name}");
             //        }
             //    }
-                
+
             //}
 
         }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
-        public void ShowReceipts(Consumer consumer)
-        {
-            foreach (Purchase pw in _allPurchases)
-            {
-                if (pw.Email == consumer.Email)
-                {
-                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
-<<<<<<< HEAD
-
-                }
-            }
-
-=======
-                    
-                }
-            }
-            
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
-            Console.WriteLine();
-            Console.WriteLine("Choose receipt number:");
-            int receiptnumInput = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-<<<<<<< HEAD
-            double sum = 0;
-            foreach (Purchase pw2 in _allPurchases)
-            {
-                if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
-                {
-                    foreach (PurchaseList rlist in pw2.ListOfPurchases)
-=======
-            int sum = 0;
-            foreach (Purchase pw2 in listOfReceipts)
-            {
-                if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
-                {
-                    foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
-                    {
-                        if (rlist.Id == receiptnumInput)
-                        {
-                            foreach (Item ireceipt in rlist.ListOfItems)
-                            {
-                                if (ireceipt.IsBought == true)
-                                {
-                                    Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
-                                    sum += ireceipt.Quantity * ireceipt.Price;
-                                }
-                            }
-                            Console.WriteLine();
-                            string totalt = $"Totalt:";
-                            Console.WriteLine($"{totalt,+30} {sum}");
-                            Console.WriteLine();
-                        }
-
-
-                    }
-                }
-
-            }
-        }
-
-
 
         public void EditLists() //edits an item in a purchase list. Can we move the method to <PurchaseList> class?
         {
@@ -504,78 +434,6 @@ namespace Digital_shopping_list_group_5
                     break;
             }
         }
-
-        // public void DeletePurchaseList() HAS BEEN MOVED to <PurchaseList> class.
-        public void ChangePurchaseListName() // Can we move the method to <PurchaseList> class?
-        {
-            Console.WriteLine("Choose list that you want to change name:");
-            Console.WriteLine();
-            int a = 1;
-            foreach (var samplelist in purchaselists)  //Can we use the attribute listOfPurchases instead ?
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[0]}");
-            }
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-            Console.WriteLine("Choosen list:");
-            Console.WriteLine();
-            Console.WriteLine(purchaselists[userChoose - 1]);
-            Console.WriteLine();
-            Console.WriteLine("New name:");
-            string newname = Console.ReadLine();
-            string[] changearray = purchaselists[userChoose - 1].Split(';');
-            changearray[0] = newname;
-            changearray = Array.ConvertAll(changearray, z => z = z + ";");
-            string changearrayTostring = String.Concat(changearray);
-            string update = changearrayTostring.Remove(changearrayTostring.Length - 1, 1); // Delete last charter ";" from string 
-            purchaselists.RemoveAt(userChoose - 1);
-            purchaselists.Insert(userChoose - 1, update);
-            Console.WriteLine();
-            Console.WriteLine("Purchase list name is changed!");
-            Console.WriteLine();
-            Console.WriteLine(purchaselists[userChoose - 1]);
-        }
-
-        /*public void LoadLists() //replaced by LoadAllFromDatabase()
-        {
-            string file = "Path/listOfPurchases.csv";
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    purchaselists.Add(line);
-                }
-            }
-        } 
-
-        public void LoadItems() //replaced by LoadAllFromDatabase()
-        {
-            string file = "Path/items.csv";
-            Console.WriteLine();
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line1;
-                while ((line1 = sr.ReadLine()) != null)
-                {
-                    itemlist.Add(line1);
-                }
-            }
-        } 
-
-        public void ShowLists() // replaced by Display()
-        {
-            int a = 1;
-            foreach (var samplelist in purchaselists)
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[1]}");
-            }
-            Console.WriteLine();
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine(purchaselists[userChoose - 1]);
-        } */
     }
 }
 

@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
-using System.Dynamic;
-using System.Security.Cryptography;
+
 
 namespace Digital_shopping_list_group_5
 {
@@ -15,81 +9,76 @@ namespace Digital_shopping_list_group_5
     // Purchase is the old "Receipts"...
     public class Purchase
     {
-        string email;
-        DateTime dateCheck;
-        int ID = -1;
-        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
-
-        double totalPrice;
-        public List<PurchaseList> ListofPurchasesReceipt => listOfPurchases;
+        int _id;
+        string _email;
+        DateTime _dateCheck;
+        PurchaseList _purchaseList;
+        double _totalPrice; // USE??
 
         public Purchase() { }
-        public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
+        public Purchase(string email, int iD, DateTime dateCheck, PurchaseList purchaseList)
         {
-            this.email = email;
-            this.dateCheck = DateTime.Now;
-            this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
+            _email = email;
+            _dateCheck = DateTime.Now;
+            _id = iD;
+            _purchaseList = purchaseList;
         }
-
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases, double totalPrice)
-        {
-            this.dateCheck = DateTime.Now;
-            this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
-            this.totalPrice = totalPrice;
-        }
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
-        {
-            this.dateCheck = DateTime.Now;
-            this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
-        }
-
-        //=======================================================================================
-        public string Email => email;
-        public int Id => ID;
-        public DateTime DateCheck => dateCheck;
-        public void SetDateTime(DateTime value) => dateCheck =value;
-        public int SetID(int value) => ID = value;
-        public double SetTotalPrice(double value) => totalPrice = value;
-        public List<PurchaseList> ListOfPurchases => listOfPurchases; public void SetListOfPurchases(List<PurchaseList> value) => listOfPurchases = value;
-        //=======================================================================================
+        //public Purchase(int iD, DateTime dateCheck, PurchaseList purchaseList, double totalPrice)
+        //{
+        //    this.dateCheck = DateTime.Now;
+        //    this.ID = iD;
+        //    this._purchaseList = purchaseList;
+        //    this.totalPrice = totalPrice;
+        //}
+        //public Purchase(int iD, DateTime dateCheck, PurchaseList purchaseList)
+        //{
+        //    this.dateCheck = DateTime.Now;
+        //    this.ID = iD;
+        //    this._purchaseList = purchaseList;
+        //}
+        public string Email => _email;
+        public string SetEmail(string value) => _email = value;
+        public int Id => _id;
+        public DateTime DateCheck => _dateCheck;
+        public void SetDateTime(DateTime value) => _dateCheck =value;
+        public int SetID(int value) => _id = value;
+        public double SetTotalPrice(double value) => _totalPrice = value;
+        public PurchaseList PurchaseList => _purchaseList; public void SetPurchaseList(PurchaseList value) => _purchaseList = value;
         public override string ToString() 
         {
-            return $" {ID};{DateTime.Now};{listOfPurchases};{totalPrice}";
+            return $"{_email};{_id};{_dateCheck.ToString().Remove(10)};{_purchaseList}";
         }
 
-        void SaveToDb(Object obj) // Move to Database class
-        {
-            string str = $"{DateTime.Now};{ID};{listOfPurchases};{totalPrice};";
+        //void SaveToDb(Object obj) // Move to Database class
+        //{
+        //    string str = $"{DateTime.Now};{ID};{_purchaseList};{totalPrice};";
 
-            using (var streamWriter = new StreamWriter(@"Path/listOfReceipts.csv", true))
-            {
-                streamWriter.WriteLine(str);
-            }
-            //Console.ForegroundColor = ConsoleColor.Green;
-            //Console.Write("SUCCESS: ");
-            //Console.WriteLine(str);
-            //Console.ResetColor();
+        //    using (var streamWriter = new StreamWriter(@"Path/listOfReceipts.csv", true))
+        //    {
+        //        streamWriter.WriteLine(str);
+        //    }
+        //    //Console.ForegroundColor = ConsoleColor.Green;
+        //    //Console.Write("SUCCESS: ");
+        //    //Console.WriteLine(str);
+        //    //Console.ResetColor();
 
-        }
-        List<Object> LoadFromDb() // move to Database class
-        {
-            List<Object> listOfItems = new List<Object>();
+        //}
+        //List<Object> LoadFromDb() // move to Database class
+        //{
+        //    List<Object> listOfItems = new List<Object>();
 
-            using (StreamReader str = new StreamReader(@"Path/listOfReceipts.csv"))
-            {
-                string line;
-                while ((line = str.ReadLine()) != null)
-                {
+        //    using (StreamReader str = new StreamReader(@"Path/listOfReceipts.csv"))
+        //    {
+        //        string line;
+        //        while ((line = str.ReadLine()) != null)
+        //        {
 
-                    listOfItems.Add(line);
-                }
+        //            listOfItems.Add(line);
+        //        }
 
-            }
-            return listOfItems;
-        }
+        //    }
+        //    return listOfItems;
+        //}
 
         public void Display() // Will this be the same as PrintReceipt?
         {
@@ -154,30 +143,32 @@ namespace Digital_shopping_list_group_5
         //    else { Console.WriteLine($"Unknown input: {userInput}"); }
         //
 
+        // READ TBD!!
         public void MakePurchase(Database db, Consumer consumer)
         {
-            Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
+            Console.WriteLine("Choose an existing purchase list:");
             Console.WriteLine();
-            db.Display(consumer.ListOfPurchases, true);
-            Console.WriteLine();
+
+            db.Display(consumer.PurchaseLists, true);
+            Console.Write("Enter the ID number of the purchase list: ");
             int userInput = Int32.Parse(Console.ReadLine());
-            int index = -1;
-            foreach (PurchaseList pl in consumer.ListOfPurchases)
+
+            PurchaseList newPurchasePL = new PurchaseList();
+            foreach (PurchaseList pl in consumer.PurchaseLists)
             {
                 if (userInput == pl.Id)
                 {
-                    index = consumer.ListOfPurchases.IndexOf(pl);
-                    db.Display(pl);
+                    newPurchasePL = pl.CopyPurchaseList();
+                    db.Display(newPurchasePL);
                 }
             }
             Console.WriteLine();
             Console.WriteLine("Do you want to make a purchase?");
-            Console.WriteLine("Write [6] for YES and [7] for NO.");
-            //string uInput = Console.ReadLine();
+            Console.WriteLine("Write [1] for YES and [2] for NO.");
             int userInput2 = Int32.Parse(Console.ReadLine());
-            var newListOfReceipts = new List<PurchaseList>();
-            if (userInput2 == 6)
+            if (userInput2 == 1)
             {
+                var newPurchase = new Purchase();
                 // assign the unique ID to the receipt
                 int lastExistingID = 0;
                 foreach (Purchase p in db.AllPurchases)
@@ -185,35 +176,31 @@ namespace Digital_shopping_list_group_5
                     if (p.Id > lastExistingID) lastExistingID = p.Id;
                 }
                 lastExistingID += 1;
-                DateTime newpurchasedate = DateTime.Now;
-                using (var sw = new StreamWriter("Path/Purchases.csv", true))
+                newPurchase.SetID(lastExistingID);
+                newPurchase.SetDateTime(DateTime.Now.Date);
+                newPurchase.SetEmail(consumer.Email);
+
+                // TBD! Select specific items to purchase!
+                foreach (Item item in newPurchasePL.ListOfItems)
                 {
-                    foreach (PurchaseList l in consumer.ListOfPurchases)
-                    {
-                        if (l.Id == userInput)
-                        {
-<<<<<<< HEAD
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
-                            sw.Close();
-=======
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-M-yyy")};{l}");
-                            
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
-                        }
-                    }
+                    item.SetIsBought(true);
                 }
+                newPurchase.SetPurchaseList(newPurchasePL);
+
+                consumer.Purchases.Add(newPurchase);
+                consumer.IdsOfPurchases.Add(newPurchase.Id);
+                db.AllPurchases.Add(newPurchase);
+                db.AddObjectToDatabase(newPurchase);
+                db.EditObjectInDatabase(consumer);
                 Console.WriteLine();
                 Console.WriteLine("Purchase is done and receipt is saved!");
-
-
             }
-            else if (userInput2 == 7)
+            else if (userInput2 == 2)
             {
                 Console.WriteLine();
                 Console.WriteLine("Ok, you do not want to make a purchase.");
                 Console.WriteLine("Please go back to the menu and choose your next action.");
             }
-
             Console.WriteLine();
         }
     }

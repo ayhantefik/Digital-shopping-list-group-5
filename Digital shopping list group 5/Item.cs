@@ -14,9 +14,7 @@ namespace Digital_shopping_list_group_5
         double price;
         string name = "null";
         bool isBought = false;
-        
 
-        
         public Item()
         { }
         public Item(int ID, int quantity,int price,string name, bool isBought)
@@ -29,9 +27,6 @@ namespace Digital_shopping_list_group_5
             
         }
 
-
-
-        //=====================================================
         //Setters (Getters TBD)
         public int SetID(int value) => ID = value;
         public int SetQuantity(int value) => quantity = value;
@@ -43,20 +38,11 @@ namespace Digital_shopping_list_group_5
         public double Price => price;
         public string Name => name;
         public bool IsBought => isBought;
-        public int Price => price;
-
-        //=====================================================
-
-
 
         public override string ToString()
         {             
             return $"{ID};{quantity};{price};{name};{isBought}";
         }
-
-
-
-
 
         public void EditItem(Object obj)
         {
@@ -80,9 +66,5 @@ namespace Digital_shopping_list_group_5
             //Read the file into an array using ReadAllLines.
             //Replace a line.  Write the array to a file using WriteAllLines.
         }
-        //=====================================================
-
-        
-    }        
-
+    }      
 }
