@@ -24,7 +24,7 @@ namespace Digital_shopping_list_group_5
         // Static fields
         private readonly string _itemsFile = "Path/Items.csv";
         private readonly string _purchaseListsFile = "Path/PurchaseLists.csv";
-        private readonly string _purchasesFile = "Path/Purchases.csv";
+        private readonly string _purchasesFile = "Path/Purchases.csv";  
         private readonly string _consumersFile = "Path/Consumers.csv";
 
         // Fields
@@ -348,33 +348,44 @@ namespace Digital_shopping_list_group_5
 
         public void ShowReceipts(Consumer consumer)
         {
+            bool noreceipt = false;
             foreach (Purchase pw in _allPurchases)
             {
                 if (pw.Email == consumer.Email)
                 {
                     Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
-
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You don't have registred receipts!");
+                    Console.WriteLine();
+                    noreceipt = true;
                 }
             }
-            Console.WriteLine();
-            Console.WriteLine("Choose receipt number:");
-            int receiptnumInput = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-            double sum = 0;
-            foreach (Purchase pw2 in _allPurchases)
+            if (noreceipt == false)
             {
-                if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
+                Console.WriteLine();
+                Console.WriteLine("Choose receipt number:");
+                int receiptnumInput = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                double sum = 0;
+                foreach (Purchase pw2 in _allPurchases)
                 {
-                    foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
+                    if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
                     {
-                        if (rlist.Id == receiptnumInput)
+
+                        foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
                         {
-                            foreach (Item ireceipt in rlist.ListOfItems)
+                            if (rlist.Id == receiptnumInput)
                             {
-                                if (ireceipt.IsBought == true)
+                                foreach (Item ireceipt in rlist.ListOfItems)
                                 {
-                                    Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
-                                    sum += ireceipt.Quantity * ireceipt.Price;
+                                    if (ireceipt.IsBought == true)
+                                    {
+                                        Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+                                        sum += ireceipt.Quantity * ireceipt.Price;
+                                    }
                                 }
                             }
                         }
@@ -384,7 +395,6 @@ namespace Digital_shopping_list_group_5
                     Console.WriteLine($"{totalt,+30} {sum}");
                     Console.WriteLine();
                 }
-
             }
         }
 
