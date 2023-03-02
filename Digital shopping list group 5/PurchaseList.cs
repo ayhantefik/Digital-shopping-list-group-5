@@ -236,7 +236,7 @@ namespace Digital_shopping_list_group_5
 
 
         //KOLLA HIT
-        public void EditPurchaseList(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
+        public Database EditPurchaseList(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
             Console.Clear();
             Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
@@ -263,7 +263,7 @@ namespace Digital_shopping_list_group_5
                         DeleteItemFromPurchaseList(db);
                         break;
                     case "3":
-                        return;
+                        return db;
                     default:
                         Console.WriteLine($"Unknown input: {input}");
                         break;
