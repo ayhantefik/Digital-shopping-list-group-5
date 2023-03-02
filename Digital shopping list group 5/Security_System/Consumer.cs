@@ -27,11 +27,6 @@ namespace Digital_shopping_list_group_5
         List<int> idsOfPurchaseLists = new List<int>();
         List<int> idsOfReceipts = new List<int>(); //TBD
 
-        public Consumer(string email, string password, string name) : base(email, password, name)
-        { 
-
-        }
-
         public Consumer(string email = "", string password = "", string name = "", int accountLvl = -1, int points = -1, List<int> idsOfPurchaseLists = null, List<int>idsOfReceipts = null)
             : base(email, password, name)
         {
@@ -53,7 +48,10 @@ namespace Digital_shopping_list_group_5
         public List<PurchaseList> ListOfReceipts { get => listOfReceipts; set => listOfReceipts = value; }
         public List<PurchaseList> IdofPurchaselistsForReceipt => listOfPurchases;
 
+
         public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void SetIdsOfPurchaseLists(List<int> value) => idsOfPurchaseLists = value;
+
+        public List<int> IdsOfReceipts => idsOfReceipts;
         public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
