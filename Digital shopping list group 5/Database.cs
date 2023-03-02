@@ -358,7 +358,7 @@ namespace Digital_shopping_list_group_5
                 else
                 {
                     Console.WriteLine();
-                    Console.WriteLine("You don't have registred receipts!");
+                    Console.WriteLine("You don't have registered receipts!");
                     Console.WriteLine();
                     noreceipt = true;
                 }
