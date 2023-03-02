@@ -105,7 +105,7 @@ namespace Digital_shopping_list_group_5
                         break;
                     case 2: // Receipts menu option, TBD
                         //db.Display(db.ListOfReceipts, true);
-                        db.ShowReceipts(consumer, db);
+                        db.ShowReceipts(consumer);
                         break;
                     case 3:
                         Purchase newpurchase = new Purchase();

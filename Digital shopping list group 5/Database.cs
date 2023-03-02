@@ -333,7 +333,7 @@ namespace Digital_shopping_list_group_5
 
 
 
-        public void ShowReceipts(Consumer consumer, Database db)
+        public void ShowReceipts(Consumer consumer)
         {
             foreach (Purchase pw in listOfReceipts)
             {
