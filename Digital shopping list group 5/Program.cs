@@ -105,11 +105,12 @@ namespace Digital_shopping_list_group_5
                         break;
                     case 2: // Receipts menu option, TBD
                         //db.Display(db.ListOfReceipts, true);
-                        db.ShowReceipts();
+                        db.ShowReceipts(consumer, db);
                         break;
                     case 3:
                         Purchase newpurchase = new Purchase();
                         newpurchase.MakePurchase(db, consumer);
+                        RunMenu(db, consumer);
                         break;
                     default:
                         Console.Write($"\nInvalid option: ");

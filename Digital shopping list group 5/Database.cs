@@ -1,11 +1,13 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -132,11 +134,11 @@ namespace Digital_shopping_list_group_5
                         for (int i = 5; i < splittedObject.Length - 1; i += 5)
                         {
                             Item item1 = new Item(Int32.Parse(splittedObject[i]), Int32.Parse(splittedObject[i + 1]),
-                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], bool.Parse(splittedObject[i + 4]));
+                                Int32.Parse(splittedObject[i + 2]), splittedObject[i + 3], true);
                             listOfItems1.Add(item1);
                         }
                     }
-                    PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems1);
+                    PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[1]), splittedObject[4], listOfItems1);
                     listOfPurchases.Add(purchaseList);
                     Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy", CultureInfo.InvariantCulture), listOfPurchases);
                     listOfReceipts.Add(testafiesta);
@@ -330,13 +332,91 @@ namespace Digital_shopping_list_group_5
         //================================================================================================================================
 
 
-        public void ShowReceipts()
+
+        public void ShowReceipts(Consumer consumer, Database db)
         {
             foreach (Purchase pw in listOfReceipts)
             {
-                Console.WriteLine($"{pw.DateCheck} {pw.ListOfPurchases}");
+                if (pw.Email == consumer.Email)
+                {
+                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
+                    
+                }
+            }
+            
+            Console.WriteLine();
+            Console.WriteLine("Choose receipt number:");
+            int receiptnumInput = Int32.Parse(Console.ReadLine());
+            Console.WriteLine();
+            int sum = 0;
+            foreach (Purchase pw2 in listOfReceipts)
+            {
+                if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
+                {
+                    foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
+                    {
+                        if (rlist.Id == receiptnumInput)
+                        {
+                            foreach (Item ireceipt in rlist.ListOfItems)
+                            {
+                                if (ireceipt.IsBought == true)
+                                {
+                                    Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+                                    sum += ireceipt.Quantity * ireceipt.Price;
+                                }
+                            }
+                            Console.WriteLine();
+                            string totalt = $"Totalt:";
+                            Console.WriteLine($"{totalt,+30} {sum}");
+                            Console.WriteLine();
+                        }
+
+
+                    }
+                }
+
             }
         }
+
+        //foreach (PurchaseList rlist in pw.ListofPurchasesReceipt)
+        //{
+
+        //    foreach (Item ireceipt in rlist.ListOfItems)
+        //    {
+        //        Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
+        //        //for (int z = 0; z < 10; z++)
+        //        //{
+        //        //if (ireceipt.IsBought == true && pw.Id == 6)
+        //        //{
+        //        //    Console.WriteLine($"{pw.Id} {ireceipt.Name,-20}   {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+        //        //}
+        //        //}
+
+        //    }
+
+        //}
+        //Console.WriteLine($"{pw.DateCheck}");
+
+        //foreach (PurchaseList rlist in pw.ListofPurchasesReceipt)
+        //{
+
+        //    foreach (Item ireceipt in rlist.ListOfItems)
+        //    {
+        //        if (ireceipt.IsBought == true)
+        //        {
+        //            Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+        //        }
+        //    }
+        //}
+        //Console.WriteLine();
+        //string totalt = "Totalt:";
+        //Console.WriteLine($"{totalt,+30}");
+        //Console.WriteLine();
+
+
+
+
+
 
 
 
