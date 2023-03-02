@@ -120,7 +120,7 @@ namespace Digital_shopping_list_group_5
                 switch (input)
                 {
                     case "1":
-                        newPurchaseList.EditPurchaseList(db);
+                        newPurchaseList.EditPurchaseList(db, consumer);
                         break;
                     case "2":
                         consumer.ListOfPurchases.Add(newPurchaseList); // Adds the newly created purchase list to Consumer.
@@ -236,14 +236,14 @@ namespace Digital_shopping_list_group_5
 
 
         //KOLLA HIT
-        public Database EditPurchaseList(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
+        public Database EditPurchaseList(Database db, Consumer consumer) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
             Console.Clear();
             Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
             Console.WriteLine();
 
-            // db.Display(): Displays all items in current PurchaseList.
-            if (_listOfItems != null) db.Display(this);
+            //db.Display(this); //Displays all items in current PurchaseList.
+            if (_listOfItems != null) db.Display(db);
             else Console.WriteLine("<EMPTY LIST>");
 
             while (true)
