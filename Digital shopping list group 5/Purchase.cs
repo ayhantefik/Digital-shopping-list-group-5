@@ -19,7 +19,9 @@ namespace Digital_shopping_list_group_5
         DateTime dateCheck;
         int ID = -1;
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+
         double totalPrice;
+        public List<PurchaseList> ListofPurchasesReceipt => listOfPurchases;
 
         public Purchase() { }
         public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
@@ -190,8 +192,13 @@ namespace Digital_shopping_list_group_5
                     {
                         if (l.Id == userInput)
                         {
+<<<<<<< HEAD
                             sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
                             sw.Close();
+=======
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-M-yyy")};{l}");
+                            
+>>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
                         }
                     }
                 }
