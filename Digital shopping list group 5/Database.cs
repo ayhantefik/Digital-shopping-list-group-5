@@ -44,7 +44,7 @@ namespace Digital_shopping_list_group_5
         public List<PurchaseList> AllPurchaseLists => _allPurchaseLists; 
         public void AddToPurchaseLists(PurchaseList value) => _allPurchaseLists.Add(value);
         public void SetListOfPurchases(List<PurchaseList> value) => _allPurchaseLists = value;
-        public List<Purchase> AllPurchases => _allPurchases; 
+        public List<Purchase> AllPurchases => _allPurchases; public void SetAllPurchases(List<Purchase> value) => _allPurchases = value;
         public void AddToPurchases(Purchase value) => _allPurchases.Add(value);
 
         public Consumer GetCurrentConsumer => _currentConsumer;  
@@ -376,6 +376,7 @@ namespace Digital_shopping_list_group_5
                     noreceipt = true;
                 }
             }
+
             if (noreceipt == false)
             {
                 Console.WriteLine();

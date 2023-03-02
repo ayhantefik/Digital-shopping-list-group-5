@@ -207,8 +207,34 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine("Ok, you do not want to make a purchase.");
                 Console.WriteLine("Please go back to the menu and choose your next action.");
             }
-
             Console.WriteLine();
+
+
+
+            //UPDATE APPLICATION
+            db.SetAllPurchases(new List<Purchase>());
+            db.SetAllConsumers(new List<Consumer>());
+            db.SetListOfPurchases(new List<PurchaseList>());
+            db.LoadAllFromDatabase();
+            foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
+            {
+                if (consumer.Email == c.Email)
+                {
+                    Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                    List<PurchaseList> plList = new List<PurchaseList>();
+
+                    foreach (int i in cons.IdsOfPurchaseLists)
+                    {
+                        foreach (PurchaseList pl in db.AllPurchaseLists)
+                        {
+                            if (i == pl.Id) plList.Add(pl);
+                        }
+                    }
+                    cons.ListOfPurchases = plList;
+                    db.SetCurrentConsumer(cons);
+                }
+            }
         }
     }
 }
