@@ -51,6 +51,18 @@ namespace Digital_shopping_list_group_5
         public void SetCurrentConsumer(Consumer value) => _currentConsumer = value;
         public PurchaseList GetCurrentPurchaseList => _currentPurchaseList;
 
+
+
+
+
+
+
+
+
+
+
+
+
         public void LoadAllFromDatabase() //rewritten and merged
         {            
             StreamReader str;
@@ -273,6 +285,7 @@ namespace Digital_shopping_list_group_5
         //manipulating with the objects: no interaction with the files.
         public void Display(object obj,bool displayExtended = false) 
         {
+            Console.Clear();
             // Displays the purchase lists pinned to the loggedIn Consumer, NO items.
             if (obj.GetType() == typeof(List<PurchaseList>) && !displayExtended) 
             {

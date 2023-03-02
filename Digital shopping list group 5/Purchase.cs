@@ -154,27 +154,27 @@ namespace Digital_shopping_list_group_5
         //
 
         public void MakePurchase(Database db, Consumer consumer)
-        {
-            Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
-            Console.WriteLine();
+        {            
             db.Display(consumer.ListOfPurchases, true);
             Console.WriteLine();
-            int userInput = Int32.Parse(Console.ReadLine());
-            int index = -1;
-            foreach (PurchaseList pl in consumer.ListOfPurchases)
+            
+            //int index = -1;
+            /*foreach (PurchaseList pl in consumer.ListOfPurchases)
             {
                 if (userInput == pl.Id)
                 {
                     index = consumer.ListOfPurchases.IndexOf(pl);
                     db.Display(pl);
                 }
-            }
+            }*/
+            Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");           
+            int userInput = Int32.Parse(Console.ReadLine());
             Console.WriteLine();
             Console.WriteLine("Do you want to make a purchase?");
             Console.WriteLine("Write [6] for YES and [7] for NO.");
             //string uInput = Console.ReadLine();
             int userInput2 = Int32.Parse(Console.ReadLine());
-            var newListOfReceipts = new List<PurchaseList>();
+            //var newListOfReceipts = new List<PurchaseList>();
             if (userInput2 == 6)
             {
                 // assign the unique ID to the receipt

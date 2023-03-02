@@ -25,10 +25,11 @@ namespace Digital_shopping_list_group_5
             Consumer consumer = new Consumer();
             do
             {
+                Console.Clear();
                 consumer = consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
                 if (db.GetCurrentConsumer != null) RunMenu(db, db.GetCurrentConsumer);
 
-            } while (db.GetCurrentConsumer == null);
+            } while (db.GetCurrentConsumer != null);
 
         }
         static void RunMenu(Database db, Consumer consumer)
@@ -36,8 +37,8 @@ namespace Digital_shopping_list_group_5
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("[1] Purchase lists");  // it works
-            Console.WriteLine("[2] Receipts"); // TBD
-            Console.WriteLine("[3] Make a purchase"); // TBD, pay for the existing purchase list
+            Console.WriteLine("[2] Receipts"); // it works
+            Console.WriteLine("[3] Make a purchase"); // it works
             Console.WriteLine("[0] Log out"); // it works
             while (true)
             {
@@ -47,19 +48,22 @@ namespace Digital_shopping_list_group_5
                     switch (userInput)
                     {
                         case 0:
-                            //db.SetCurrentConsumer(null); 
-                            //Console.Clear();
-                            db.SetCurrentConsumer(null); consumer.RunSecuritySystem(db); RunMenu(db, db.GetCurrentConsumer);  break;
+                            
+                            db.SetCurrentConsumer(null); 
+                            consumer.RunSecuritySystem(db); 
+                            RunMenu(db, db.GetCurrentConsumer);
+                            break;
+
                         case 1:
 
                             // displaying the Consumer´s existing purchase lists.
                             // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
-                            Console.Clear();
+                            //Console.Clear();
                             db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
 
                             Console.WriteLine();
                             Console.WriteLine("[1] Create a new purchase list"); // it works
-                            Console.WriteLine("[2] Edit an existing purchase list"); //TBD, changes the list´s name, the items´s names, their quantity & price
+                            Console.WriteLine("[2] Edit an existing purchase list"); //TBD
                             Console.WriteLine("[3] Delete a purchase list"); // it works
 
                             Console.WriteLine("[4] Merge lists"); // it works
@@ -73,19 +77,16 @@ namespace Digital_shopping_list_group_5
                                 case 0:
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
-                                case 1:
-                                    Console.Clear();
+                                case 1:                                    
                                     db = pl.NewPurchaseList(db, db.GetCurrentConsumer); //return db with an update Consumer in it 
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 case 2: // Edit list option
 
-                                    //db.EditLists();
-                                    //db.ChangePurchaseListName();
-                                    break;
-                                    
-                                    RunMenu(db, consumer);
-
+                                //db.EditLists();
+                                //db.ChangePurchaseListName();                                                                
+                                RunMenu(db, db.GetCurrentConsumer);
+                                    break;  
                                 case 3:
                                     db = pl.RemovePurchaseList(db, db.GetCurrentConsumer);
                                     RunMenu(db, db.GetCurrentConsumer);
@@ -96,7 +97,6 @@ namespace Digital_shopping_list_group_5
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
                                 case 5:
-
                                     db = pl.ShareList(db, db.GetCurrentConsumer);
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;

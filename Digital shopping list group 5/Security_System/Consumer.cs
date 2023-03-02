@@ -241,7 +241,7 @@ namespace Digital_shopping_list_group_5
                         cons.ListOfPurchases = plList;
                         db.SetCurrentConsumer(cons);
 
-                        Console.Clear();
+                        //Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"Welcome {db.GetCurrentConsumer.Name}");
                         return true;
