@@ -234,7 +234,6 @@ namespace Digital_shopping_list_group_5
             return db;
         }
 
-
         //KOLLA HIT
         public void EditPurchaseList(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {

@@ -125,7 +125,7 @@ namespace Digital_shopping_list_group_5
                     }
                 }
             }
-            /*path = _purchasesFile;
+            path = _purchasesFile;
             using (str = new StreamReader(path))
             {
                 string line;
@@ -150,7 +150,7 @@ namespace Digital_shopping_list_group_5
                     //PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[0]), splittedObject[1], splittedObject[2], listOfPurchases);
 
                 }
-            }*/
+            }
 
             /*path = "Path/listOfReceipts.csv"; // TBD
             using (str = new StreamReader(path))
@@ -344,11 +344,48 @@ namespace Digital_shopping_list_group_5
 
         }
 
-        public void ShowReceipts()
+        public void ShowReceipts(Consumer consumer)
         {
             foreach (Purchase pw in _allPurchases)
             {
-                Console.WriteLine($"{pw.DateCheck} {pw.ListOfPurchases}");
+                if (pw.Email == consumer.Email)
+                {
+                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
+
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Choose receipt number:");
+            int receiptnumInput = Int32.Parse(Console.ReadLine());
+            Console.WriteLine();
+            double sum = 0;
+            foreach (Purchase pw2 in _allPurchases)
+            {
+                if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
+                {
+                    foreach (PurchaseList rlist in pw2.ListOfPurchases)
+                    {
+                        if (rlist.Id == receiptnumInput)
+                        {
+                            foreach (Item ireceipt in rlist.ListOfItems)
+                            {
+                                if (ireceipt.IsBought == true)
+                                {
+                                    Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+                                    sum += ireceipt.Quantity * ireceipt.Price;
+                                }
+                            }
+                            Console.WriteLine();
+                            string totalt = $"Totalt:";
+                            Console.WriteLine($"{totalt,+30} {sum}");
+                            Console.WriteLine();
+                        }
+
+
+                    }
+                }
+
             }
         }
 
