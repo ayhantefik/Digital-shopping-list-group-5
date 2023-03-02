@@ -145,7 +145,7 @@ namespace Digital_shopping_list_group_5
                             listOfItems1.Add(item1);
                         }
                     }
-                    PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[1]), splittedObject[4], listOfItems1);
+                    PurchaseList purchaseList = new PurchaseList(Int32.Parse(splittedObject[3]), splittedObject[4], listOfItems1);
                     _allPurchaseLists.Add(purchaseList);
                     Purchase testafiesta = new Purchase(splittedObject[0], Int32.Parse(splittedObject[1]), DateTime.ParseExact(splittedObject[2], "dd-M-yyyy HH:mm:ss", CultureInfo.InvariantCulture), _allPurchaseLists);
                     _allPurchases.Add(testafiesta);
@@ -377,12 +377,12 @@ namespace Digital_shopping_list_group_5
                                     sum += ireceipt.Quantity * ireceipt.Price;
                                 }
                             }
-                            Console.WriteLine();
-                            string totalt = $"Totalt:";
-                            Console.WriteLine($"{totalt,+30} {sum}");
-                            Console.WriteLine();
                         }
                     }
+                    Console.WriteLine();
+                    string totalt = $"Totalt:";
+                    Console.WriteLine($"{totalt,+30} {sum}");
+                    Console.WriteLine();
                 }
 
             }
