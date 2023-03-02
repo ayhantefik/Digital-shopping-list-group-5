@@ -87,7 +87,6 @@ namespace Digital_shopping_list_group_5
                                     RunMenu(db, db.GetCurrentConsumer);
                                     break;
 
-<<<<<<< HEAD
                                 case 4:
                                     db = pl.MergeLists(db, consumer);
                                     RunMenu(db, db.GetCurrentConsumer);
@@ -128,42 +127,6 @@ namespace Digital_shopping_list_group_5
                 {
                     Console.WriteLine("\nInvalid option.\n");
                     RunMenu(db, consumer);
-=======
-                            case 4:
-                                db = pl.MergeLists(db, consumer);
-                                RunMenu(db, db.GetCurrentConsumer);                           
-                                break;
-                            case 5: 
-                                
-                                db = pl.ShareList(db, consumer);
-                                RunMenu(db, db.GetCurrentConsumer);
-                                break;
-                            default:
-                                Console.Write($"\nInvalid option: ");
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"{userInput}\n");
-                                Console.ResetColor();
-                                RunMenu(db, consumer);
-                                break;
-                        }
-                        break;
-                    case 2: // Receipts menu option, TBD
-                        //db.Display(db.ListOfReceipts, true);
-                        db.ShowReceipts(consumer);
-                        break;
-                    case 3:
-                        Purchase newpurchase = new Purchase();
-                        newpurchase.MakePurchase(db, consumer);
-                        RunMenu(db, consumer);
-                        break;
-                    default:
-                        Console.Write($"\nInvalid option: ");
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{userInput}\n");
-                        Console.ResetColor();
-                        RunMenu(db, consumer);
-                        break;
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
                 }
             }
 

@@ -18,32 +18,32 @@ namespace Digital_shopping_list_group_5
         string email;
         DateTime dateCheck;
         int ID = -1;
-        List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+        List<PurchaseList> _allPurchaseLists = new List<PurchaseList>();
 
         double totalPrice;
-        public List<PurchaseList> ListofPurchasesReceipt => listOfPurchases;
+        public List<PurchaseList> ListofPurchasesReceipt => _allPurchaseLists;
 
         public Purchase() { }
-        public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
+        public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
         {
             this.email = email;
             this.dateCheck = DateTime.Now;
             this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
+            this._allPurchaseLists = _allPurchaseLists;
         }
 
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases, double totalPrice)
+        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists, double totalPrice)
         {
             this.dateCheck = DateTime.Now;
             this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
+            this._allPurchaseLists = _allPurchaseLists;
             this.totalPrice = totalPrice;
         }
-        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
+        public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
         {
             this.dateCheck = DateTime.Now;
             this.ID = iD;
-            this.listOfPurchases = listOfPurchases;
+            this._allPurchaseLists = _allPurchaseLists;
         }
 
         //=======================================================================================
@@ -53,16 +53,15 @@ namespace Digital_shopping_list_group_5
         public void SetDateTime(DateTime value) => dateCheck =value;
         public int SetID(int value) => ID = value;
         public double SetTotalPrice(double value) => totalPrice = value;
-        public List<PurchaseList> ListOfPurchases => listOfPurchases; public void SetListOfPurchases(List<PurchaseList> value) => listOfPurchases = value;
-        //=======================================================================================
+        public List<PurchaseList> ListOfPurchases => _allPurchaseLists; public void SetListOfPurchases(List<PurchaseList> value) => _allPurchaseLists = value;
         public override string ToString() 
         {
-            return $" {ID};{DateTime.Now};{listOfPurchases};{totalPrice}";
+            return $" {ID};{DateTime.Now};{_allPurchaseLists};{totalPrice}";
         }
 
         void SaveToDb(Object obj) // Move to Database class
         {
-            string str = $"{DateTime.Now};{ID};{listOfPurchases};{totalPrice};";
+            string str = $"{DateTime.Now};{ID};{_allPurchaseLists};{totalPrice};";
 
             using (var streamWriter = new StreamWriter(@"Path/listOfReceipts.csv", true))
             {
@@ -192,13 +191,11 @@ namespace Digital_shopping_list_group_5
                     {
                         if (l.Id == userInput)
                         {
-<<<<<<< HEAD
                             sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
                             sw.Close();
-=======
+
                             sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-M-yyy")};{l}");
                             
->>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
                         }
                     }
                 }
