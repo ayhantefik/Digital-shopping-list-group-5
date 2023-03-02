@@ -192,10 +192,6 @@ namespace Digital_shopping_list_group_5
                         if (l.Id == userInput)
                         {
                             sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
-                            sw.Close();
-
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-M-yyy")};{l}");
-                            
                         }
                     }
                 }
