@@ -81,12 +81,9 @@ namespace Digital_shopping_list_group_5
                                 Console.Clear();
                                 db = pl.NewPurchaseList(db, consumer); //return db with an update Consumer in it 
                                 break;
-                            case 2: // Edit list option
-
-                                //db.EditLists();
-                                //db.ChangePurchaseListName();
+                            case 2:
+                                pl.EditPurchaseList(db, consumer);
                                 break;
-
                             case 3:
                                 db = pl.RemovePurchaseList(db, consumer);
                                 break;
