@@ -42,6 +42,11 @@ namespace Digital_shopping_list_group_5
 
         public Database NewPurchaseList(Database db, Consumer consumer) //Creates new PurchaseList and adds to Consumer.ListOfPurchases & Consumer.IdsOfPurchaseLists.
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
             string input;
             bool quit = false;
             var newPurchaseList = new PurchaseList();
@@ -167,6 +172,13 @@ namespace Digital_shopping_list_group_5
 
         public Database RemovePurchaseList(Database db, Consumer consumer) // the old DeletePurchaseList() method from <Database> class.
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
+
+
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
 
@@ -246,6 +258,12 @@ namespace Digital_shopping_list_group_5
         //KOLLA HIT
         public void EditPurchaseList(Database db, Consumer consumer)
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
+
             bool run = true;
             Console.Clear();
             var editPurchaseList = SelectPurchaseList(db, consumer);
@@ -285,13 +303,26 @@ namespace Digital_shopping_list_group_5
         }
         public Database EditPurchaseListItems(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
+            db.SetAllItems(new List<Item>());
+            db.SetAllConsumers(new List<Consumer>());
+            db.SetListOfPurchases(new List<PurchaseList>());
+            db.SetAllPurchases(new List<Purchase>());
+            db.LoadAllFromDatabase();
+
             Console.Clear();
             Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
             Console.WriteLine();
 
             //db.Display(this); //Displays all items in current PurchaseList.
-            if (_listOfItems.Count > 0) db.Display(this);
+            if (_listOfItems.Count > 0) 
+            {
+                db.Display(this);
+            }
+
             else Console.WriteLine("<EMPTY LIST>");
+
+            Console.WriteLine(_listOfItems.Count);
+            
 
             while (true)
             {
@@ -320,6 +351,13 @@ namespace Digital_shopping_list_group_5
 
         public Database ShareList(Database db, Consumer consumer)
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
+
+
             Console.Clear();
             Console.WriteLine();
             db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
@@ -444,6 +482,13 @@ namespace Digital_shopping_list_group_5
         }
         public Database MergeLists(Database db, Consumer consumer)
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
+
+
             int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
             if (numberOfPurchaseList > 0)
             {
@@ -583,6 +628,12 @@ namespace Digital_shopping_list_group_5
         // TBD: SetQuantity not updating? 
         private void AddItemToPurchaseList(Database db)
         {
+            db.SetAllItems(new List<Item>());
+            db.SetAllConsumers(new List<Consumer>());
+            db.SetListOfPurchases(new List<PurchaseList>());
+            db.SetAllPurchases(new List<Purchase>());
+            db.LoadAllFromDatabase();
+            
             db.Display(db.AllItems);
 
             Console.Write("Enter id of item to add to list: ");
@@ -624,6 +675,12 @@ namespace Digital_shopping_list_group_5
 
         private void DeleteItemFromPurchaseList(Database db)
         {
+            //db.SetAllItems(new List<Item>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.LoadAllFromDatabase();
+
             db.Display(this);
             Console.Write("Enter ID of item to remove: ");
             bool idParse = int.TryParse(Console.ReadLine(), out int id);            
