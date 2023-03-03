@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>104</x>
-      <y>400</y>
+      <x>40</x>
+      <y>384</y>
       <w>112</w>
       <h>184</h>
     </coordinates>
@@ -29,8 +29,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>328</x>
-      <y>608</y>
+      <x>264</x>
+      <y>728</y>
       <w>208</w>
       <h>264</h>
     </coordinates>
@@ -61,8 +61,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>104</x>
-      <y>744</y>
+      <x>40</x>
+      <y>864</y>
       <w>112</w>
       <h>112</h>
     </coordinates>
@@ -82,8 +82,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>104</x>
-      <y>608</y>
+      <x>40</x>
+      <y>728</y>
       <w>112</w>
       <h>64</h>
     </coordinates>
@@ -96,8 +96,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>144</x>
-      <y>664</y>
+      <x>80</x>
+      <y>784</y>
       <w>24</w>
       <h>96</h>
     </coordinates>
@@ -107,8 +107,8 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>144</x>
-      <y>848</y>
+      <x>80</x>
+      <y>968</y>
       <w>288</w>
       <h>56</h>
     </coordinates>
@@ -118,8 +118,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>584</x>
-      <y>816</y>
+      <x>520</x>
+      <y>936</y>
       <w>112</w>
       <h>40</h>
     </coordinates>
@@ -131,8 +131,8 @@ CustomerLvl
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>208</x>
-      <y>376</y>
+      <x>144</x>
+      <y>360</y>
       <w>80</w>
       <h>112</h>
     </coordinates>
@@ -142,8 +142,8 @@ CustomerLvl
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>264</x>
-      <y>376</y>
+      <x>200</x>
+      <y>360</y>
       <w>80</w>
       <h>112</h>
     </coordinates>
@@ -153,8 +153,8 @@ CustomerLvl
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>192</x>
-      <y>16</y>
+      <x>128</x>
+      <y>0</y>
       <w>224</w>
       <h>368</h>
     </coordinates>
@@ -194,8 +194,8 @@ CustomerLvl
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>424</x>
-      <y>16</y>
+      <x>360</x>
+      <y>0</y>
       <w>120</w>
       <h>144</h>
     </coordinates>
@@ -214,36 +214,35 @@ Purchases.csv;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>592</x>
-      <y>400</y>
-      <w>128</w>
+      <x>528</x>
+      <y>384</y>
+      <w>216</w>
       <h>200</h>
     </coordinates>
     <panel_attributes>Purchase
 --
+-email: string
+-iD: int
 -dateCheck: DateTime
--id: int
--purchase: PurchaseList
--totalPrice: double
+-_allPurchaseListe: List&lt;PurchaseList&gt;
 --
-+DateTime DateCheck
++SetDateTime()
 +SetID()
 +SetTotalPrice()
-+Purchase()
 +ToString()
 +SaveToDb()
 +LoadFromDb()
 +Display()
 +Remove()
-
++MakePurchase()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>520</x>
-      <y>472</y>
+      <x>456</x>
+      <y>456</y>
       <w>88</w>
       <h>24</h>
     </coordinates>
@@ -253,24 +252,30 @@ Purchases.csv;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>328</x>
-      <y>400</y>
+      <x>264</x>
+      <y>384</y>
       <w>200</w>
-      <h>200</h>
+      <h>248</h>
     </coordinates>
     <panel_attributes>PurchaseList
 --
 -id: int
 -name: string
--listOfItems: List&lt;Item&gt;
+-_listOfItems: List&lt;Item&gt;
 --
-+PurchaseList()
-+List&lt;Item&gt; ListOfItems
++SetID()
++SetName()
++SetListOfItems()
 +ToString()
 +NewPurchase()
 +RemovePurchaseList()
-+SelectPurchase()
-+ViewPurchase()
++EditPurchaseList()
++ShareList()
++MergeLists()
++AddItemToPurchaseList()
++DeleteItemFromPurchaseList()
++CheckInput()
++SelectPurchaseList()
 
 </panel_attributes>
     <additional_attributes/>
