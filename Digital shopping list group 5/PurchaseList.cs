@@ -169,68 +169,76 @@ namespace Digital_shopping_list_group_5
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Choose an ID that you want to delete:");
-            Console.WriteLine();
 
-            db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
+            int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
+            //if (numberOfPurchaseList == 0) 
 
-            Console.WriteLine();
-            bool success = int.TryParse(Console.ReadLine(), out int userInput);
-            if (success)
+            if (numberOfPurchaseList > 0)
             {
-                int index = -1;
-                foreach (PurchaseList pl in consumer.ListOfPurchases)
+                Console.WriteLine("Choose an ID that you want to delete:");
+                Console.WriteLine();
+
+                db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
+
+                Console.WriteLine();
+                bool success = int.TryParse(Console.ReadLine(), out int userInput);
+                if (success)
                 {
-                    if (userInput == pl.Id)
+                    int index = -1;
+                    foreach (PurchaseList pl in consumer.ListOfPurchases)
                     {
-                        index = db.AllPurchaseLists.IndexOf(pl);
-                    }
-                }
-                if (index != -1)
-                {
-                    db.AllPurchaseLists.RemoveAt(index); // remove the purchase list from <Database> class
-                }
-                else Console.WriteLine($"ID [{userInput}] not registered to {consumer.Email}");
-
-
-                index = -1;
-                foreach (int i in consumer.IdsOfPurchaseLists)
-                {
-                    if (i == userInput)
-                    {
-                        index = consumer.IdsOfPurchaseLists.IndexOf(i);
-                        Console.WriteLine($"Purchase List with ID [{i}] successfully deleted from {consumer.Email}");
-                    }
-                }
-                if (index != -1)
-                {
-                    consumer.IdsOfPurchaseLists.RemoveAt(index);  // remove purchase list´s ID from Consumer
-                }
-
-                db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
-                db.UpdateFileInDataBase(1); // update the whole <listOfPurchases.csv>
-
-                foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
-                {
-                    if (consumer.Email == c.Email)
-                    {
-                        Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
-
-                        List<PurchaseList> plList = new List<PurchaseList>();
-
-                        foreach (int i in cons.IdsOfPurchaseLists)
+                        if (userInput == pl.Id)
                         {
-                            foreach (PurchaseList pl in db.AllPurchaseLists)
-                            {
-                                if (i == pl.Id) plList.Add(pl);
-                            }
+                            index = db.AllPurchaseLists.IndexOf(pl);
                         }
-                        cons.ListOfPurchases = plList;
-                        db.SetCurrentConsumer(cons);
+                    }
+                    if (index != -1)
+                    {
+                        db.AllPurchaseLists.RemoveAt(index); // remove the purchase list from <Database> class
+                    }
+                    else Console.WriteLine($"ID [{userInput}] not registered to {consumer.Email}");
+
+
+                    index = -1;
+                    foreach (int i in consumer.IdsOfPurchaseLists)
+                    {
+                        if (i == userInput)
+                        {
+                            index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                            Console.WriteLine($"Purchase List with ID [{i}] successfully deleted from {consumer.Email}");
+                        }
+                    }
+                    if (index != -1)
+                    {
+                        consumer.IdsOfPurchaseLists.RemoveAt(index);  // remove purchase list´s ID from Consumer
+                    }
+
+                    db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
+                    db.UpdateFileInDataBase(1); // update the whole <listOfPurchases.csv>
+
+                    foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
+                    {
+                        if (consumer.Email == c.Email)
+                        {
+                            Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                            List<PurchaseList> plList = new List<PurchaseList>();
+
+                            foreach (int i in cons.IdsOfPurchaseLists)
+                            {
+                                foreach (PurchaseList pl in db.AllPurchaseLists)
+                                {
+                                    if (i == pl.Id) plList.Add(pl);
+                                }
+                            }
+                            cons.ListOfPurchases = plList;
+                            db.SetCurrentConsumer(cons);
+                        }
                     }
                 }
-            }
-            else Console.WriteLine("wrong input");
+                else Console.WriteLine("wrong input");
+            }else Console.WriteLine($"No purchase lists registered for {db.GetCurrentConsumer.Email}");
+
 
             return db;
         }
@@ -561,8 +569,8 @@ namespace Digital_shopping_list_group_5
         {
             db.Display(this);
             Console.Write("Enter ID of item to remove: ");
-            bool idParse = int.TryParse(Console.ReadLine(), out int id);
-
+            bool idParse = int.TryParse(Console.ReadLine(), out int id);            
+            
             if (!idParse)
             {
                 Console.WriteLine("Wrong format, delete item cancelled!");

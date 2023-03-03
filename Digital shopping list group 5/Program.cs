@@ -42,8 +42,8 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("[0] Log out"); // it works
             while (true)
             {
-                //try
-                //{
+                try
+                {
                     int userInput = Int32.Parse(Console.ReadLine());
                 Purchase receipt = new Purchase();
                 switch (userInput)
@@ -126,12 +126,12 @@ namespace Digital_shopping_list_group_5
                             RunMenu(db, db.GetCurrentConsumer);
                             break;
                     }
-                //}
-                //catch
-                //{
-                //    Console.WriteLine("\nInvalid option.\n");
-                //    RunMenu(db, db.GetCurrentConsumer);
-                //}
+                }
+                catch
+                {
+                    Console.WriteLine("\nInvalid option.\n");
+                    RunMenu(db, db.GetCurrentConsumer);
+                }
             }
 
         }
