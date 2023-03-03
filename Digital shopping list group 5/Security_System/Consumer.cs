@@ -307,7 +307,7 @@ namespace Digital_shopping_list_group_5
                     }
                     Console.WriteLine();
                     string totalt = $"Total:";
-                    Console.WriteLine($"{totalt,+30} {sum}");
+                    Console.WriteLine($"{totalt,+30} {sum:C00}");
                     Console.WriteLine();
                 }
             }
