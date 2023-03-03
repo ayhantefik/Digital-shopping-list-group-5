@@ -51,7 +51,7 @@ namespace Digital_shopping_list_group_5
         {            
             db.Display(consumer.ListOfPurchases, true);
             Console.WriteLine();
-            
+            int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
             //int index = -1;
             /*foreach (PurchaseList pl in consumer.ListOfPurchases)
             {
@@ -61,73 +61,81 @@ namespace Digital_shopping_list_group_5
                     db.Display(pl);
                 }
             }*/
-            Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");           
-            int userInput = Int32.Parse(Console.ReadLine());
-            Console.WriteLine();
-            Console.WriteLine("Do you want to make a purchase?");
-            Console.WriteLine("Write [6] for YES and [7] for NO.");
-            //string uInput = Console.ReadLine();
-            int userInput2 = Int32.Parse(Console.ReadLine());
-            //var newListOfReceipts = new List<PurchaseList>();
-            if (userInput2 == 6)
+            if (numberOfPurchaseList > 0)
             {
-                // assign the unique ID to the receipt
-                int lastExistingID = 0;
-                foreach (Purchase p in db.AllPurchases)
+                Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
+                int userInput = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                Console.WriteLine("Do you want to make a purchase?");
+                Console.WriteLine("Write [6] for YES and [7] for NO.");
+                //string uInput = Console.ReadLine();
+                int userInput2 = Int32.Parse(Console.ReadLine());
+                //var newListOfReceipts = new List<PurchaseList>();
+                if (userInput2 == 6)
                 {
-                    if (p.Id > lastExistingID) lastExistingID = p.Id;
-                }
-                lastExistingID += 1;
-                DateTime newpurchasedate = DateTime.Now;
-                using (var sw = new StreamWriter("Path/Purchases.csv", true))
-                {
-                    foreach (PurchaseList l in consumer.ListOfPurchases)
+                    // assign the unique ID to the receipt
+                    int lastExistingID = 0;
+                    foreach (Purchase p in db.AllPurchases)
                     {
-                        if (l.Id == userInput)
+                        if (p.Id > lastExistingID) lastExistingID = p.Id;
+                    }
+                    lastExistingID += 1;
+                    DateTime newpurchasedate = DateTime.Now;
+                    using (var sw = new StreamWriter("Path/Purchases.csv", true))
+                    {
+                        foreach (PurchaseList l in consumer.ListOfPurchases)
                         {
-                            l.SetID(lastExistingID);
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy HH:mm:ss")};{l}");
+                            if (l.Id == userInput)
+                            {
+                                l.SetID(lastExistingID);
+                                sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy HH:mm:ss")};{l}");
+                            }
                         }
                     }
+                    Console.WriteLine();
+                    Console.WriteLine("Purchase is done and receipt is saved! The items have been ticked off.");
+
+
                 }
-                Console.WriteLine();
-                Console.WriteLine("Purchase is done and receipt is saved! The items have been ticked off.");
-
-
-            }
-            else if (userInput2 == 7)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Ok, you do not want to make a purchase.");
-                Console.WriteLine("Please go back to the menu and choose your next action.");
-            }
-            Console.WriteLine();
-
-
-
-            //UPDATE APPLICATION
-            db.SetAllPurchases(new List<Purchase>());
-            db.SetAllConsumers(new List<Consumer>());
-            db.SetListOfPurchases(new List<PurchaseList>());
-            db.LoadAllFromDatabase();
-            foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
-            {
-                if (consumer.Email == c.Email)
+                else if (userInput2 == 7)
                 {
-                    Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
-
-                    List<PurchaseList> plList = new List<PurchaseList>();
-
-                    foreach (int i in cons.IdsOfPurchaseLists)
-                    {
-                        foreach (PurchaseList pl in db.AllPurchaseLists)
-                        {
-                            if (i == pl.Id) plList.Add(pl);
-                        }
-                    }
-                    cons.ListOfPurchases = plList;
-                    db.SetCurrentConsumer(cons);
+                    Console.WriteLine();
+                    Console.WriteLine("Ok, you do not want to make a purchase.");
+                    Console.WriteLine("Please go back to the menu and choose your next action.");
                 }
+                Console.WriteLine();
+
+
+
+                //UPDATE APPLICATION
+                db.SetAllPurchases(new List<Purchase>());
+                db.SetAllConsumers(new List<Consumer>());
+                db.SetListOfPurchases(new List<PurchaseList>());
+                db.LoadAllFromDatabase();
+                foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
+                {
+                    if (consumer.Email == c.Email)
+                    {
+                        Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                        List<PurchaseList> plList = new List<PurchaseList>();
+
+                        foreach (int i in cons.IdsOfPurchaseLists)
+                        {
+                            foreach (PurchaseList pl in db.AllPurchaseLists)
+                            {
+                                if (i == pl.Id) plList.Add(pl);
+                            }
+                        }
+                        cons.ListOfPurchases = plList;
+                        db.SetCurrentConsumer(cons);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"No purchase lists registered for {db.GetCurrentConsumer.Email}");
+                Console.WriteLine();
             }
             return db;
         }       

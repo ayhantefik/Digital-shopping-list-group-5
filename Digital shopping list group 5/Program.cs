@@ -111,7 +111,7 @@ namespace Digital_shopping_list_group_5
                             }
                             break;
                         case 2: 
-                            db = db.ShowReceipts(db,db.GetCurrentConsumer);
+                            db.ShowReceipts(db.GetCurrentConsumer);
                             RunMenu(db, db.GetCurrentConsumer);
                             break;
                         case 3:
