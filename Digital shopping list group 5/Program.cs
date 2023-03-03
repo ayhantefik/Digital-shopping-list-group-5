@@ -18,7 +18,7 @@ namespace Digital_shopping_list_group_5
         //Description TBD
 
         static void Main(string[] args)
-        {          
+        {
             Database db = new Database();
             db.LoadAllFromDatabase();
 
@@ -39,52 +39,96 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine("[2] Receipts"); // TBD
             Console.WriteLine("[3] Make a purchase"); // TBD, pay for the existing purchase list
             Console.WriteLine("[0] Log out"); // it works
-           try
+            while (true)
             {
-                int userInput = Int32.Parse(Console.ReadLine());
-                switch (userInput)
+                try
                 {
-                    case 0:
-                        db.SetCurrentConsumer(null); Console.Clear(); break;
-                    case 1:
+                    int userInput = Int32.Parse(Console.ReadLine());
+                    switch (userInput)
+                    {
+                        case 0:
+                            db.SetCurrentConsumer(null); Console.Clear(); break;
+                        case 1:
 
-                    // displaying the Consumer´s existing purchase lists.
-                    // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
-                        Console.Clear();
-                        db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
+                            // displaying the Consumer´s existing purchase lists.
+                            // <true> shows the purchase list´s IDs and the names,NO items. <false> includes the items for every purchase list
+                            Console.Clear();
+                            db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
 
-                        Console.WriteLine();
-                        Console.WriteLine("[1] Create a new purchase list"); // it works
-                        Console.WriteLine("[2] Edit an existing purchase list"); //TBD, changes the list´s name, the items´s names, their quantity & price
-                        Console.WriteLine("[3] Delete a purchase list"); // it works
+                            Console.WriteLine();
+                            Console.WriteLine("[1] Create a new purchase list"); // it works
+                            Console.WriteLine("[2] Edit an existing purchase list"); //TBD, changes the list´s name, the items´s names, their quantity & price
+                            Console.WriteLine("[3] Delete a purchase list"); // it works
 
-                        Console.WriteLine("[4] Merge lists"); // it works
-                        Console.WriteLine("[5] Share list"); // it works                     
-                        Console.WriteLine();
-                        Console.WriteLine("[0] Back");
-                        userInput = Int32.Parse(Console.ReadLine());
-                        PurchaseList pl = new PurchaseList();
-                        switch (userInput)
-                        {
-                            case 0: RunMenu(db, consumer);
-                                break;
-                            case 1:
-                                Console.Clear();
-                                db = pl.NewPurchaseList(db, consumer); //return db with an update Consumer in it 
-                                RunMenu(db, db.GetCurrentConsumer);
-                                break;
-                            case 2: // Edit list option
-                                db = pl.EditPurchaseList(db, consumer);
-                                RunMenu(db, db.GetCurrentConsumer);
-                                //db.EditLists();
-                                //db.ChangePurchaseListName();
-                                break;
+                            Console.WriteLine("[4] Merge lists"); // it works
+                            Console.WriteLine("[5] Share list"); // it works                     
+                            Console.WriteLine();
+                            Console.WriteLine("[0] Back");
+                            userInput = Int32.Parse(Console.ReadLine());
+                            PurchaseList pl = new PurchaseList();
+                            switch (userInput)
+                            {
+                                case 0:
+                                    RunMenu(db, consumer);
+                                    break;
+                                case 1:
+                                    Console.Clear();
+                                    db = pl.NewPurchaseList(db, consumer); //return db with an update Consumer in it 
+                                    RunMenu(db, db.GetCurrentConsumer);
+                                    break;
+                                case 2: // Edit list option
 
-                            case 3:                                
-                                db = pl.RemovePurchaseList(db, consumer);
-                                RunMenu(db, db.GetCurrentConsumer);
-                                break;
+                                    //db.EditLists();
+                                    //db.ChangePurchaseListName();
+                                    break;
 
+                                case 3:
+                                    db = pl.RemovePurchaseList(db, consumer);
+                                    RunMenu(db, db.GetCurrentConsumer);
+                                    break;
+
+<<<<<<< HEAD
+                                case 4:
+                                    db = pl.MergeLists(db, consumer);
+                                    RunMenu(db, db.GetCurrentConsumer);
+                                    break;
+                                case 5:
+
+                                    db = pl.ShareList(db, consumer);
+                                    RunMenu(db, db.GetCurrentConsumer);
+                                    break;
+                                default:
+                                    Console.Write($"\nInvalid option: ");
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine($"{userInput}\n");
+                                    Console.ResetColor();
+                                    RunMenu(db, consumer);
+                                    break;
+                            }
+                            break;
+                        case 2: // Receipts menu option, TBD
+                                //db.Display(db.ListOfReceipts, true);
+                            db.ShowReceipts(consumer);
+                            break;
+                        case 3:
+                            Purchase newpurchase = new Purchase();
+                            newpurchase.MakePurchase(db, consumer);
+                            RunMenu(db, consumer);
+                            break;
+                        default:
+                            Console.Write($"\nInvalid option: ");
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"{userInput}\n");
+                            Console.ResetColor();
+                            RunMenu(db, consumer);
+                            break;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("\nInvalid option.\n");
+                    RunMenu(db, consumer);
+=======
                             case 4:
                                 db = pl.MergeLists(db, consumer);
                                 RunMenu(db, db.GetCurrentConsumer);                           
@@ -105,11 +149,12 @@ namespace Digital_shopping_list_group_5
                         break;
                     case 2: // Receipts menu option, TBD
                         //db.Display(db.ListOfReceipts, true);
-                        db.ShowReceipts();
+                        db.ShowReceipts(consumer);
                         break;
                     case 3:
                         Purchase newpurchase = new Purchase();
                         newpurchase.MakePurchase(db, consumer);
+                        RunMenu(db, consumer);
                         break;
                     default:
                         Console.Write($"\nInvalid option: ");
@@ -118,13 +163,10 @@ namespace Digital_shopping_list_group_5
                         Console.ResetColor();
                         RunMenu(db, consumer);
                         break;
+>>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
                 }
-            }catch
-            {
-                Console.WriteLine("\nInvalid option.\n");
-                RunMenu(db, consumer);
             }
-            
+
         }
     }
 }

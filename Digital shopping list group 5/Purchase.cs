@@ -19,7 +19,9 @@ namespace Digital_shopping_list_group_5
         DateTime dateCheck;
         int ID = -1;
         List<PurchaseList> listOfPurchases = new List<PurchaseList>();
+
         double totalPrice;
+        public List<PurchaseList> ListofPurchasesReceipt => listOfPurchases;
 
         public Purchase() { }
         public Purchase(string email, int iD, DateTime dateCheck, List<PurchaseList> listOfPurchases)
@@ -45,8 +47,9 @@ namespace Digital_shopping_list_group_5
         }
 
         //=======================================================================================
+        public string Email => email;
         public int Id => ID;
-        public DateTime DateCheck { get; }
+        public DateTime DateCheck => dateCheck;
         public void SetDateTime(DateTime value) => dateCheck =value;
         public int SetID(int value) => ID = value;
         public double SetTotalPrice(double value) => totalPrice = value;
@@ -183,14 +186,19 @@ namespace Digital_shopping_list_group_5
                 }
                 lastExistingID += 1;
                 DateTime newpurchasedate = DateTime.Now;
-                using (var sw = new StreamWriter("Path/listOfReceipts.csv", true))
+                using (var sw = new StreamWriter("Path/Purchases.csv", true))
                 {
                     foreach (PurchaseList l in consumer.ListOfPurchases)
                     {
                         if (l.Id == userInput)
                         {
-                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd/M/yyy")};{l}");
+<<<<<<< HEAD
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-MM-yyyy")};{l}");
                             sw.Close();
+=======
+                            sw.WriteLine($"{consumer.Email};{lastExistingID};{newpurchasedate.ToString("dd-M-yyy")};{l}");
+                            
+>>>>>>> 78b45137edd21c724c9162ec89ded89d1130de2f
                         }
                     }
                 }

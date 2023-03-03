@@ -43,6 +43,7 @@ namespace Digital_shopping_list_group_5
         public double Price => price;
         public string Name => name;
         public bool IsBought => isBought;
+        public int Price => price;
 
         //=====================================================
 

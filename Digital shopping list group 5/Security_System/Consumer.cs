@@ -51,12 +51,14 @@ namespace Digital_shopping_list_group_5
         public List<PurchaseList> ListOfPurchases { get => listOfPurchases; set => listOfPurchases = value; }
         //public List<PurchaseList> ListOfPurchase { get => listOfPurchase; set => listOfPurchase = value; }
         public List<PurchaseList> ListOfReceipts { get => listOfReceipts; set => listOfReceipts = value; }
+        public List<PurchaseList> IdofPurchaselistsForReceipt => listOfPurchases;
 
         public List<int> IdsOfPurchaseLists => idsOfPurchaseLists; public void SetIdsOfPurchaseLists(List<int> value) => idsOfPurchaseLists = value;
         public void InitiateIdsOfPurchaseLists() => idsOfPurchaseLists = new List<int>();
         public bool LoggedIn => loggedIn;
         public int AccountLvl => accountLvl;
         public int Points => points;
+
         //=============================================================================================================
 
 
