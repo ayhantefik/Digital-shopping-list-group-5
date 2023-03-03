@@ -17,9 +17,6 @@ namespace Digital_shopping_list_group_5
 {
     public class Database
     {
-        // TBD: Remove List<string> fields...
-        public List<string> itemlist = new List<string>();
-        public List<string> purchaselists = new List<string>();
 
         // Static fields
         private readonly string _itemsFile = "Path/Items.csv";

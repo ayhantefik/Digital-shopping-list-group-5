@@ -23,9 +23,8 @@ namespace Digital_shopping_list_group_5
         //List<PurchaseList> listOfPurchase;
 
         List<PurchaseList> listOfReceipts;
-
         List<int> idsOfPurchaseLists = new List<int>();
-        List<int> idsOfReceipts = new List<int>(); //TBD
+        List<int> idsOfReceipts = new List<int>(); 
 
         public Consumer(string email = "", string password = "", string name = "", int accountLvl = -1, int points = -1, List<int> idsOfPurchaseLists = null, List<int>idsOfReceipts = null)
             : base(email, password, name)

@@ -20,7 +20,6 @@ namespace Digital_shopping_list_group_5
         int ID = -1;
         List<PurchaseList> _allPurchaseLists = new List<PurchaseList>();
 
-        double totalPrice;
         public List<PurchaseList> ListofPurchasesReceipt => _allPurchaseLists;
 
         public Purchase() { }

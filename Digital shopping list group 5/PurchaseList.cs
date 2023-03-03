@@ -616,7 +616,7 @@ namespace Digital_shopping_list_group_5
 
 
 
-        // TBD: SetQuantity not updating? 
+
         private void AddItemToPurchaseList(Database db)
         {
             db.SetAllItems(new List<Item>());

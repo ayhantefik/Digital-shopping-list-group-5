@@ -1,39 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.0.0">
-  <zoom_level>6</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>648</x>
-      <y>192</y>
-      <w>102</w>
-      <h>144</h>
+      <x>580</x>
+      <y>175</y>
+      <w>185</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>Purchase
 --
+#Purchase()
 
--name:string
--listOfItems: List&lt;Item&gt;
+-email:string
+-ID:int
+-_allPurchaseLists: List&lt;PurchaseList&gt;
 -dateCheck: DateTime
 
-+Display()
-+Add()
-+Remove()
-
-Merge()
-Share()
-Pay()
-
-</panel_attributes>
+--
++MakePurchase()db:Database, consumer:Consumer</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>402</x>
-      <y>192</y>
-      <w>90</w>
-      <h>144</h>
+      <x>425</x>
+      <y>165</y>
+      <w>75</w>
+      <h>125</h>
     </coordinates>
     <panel_attributes>Item
 --
@@ -42,80 +37,51 @@ Pay()
 -ID:int 
 -isBought:bool
 -price:double
-
-
-Display()
-Add()
-Remove()
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>534</x>
-      <y>234</y>
-      <w>60</w>
-      <h>84</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Interface&gt;&gt;
-IAct
-
-Display()
-Add()
-Remove()
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>528</x>
-      <y>348</y>
-      <w>60</w>
-      <h>36</h>
-    </coordinates>
-    <panel_attributes>Do
 --
--act:IAct</panel_attributes>
+
++ToString()
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>108</x>
-      <y>234</y>
-      <w>120</w>
-      <h>102</h>
+      <x>10</x>
+      <y>105</y>
+      <w>215</w>
+      <h>155</h>
     </coordinates>
     <panel_attributes>Consumer
 --
+#Consumer()
+
 
 -accountLvl:int
 -points: int
-purchases: List&lt;Purchase&gt;</panel_attributes>
+-listOfPurchases: List&lt;PurchaseList&gt;
+-listOfReceipts: List&lt;PurchaseList&gt;
+-idsOfPurchaseLists:List&lt;int&gt;
+-idsOfReceipts:List&lt;int&gt;
+
+--
+
++RunSecuritySystem(db:Database)
+-LoginAccount(db:Database)
+-RegisterAccount(db:Database)
+-CheckInput(db: Database,positionInTheProcess: int, input:string)</panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>570</x>
-      <y>306</y>
-      <w>18</w>
-      <h>54</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>204</x>
-      <y>108</y>
-      <w>84</w>
-      <h>108</h>
+      <x>295</x>
+      <y>50</y>
+      <w>70</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>User
+--
+#User()
 --
 
 -name:string
@@ -129,10 +95,10 @@ purchases: List&lt;Purchase&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>282</x>
-      <y>228</y>
-      <w>84</w>
-      <h>102</h>
+      <x>395</x>
+      <y>70</y>
+      <w>70</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>Admin
 --
@@ -143,32 +109,21 @@ purchases: List&lt;Purchase&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>282</x>
-      <y>156</y>
-      <w>54</w>
-      <h>84</h>
+      <x>360</x>
+      <y>90</y>
+      <w>40</w>
+      <h>25</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;120.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>186</x>
-      <y>180</y>
-      <w>30</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30.0;10.0;10.0;80.0</additional_attributes>
+    <additional_attributes>10.0;10.0;60.0;30.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>408</x>
-      <y>138</y>
-      <w>84</w>
-      <h>30</h>
+      <x>150</x>
+      <y>55</y>
+      <w>70</w>
+      <h>25</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
 CustomerLvl
@@ -176,64 +131,47 @@ CustomerLvl
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>462</x>
-      <y>258</y>
-      <w>84</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>582</x>
-      <y>270</y>
-      <w>84</w>
-      <h>18</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>210</x>
-      <y>318</y>
-      <w>498</w>
-      <h>150</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;20.0;560.0;230.0;810.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>126</x>
-      <y>348</y>
-      <w>90</w>
-      <h>72</h>
+      <x>140</x>
+      <y>380</y>
+      <w>170</w>
+      <h>195</h>
     </coordinates>
-    <panel_attributes>Databas 
+    <panel_attributes>Database
 --
--attrib?
--attrib?
+-_itemsFile:string
+-_purchaseFile:string
+-_purchaseListsFile:string
+-_consumersFile:string
 
-func()
-func()
+-_allItems:List&lt;Item&gt;
+-_allPurchaseListsFile:List&lt;PurchaseList&gt;
+-_allPurchases:List&lt;Purchase&gt;
+-_allConsumers:List&lt;Consumer&gt;
+-_donePurchase:List&lt;PurchaseList&gt;
 
+-_currentConsumer: Consumer
+-_currentPurchaseList: PurchaseList
+
+--
+
+LoadAllFromDatabase()
+AddObjectToDatabase()
+EditObjectInDataBase(obj: object)
+UpdateFileInDatabase(number:int)
+Display(obj:object,displayExtended:bool)
+ShowReceipts(consumer:Consumer)
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>6</x>
-      <y>354</y>
-      <w>90</w>
-      <h>48</h>
+      <x>75</x>
+      <y>350</y>
+      <w>75</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>The database system: 
 
@@ -244,15 +182,97 @@ listOfPurchases.csv;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>228</x>
-      <y>366</y>
-      <w>78</w>
-      <h>48</h>
+      <x>275</x>
+      <y>195</y>
+      <w>125</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Program
 --
 
+-Main()
+-RunMenu()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>295</x>
+      <y>255</y>
+      <w>30</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>40.0;10.0;10.0;330.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>120</y>
+      <w>110</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>200.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>380</x>
+      <y>360</y>
+      <w>200</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>PurchaseList
+--
+
+-_id:int
+-_name:name
+-_listOfItems:List&lt;Item&gt;
+--
++ToString()
++NewPurchaseList(db:Database,consumer:Consumer)
++RemovePurchaseList(db:Database,consumer:Consumer)
++EditPurchaseList(db:Database,consumer:Consumer)
++EditPurchaseListName(db:Database)
++EditPurchaseListItems(db:Database,consumer:Consumer)
++ShareLists(db:Database,consumer:Consumer)
++MergeLists(db:Database,consumer:Consumer)
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>270</y>
+      <w>40</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;230.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>420</x>
+      <y>280</y>
+      <w>25</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>30.0;10.0;10.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>200</x>
+      <y>250</y>
+      <w>200</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;380.0;230.0</additional_attributes>
   </element>
 </diagram>
