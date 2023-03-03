@@ -443,7 +443,7 @@ namespace Digital_shopping_list_group_5
                 int receiptnumInput = Int32.Parse(Console.ReadLine()); //check input
                 Console.WriteLine();
                 double sum = 0;
-                foreach (Purchase pw2 in AllPurchases)
+                foreach (Purchase pw2 in _allPurchases)
                 {
                     if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
                     {
