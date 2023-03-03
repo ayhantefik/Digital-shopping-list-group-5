@@ -190,14 +190,14 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine("Choose an ID that you want to delete:");
                 Console.WriteLine();
 
-                db.Display(consumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
+                db.Display(db.GetCurrentConsumer.ListOfPurchases, true); //< true > shows the purchase list´s IDs and the names,NO items. < false > includes the items for every purchase list
 
                 Console.WriteLine();
                 bool success = int.TryParse(Console.ReadLine(), out int userInput);
                 if (success)
                 {
                     int index = -1;
-                    foreach (PurchaseList pl in consumer.ListOfPurchases)
+                    foreach (PurchaseList pl in db.GetCurrentConsumer.ListOfPurchases)
                     {
                         if (userInput == pl.Id)
                         {
@@ -208,11 +208,11 @@ namespace Digital_shopping_list_group_5
                     {
                         db.AllPurchaseLists.RemoveAt(index); // remove the purchase list from <Database> class
                     }
-                    else Console.WriteLine($"ID [{userInput}] not registered to {consumer.Email}");
+                    else Console.WriteLine($"ID [{userInput}] not registered to {db.GetCurrentConsumer.Email}");
 
 
                     index = -1;
-                    foreach (int i in consumer.IdsOfPurchaseLists)
+                    foreach (int i in db.GetCurrentConsumer.IdsOfPurchaseLists)
                     {
                         if (i == userInput)
                         {
@@ -225,12 +225,12 @@ namespace Digital_shopping_list_group_5
                         consumer.IdsOfPurchaseLists.RemoveAt(index);  // remove purchase list´s ID from Consumer
                     }
 
-                    db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
+                    db.EditObjectInDatabase(db.GetCurrentConsumer); // editing one line in <accounts.csv>
                     db.UpdateFileInDataBase(1); // update the whole <listOfPurchases.csv>
 
                     foreach (Consumer c in db.AllConsumers) //update <Consumer> class => to see the changes without reopening the Console
                     {
-                        if (consumer.Email == c.Email)
+                        if (db.GetCurrentConsumer.Email == c.Email)
                         {
                             Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
 
@@ -265,34 +265,42 @@ namespace Digital_shopping_list_group_5
             //db.LoadAllFromDatabase();
 
             bool run = true;
-            Console.Clear();
-            var editPurchaseList = SelectPurchaseList(db, consumer);
-            Console.WriteLine($"Edit purchase list \"{editPurchaseList.Name}\":");
-            Console.WriteLine();
-            while (run)
+            Console.Clear();            
+            int numberOfPL = db.GetCurrentConsumer.ListOfPurchases.Count;
+
+            if (numberOfPL > 0)
             {
-                Console.WriteLine("[1] Change name of purchase list.");
-                Console.WriteLine("[2] Change items of purchase list.");
-                Console.WriteLine("[3] Quit and return.");
-                string input = Console.ReadLine();
-                switch (input)
+                var editPurchaseList = SelectPurchaseList(db, consumer);
+                Console.WriteLine($"Edit purchase list \"{editPurchaseList.Name}\":");
+                Console.WriteLine();
+                while (run)
                 {
-                    case "1":
-                        editPurchaseList.EditPurchaseListName(db);
-                        run = false;
-                        break;
-                    case "2":
-                        editPurchaseList.EditPurchaseListItems(db);
-                        run = false;
-                        break;
-                    case "3":
-                        return;
-                    default:
-                        Console.WriteLine($"Unknown input: {input}");
-                        break;
+                    Console.WriteLine("[1] Change name of purchase list.");
+                    Console.WriteLine("[2] Change items of purchase list.");
+                    Console.WriteLine("[3] Quit and return.");
+                    string input = Console.ReadLine();
+                    switch (input)
+                    {
+                        case "1":
+                            editPurchaseList.EditPurchaseListName(db);
+                            run = false;
+                            break;
+                        case "2":
+                            editPurchaseList.EditPurchaseListItems(db);
+                            run = false;
+                            break;
+                        case "3":
+                            return;
+                        default:
+                            Console.WriteLine($"Unknown input: {input}");
+                            break;
+                    }
                 }
+                db.EditObjectInDatabase(editPurchaseList);
             }
-            db.EditObjectInDatabase(editPurchaseList);
+            else Console.WriteLine($"No purchase lists found for {db.GetCurrentConsumer.Email}");
+
+            
         }
         public void EditPurchaseListName(Database db)
         {

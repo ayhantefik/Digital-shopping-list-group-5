@@ -356,8 +356,15 @@ namespace Digital_shopping_list_group_5
 
         }
 
-        public void ShowReceipts(Consumer consumer)
+        public void ShowReceipts(Database db,Consumer consumer)
         {
+            db.SetAllItems(new List<Item>());
+            db.SetAllConsumers(new List<Consumer>());
+            db.SetListOfPurchases(new List<PurchaseList>());
+            db.SetAllPurchases(new List<Purchase>());
+            db.LoadAllFromDatabase();
+
+
             int numberOfReceits = 0;
             foreach (Purchase pw in AllPurchases)
             {
@@ -408,6 +415,7 @@ namespace Digital_shopping_list_group_5
                 Console.WriteLine($"No receipts registered for {GetCurrentConsumer.Email} ");
                 Console.WriteLine();
             }
+            
         }
 
 
