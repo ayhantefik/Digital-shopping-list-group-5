@@ -14,8 +14,6 @@ namespace Digital_shopping_list_group_5
 {
     class Program
     {
-        //Description TBD
-
         static void Main(string[] args)
         {
             Database db = new Database();
@@ -32,13 +30,6 @@ namespace Digital_shopping_list_group_5
         }
         static void RunMenu(Database db, Consumer consumer)
         {
-
-            //Console.ForegroundColor = ConsoleColor.White;
-            //Console.WriteLine("[1] Purchase lists");  // it works
-            //Console.WriteLine("[2] Receipts"); // TBD
-            //Console.WriteLine("[3] Make a purchase"); // TBD, pay for the existing purchase list
-            //Console.WriteLine("[0] Log out"); // it works
-
             while (true)
             {
                 Console.Clear();
