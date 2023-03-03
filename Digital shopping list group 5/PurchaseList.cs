@@ -297,7 +297,7 @@ namespace Digital_shopping_list_group_5
             Console.WriteLine();
 
             // db.Display(): Displays all items in current PurchaseList.
-            if (_listOfItems != null) db.Display(this);
+            if (_listOfItems.Count > 0) db.Display(this);
             else Console.WriteLine("<EMPTY LIST>");
 
             while (true)
