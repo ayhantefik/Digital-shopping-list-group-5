@@ -47,41 +47,10 @@ namespace Digital_shopping_list_group_5
         //=====================================================
 
 
-
         public override string ToString()
         {             
             return $"{ID};{quantity};{price};{name};{isBought}";
-        }
-
-
-
-
-
-        public void EditItem(Object obj)
-        {
-            //if (obj.GetType() == typeof(Item))
-
-
-            string strObj = obj.ToString();
-            string[] arrObj = obj.ToString().Split(';');
-            string[] arrLine = File.ReadAllLines(@"Path/items.csv");
-
-            for(int i = 0; i<arrLine.Length;i++)
-            {
-                string[] str = arrLine[i].Split(';');
-                if (str[0] == arrObj[0]) // using item´s ID, search for the line that needs to be replaced
-                {
-                    arrLine[i] = strObj;
-                }
-            }
-            File.WriteAllLines(@"Path/items.csv", arrLine);
-
-            //Read the file into an array using ReadAllLines.
-            //Replace a line.  Write the array to a file using WriteAllLines.
-        }
-        //=====================================================
-
-        
+        }        
     }        
 
 }

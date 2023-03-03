@@ -36,14 +36,6 @@ namespace Digital_shopping_list_group_5
         public string Email => email;
         public int Id => ID;
         public DateTime DateCheck => dateCheck;
-        public void SetDateTime(DateTime value) => dateCheck =value;
-        public int SetID(int value) => ID = value;
-        public double SetTotalPrice(double value) => totalPrice = value;
-        public List<PurchaseList> ListOfPurchases => _allPurchaseLists; public void SetListOfPurchases(List<PurchaseList> value) => _allPurchaseLists = value;
-        public override string ToString() 
-        {
-            return $" {ID};{DateTime.Now};{_allPurchaseLists};{totalPrice}";
-        }
         //=======================================================================================
         
 
@@ -52,15 +44,7 @@ namespace Digital_shopping_list_group_5
             db.Display(consumer.ListOfPurchases, true);
             Console.WriteLine();
             int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
-            //int index = -1;
-            /*foreach (PurchaseList pl in consumer.ListOfPurchases)
-            {
-                if (userInput == pl.Id)
-                {
-                    index = consumer.ListOfPurchases.IndexOf(pl);
-                    db.Display(pl);
-                }
-            }*/
+
             if (numberOfPurchaseList > 0)
             {
                 Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");

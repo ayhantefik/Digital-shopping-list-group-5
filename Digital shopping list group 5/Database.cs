@@ -37,6 +37,9 @@ namespace Digital_shopping_list_group_5
         Consumer _currentConsumer = null;
         PurchaseList _currentPurchaseList = null;
 
+
+
+
         // Properties (Getters & Setters)
         public List<Item> AllItems => _allItems; //public void SetAllItems(List<Item> value) => _allItems = value;
         public void SetAllItems(List<Item> value) => _allItems = value;
@@ -57,7 +60,8 @@ namespace Digital_shopping_list_group_5
 
 
 
-
+        //==================================================================================================================================
+        //File-database interaction
 
         public void LoadAllFromDatabase() //rewritten and merged
         {            
@@ -278,7 +282,7 @@ namespace Digital_shopping_list_group_5
 
 
         //================================================================================================================================
-        //manipulating with the objects: no interaction with the files.
+        //manipulating with the objects: no interaction with the file-database
         public void Display(object obj,bool displayExtended = false) 
         {
             //Console.Clear();
@@ -354,41 +358,6 @@ namespace Digital_shopping_list_group_5
             //}
 
         }
-
-
-
-
-        //public void ChangePurchaseListName() // Can we move the method to <PurchaseList> class?
-        //{
-        //    Console.WriteLine("Choose list that you want to change name:");
-        //    Console.WriteLine();
-        //    int a = 1;
-        //    foreach (var samplelist in purchaselists)  //Can we use the attribute listOfPurchases instead ?
-        //    {
-        //        string[] listnamearray = samplelist.Split(';');
-        //        Console.WriteLine($"[{a++}]{listnamearray[0]}");
-        //    }
-        //    int userChoose = Int32.Parse(Console.ReadLine());
-        //    Console.WriteLine();
-        //    Console.WriteLine("Choosen list:");
-        //    Console.WriteLine();
-        //    Console.WriteLine(purchaselists[userChoose - 1]);
-        //    Console.WriteLine();
-        //    Console.WriteLine("New name:");
-        //    string newname = Console.ReadLine();
-        //    string[] changearray = purchaselists[userChoose - 1].Split(';');
-        //    changearray[0] = newname;
-        //    changearray = Array.ConvertAll(changearray, z => z = z + ";");
-        //    string changearrayTostring = String.Concat(changearray);
-        //    string update = changearrayTostring.Remove(changearrayTostring.Length - 1, 1); // Delete last charter ";" from string 
-        //    purchaselists.RemoveAt(userChoose - 1);
-        //    purchaselists.Insert(userChoose - 1, update);
-        //    Console.WriteLine();
-        //    Console.WriteLine("Purchase list name is changed!");
-        //    Console.WriteLine();
-        //    Console.WriteLine(purchaselists[userChoose - 1]);
-        //}
-
 
         public void ShowReceipts(Consumer consumer)
         {

@@ -482,12 +482,6 @@ namespace Digital_shopping_list_group_5
         }
         public Database MergeLists(Database db, Consumer consumer)
         {
-            //db.SetAllItems(new List<Item>());
-            //db.SetAllConsumers(new List<Consumer>());
-            //db.SetListOfPurchases(new List<PurchaseList>());
-            //db.SetAllPurchases(new List<Purchase>());
-            //db.LoadAllFromDatabase();
-
 
             int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
             if (numberOfPurchaseList > 0)
@@ -616,9 +610,6 @@ namespace Digital_shopping_list_group_5
             }
             return db;
         }
-
-
-
 
 
 
