@@ -37,7 +37,7 @@ namespace Digital_shopping_list_group_5
         PurchaseList _currentPurchaseList = null;
 
         // Properties (Getters & Setters)
-        public List<Item> AllItems => _allItems; 
+        public List<Item> AllItems => _allItems; //public void SetAllItems(List<Item> value) => _allItems = value;
         public void SetAllItems(List<Item> value) => _allItems = value;
         public List<Consumer> AllConsumers => _allConsumers;  
         public void SetAllConsumers(List<Consumer> value) => _allConsumers = value;
@@ -354,9 +354,9 @@ namespace Digital_shopping_list_group_5
 
         }
 
-        
-        
-        
+
+
+
         //public void ChangePurchaseListName() // Can we move the method to <PurchaseList> class?
         //{
         //    Console.WriteLine("Choose list that you want to change name:");
@@ -389,7 +389,89 @@ namespace Digital_shopping_list_group_5
         //}
 
 
+        public Database ShowReceipts(Database db, Consumer consumer)
+        {
+            //UPDATE APPLICATION
+            //db.SetAllPurchases(new List<Purchase>());
+            //db.SetAllConsumers(new List<Consumer>());
+            //db.SetListOfPurchases(new List<PurchaseList>());
+            //db.SetAllItems(new List<Item>());
+            //db.LoadAllFromDatabase();
+            //foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
+            //{
+            //    if (consumer.Email == c.Email)
+            //    {
+            //        Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
 
+            //        List<PurchaseList> plList = new List<PurchaseList>();
+
+            //        foreach (int i in cons.IdsOfPurchaseLists)
+            //        {
+            //            foreach (PurchaseList pl in db.AllPurchaseLists)
+            //            {
+            //                if (i == pl.Id) plList.Add(pl);
+            //            }
+            //        }
+            //        cons.ListOfPurchases = plList;
+            //        db.SetCurrentConsumer(cons);
+            //    }
+            //}
+
+
+
+            int numberOfReceits = 0;
+            foreach (Purchase pw in AllPurchases)
+            {
+                if (pw.Email == consumer.Email)
+                {
+                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
+                    numberOfReceits++;
+                }
+                /*else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You don't have registered receipts!");
+                    Console.WriteLine();
+                    noreceipt = true;
+                }*/
+            }
+
+            if (numberOfReceits > 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Choose receipt number:");
+                int receiptnumInput = Int32.Parse(Console.ReadLine()); //check input
+                Console.WriteLine();
+                double sum = 0;
+                foreach (Purchase pw2 in AllPurchases)
+                {
+                    if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
+                    {
+                        foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
+                        {
+                            if (rlist.Id == receiptnumInput)
+                            {
+                                foreach (Item ireceipt in rlist.ListOfItems)
+                                {
+                                    if (ireceipt.IsBought == true)
+                                    {
+                                        Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+                                        sum += ireceipt.Quantity * ireceipt.Price;
+                                    }
+                                }
+                            }
+                        }
+                        Console.WriteLine();
+                        string totalt = $"Totalt:";
+                        Console.WriteLine($"{totalt,+30} {sum}");
+                        Console.WriteLine();
+                    }
+
+                }
+            }
+            else Console.WriteLine($"No receipts registered for {GetCurrentConsumer.Email} ");
+            return db;
+        }
 
 
     }
