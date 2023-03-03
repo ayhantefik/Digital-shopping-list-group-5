@@ -26,7 +26,7 @@ namespace Digital_shopping_list_group_5
             do
             {
                 Console.Clear();
-                consumer = consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
+                consumer.RunSecuritySystem(db); // returns Consumer that either successfully loggedIn or registered
                 if (db.GetCurrentConsumer != null) RunMenu(db, db.GetCurrentConsumer);
 
             } while (db.GetCurrentConsumer != null);

@@ -165,11 +165,12 @@ namespace Digital_shopping_list_group_5
                             consumer.InitiateIdsOfPurchaseLists();
 
                             Console.Clear();
-                            Console.WriteLine($"{consumer.Email} was successfully registered in our app. Please login");
+                            Console.WriteLine($"{consumer.Email} was successfully registered in our app.");
 
 
                             db.AllConsumers.Add(consumer);
                             db.AddObjectToDatabase(consumer);
+                            db.SetCurrentConsumer(consumer);
                             return consumer;
                         }
                         else Console.WriteLine("Name can not be empty");
