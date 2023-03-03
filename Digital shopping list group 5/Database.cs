@@ -389,57 +389,23 @@ namespace Digital_shopping_list_group_5
         //}
 
 
-        public Database ShowReceipts(Database db, Consumer consumer)
+        public void ShowReceipts(Consumer consumer)
         {
-            //UPDATE APPLICATION
-            //db.SetAllPurchases(new List<Purchase>());
-            //db.SetAllConsumers(new List<Consumer>());
-            //db.SetListOfPurchases(new List<PurchaseList>());
-            //db.SetAllItems(new List<Item>());
-            //db.LoadAllFromDatabase();
-            //foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
-            //{
-            //    if (consumer.Email == c.Email)
-            //    {
-            //        Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
-
-            //        List<PurchaseList> plList = new List<PurchaseList>();
-
-            //        foreach (int i in cons.IdsOfPurchaseLists)
-            //        {
-            //            foreach (PurchaseList pl in db.AllPurchaseLists)
-            //            {
-            //                if (i == pl.Id) plList.Add(pl);
-            //            }
-            //        }
-            //        cons.ListOfPurchases = plList;
-            //        db.SetCurrentConsumer(cons);
-            //    }
-            //}
-
-
-
             int numberOfReceits = 0;
             foreach (Purchase pw in AllPurchases)
             {
                 if (pw.Email == consumer.Email)
                 {
+                    Console.WriteLine();
                     Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
                     numberOfReceits++;
                 }
-                /*else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("You don't have registered receipts!");
-                    Console.WriteLine();
-                    noreceipt = true;
-                }*/
             }
 
             if (numberOfReceits > 0)
             {
                 Console.WriteLine();
-                Console.WriteLine("Choose receipt number:");
+                Console.Write("Choose receipt number: ");
                 int receiptnumInput = Int32.Parse(Console.ReadLine()); //check input
                 Console.WriteLine();
                 double sum = 0;
@@ -469,8 +435,12 @@ namespace Digital_shopping_list_group_5
 
                 }
             }
-            else Console.WriteLine($"No receipts registered for {GetCurrentConsumer.Email} ");
-            return db;
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine($"No receipts registered for {GetCurrentConsumer.Email} ");
+                Console.WriteLine();
+            }
         }
 
 

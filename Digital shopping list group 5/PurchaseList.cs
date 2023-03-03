@@ -120,7 +120,7 @@ namespace Digital_shopping_list_group_5
                 switch (input)
                 {
                     case "1":
-                        newPurchaseList.EditPurchaseList(db, consumer);
+                        newPurchaseList.EditPurchaseListItems(db);
                         break;
                     case "2":
                         consumer.ListOfPurchases.Add(newPurchaseList); // Adds the newly created purchase list to Consumer.
@@ -244,14 +244,53 @@ namespace Digital_shopping_list_group_5
         }
 
         //KOLLA HIT
-        public Database EditPurchaseList(Database db, Consumer consumer) // EditPurchaseList(): Views and edits items in PurchaseList.
+        public void EditPurchaseList(Database db, Consumer consumer)
+        {
+            bool run = true;
+            Console.Clear();
+            var editPurchaseList = SelectPurchaseList(db, consumer);
+            Console.WriteLine($"Edit purchase list \"{editPurchaseList.Name}\":");
+            Console.WriteLine();
+            while (run)
+            {
+                Console.WriteLine("[1] Change name of purchase list.");
+                Console.WriteLine("[2] Change items of purchase list.");
+                Console.WriteLine("[3] Quit and return.");
+                string input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        editPurchaseList.EditPurchaseListName(db);
+                        run = false;
+                        break;
+                    case "2":
+                        editPurchaseList.EditPurchaseListItems(db);
+                        run = false;
+                        break;
+                    case "3":
+                        return;
+                    default:
+                        Console.WriteLine($"Unknown input: {input}");
+                        break;
+                }
+            }
+            db.EditObjectInDatabase(editPurchaseList);
+        }
+        public void EditPurchaseListName(Database db)
+        {
+            Console.Write($"Enter new name for purchase list \"{_name}\": ");
+            string newName = Console.ReadLine();
+            SetName(newName);
+            Console.WriteLine($"Changed purchase list name to \"{_name}\".");
+        }
+        public Database EditPurchaseListItems(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
             Console.Clear();
             Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
             Console.WriteLine();
 
             //db.Display(this); //Displays all items in current PurchaseList.
-            if (_listOfItems != null) db.Display(db);
+            if (_listOfItems.Count > 0) db.Display(this);
             else Console.WriteLine("<EMPTY LIST>");
 
             while (true)
@@ -284,234 +323,252 @@ namespace Digital_shopping_list_group_5
             Console.Clear();
             Console.WriteLine();
             db.Display(db.GetCurrentConsumer.ListOfPurchases, true);
-            Console.WriteLine();
-            Console.WriteLine("Choose ID that you want to share:");
-            string inputID = Console.ReadLine();
-            bool success = CheckInput(consumer, inputID, 2);
-            if (success)
+            int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
+            if (numberOfPurchaseList > 0)
             {
                 Console.WriteLine();
-                Console.WriteLine("Send to:");
-                Console.WriteLine();
-                Console.WriteLine("[1] Registered member");
-                Console.WriteLine("[2] Non registered member");
-                string str = Console.ReadLine();
-
-                if (int.TryParse(str, out int result))
+                Console.WriteLine("Choose ID that you want to share:");
+                string inputID = Console.ReadLine();
+                bool success = CheckInput(consumer, inputID, 2);
+                if (success)
                 {
-                    switch (result)
+                    Console.WriteLine();
+                    Console.WriteLine("Send to:");
+                    Console.WriteLine();
+                    Console.WriteLine("[1] Registered member");
+                    Console.WriteLine("[2] Non registered member");
+                    string str = Console.ReadLine();
+
+                    if (int.TryParse(str, out int result))
                     {
-                        case 1:
-                            Console.WriteLine();
-                            Console.WriteLine("Receiver´s email address: ");
+                        switch (result)
+                        {
+                            case 1:
+                                Console.WriteLine();
+                                Console.WriteLine("Receiver´s email address: ");
 
-                            string receiverEmail = Console.ReadLine();
-                            if (!String.IsNullOrEmpty(receiverEmail))
-                            {
-                                bool emailFound = false;
-                                bool receiverAlreadyHaveThatPurchaseList = false;
-
-                                foreach (Consumer c in db.AllConsumers)
+                                string receiverEmail = Console.ReadLine();
+                                if (!String.IsNullOrEmpty(receiverEmail))
                                 {
-                                    if (receiverEmail.Trim() == c.Email) // finding the account of receiver in DB
-                                    {
-                                        emailFound = true;
-                                        foreach (int i in c.IdsOfPurchaseLists)
-                                        {
-                                            if (i == Int32.Parse(inputID)+1000) // if the ID found...
-                                            {
-                                                receiverAlreadyHaveThatPurchaseList = true;
-                                                Console.WriteLine($"{receiverEmail} already have that purchase list.");
-                                                break;
-                                            }
-                                        }
-                                        if (!receiverAlreadyHaveThatPurchaseList) // then send the list to receiver
-                                        {
-                                            int i = Int32.Parse(inputID);
-                                            c.IdsOfPurchaseLists.Add(i + 1000);
-                                            db.EditObjectInDatabase(c); // editing one line in <accounts.csv>
+                                    bool emailFound = false;
+                                    bool receiverAlreadyHaveThatPurchaseList = false;
 
-                                            foreach (PurchaseList pl in db.AllPurchaseLists)
+                                    foreach (Consumer c in db.AllConsumers)
+                                    {
+                                        if (receiverEmail.Trim() == c.Email) // finding the account of receiver in DB
+                                        {
+                                            emailFound = true;
+                                            foreach (int i in c.IdsOfPurchaseLists)
                                             {
-                                                if (pl.Id == i) //finding consumer´s purchase list and copy it
+                                                if (i == Int32.Parse(inputID) + 1000) // if the ID found...
                                                 {
-                                                    PurchaseList newpurch = new PurchaseList((1000 + pl.Id), pl.Name, pl.ListOfItems);
-                                                    newpurch.SetID(i + 1000);
-                                                    db.AddObjectToDatabase(newpurch);
+                                                    receiverAlreadyHaveThatPurchaseList = true;
+                                                    Console.WriteLine($"{receiverEmail} already have that purchase list.");
+                                                    break;
                                                 }
                                             }
+                                            if (!receiverAlreadyHaveThatPurchaseList) // then send the list to receiver
+                                            {
+                                                int i = Int32.Parse(inputID);
+                                                c.IdsOfPurchaseLists.Add(i + 1000);
+                                                db.EditObjectInDatabase(c); // editing one line in <accounts.csv>
 
+                                                foreach (PurchaseList pl in db.AllPurchaseLists)
+                                                {
+                                                    if (pl.Id == i) //finding consumer´s purchase list and copy it
+                                                    {
+                                                        PurchaseList newpurch = new PurchaseList((1000 + pl.Id), pl.Name, pl.ListOfItems);
+                                                        newpurch.SetID(i + 1000);
+                                                        db.AddObjectToDatabase(newpurch);
+                                                    }
+                                                }
+
+                                            }
                                         }
                                     }
-                                }
 
-                                if (!emailFound) Console.WriteLine($"{receiverEmail} not registered in our system");
-                                if ((emailFound) && (!receiverAlreadyHaveThatPurchaseList))
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine($"ID [{Int32.Parse(inputID)}] successfully shared with {receiverEmail}");
-                                    Console.WriteLine();
-                                }
-                            }
-
-                            // UPDATE APPLICATION 
-
-                            db.SetAllConsumers(new List<Consumer>());
-                            db.SetListOfPurchases(new List<PurchaseList>());
-
-                            db.LoadAllFromDatabase();
-                            return db;
-
-                        case 2: // <Inbox> file is a simulated emailbox 
-                            Console.WriteLine();
-                            Console.WriteLine("To email:");
-                            string emailTo = Console.ReadLine();
-                            if (!String.IsNullOrEmpty(emailTo))
-                            {
-                                using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
-                                {
-                                    foreach (PurchaseList l in consumer.ListOfPurchases)
+                                    if (!emailFound) Console.WriteLine($"{receiverEmail} not registered in our system");
+                                    if ((emailFound) && (!receiverAlreadyHaveThatPurchaseList))
                                     {
-                                        if (l.Id == Int32.Parse(inputID))
-                                        {
-                                            sw.WriteLine($"{consumer.Email};{emailTo};{l}");
-                                        }
+                                        Console.ForegroundColor = ConsoleColor.Yellow;
+                                        Console.WriteLine($"ID [{Int32.Parse(inputID)}] successfully shared with {receiverEmail}");
+                                        Console.WriteLine();
                                     }
                                 }
-                                Console.Clear();
-                                Console.WriteLine($"Purchase list [{inputID}] was sent to {emailTo}");
-                            }
-                            else Console.WriteLine("empty input :(");
-                            break;
-                        default:
-                            Console.WriteLine($"Wrong input {inputID}"); break;
+
+                                // UPDATE APPLICATION 
+
+                                db.SetAllConsumers(new List<Consumer>());
+                                db.SetListOfPurchases(new List<PurchaseList>());
+
+                                db.LoadAllFromDatabase();
+                                return db;
+
+                            case 2: // <Inbox> file is a simulated emailbox 
+                                Console.WriteLine();
+                                Console.WriteLine("To email:");
+                                string emailTo = Console.ReadLine();
+                                if (!String.IsNullOrEmpty(emailTo))
+                                {
+                                    using (StreamWriter sw = new StreamWriter("Path/inbox.csv"))
+                                    {
+                                        foreach (PurchaseList l in consumer.ListOfPurchases)
+                                        {
+                                            if (l.Id == Int32.Parse(inputID))
+                                            {
+                                                sw.WriteLine($"{consumer.Email};{emailTo};{l}");
+                                            }
+                                        }
+                                    }
+                                    Console.Clear();
+                                    Console.WriteLine($"Purchase list [{inputID}] was sent to {emailTo}");
+                                }
+                                else Console.WriteLine("empty input :(");
+                                break;
+                            default:
+                                Console.WriteLine($"Wrong input {inputID}"); break;
+                        }
                     }
+                    else Console.WriteLine("Wrong input!");
+
+
                 }
-                else Console.WriteLine("Wrong input!");
-
-
+                else Console.WriteLine($"ID [{inputID}] not registered at {consumer.Email}");
             }
-            else Console.WriteLine($"ID [{inputID}] not registered at {consumer.Email}");
+            else
+            {
+                Console.WriteLine($"No purchase lists registered for {db.GetCurrentConsumer.Email}");
+                Console.WriteLine();
+            }
             return db;
         }
         public Database MergeLists(Database db, Consumer consumer)
         {
-            Console.WriteLine("q to go back;");
-            Console.Write("IDs of two lists to be merged (write using comma: ex 100,102): ");
-
-            string input = Console.ReadLine();
-
-            if ((CheckInput(consumer, input, 1)) && (input.Trim() == "q")) { return db; }
-
-            else if (CheckInput(consumer, input, 1)) // 1 for Merge Lists 
+            int numberOfPurchaseList = db.GetCurrentConsumer.ListOfPurchases.Count;
+            if (numberOfPurchaseList > 0)
             {
-                Console.Write("Select a new name for the merged purchase list: ");
-                string newName = Console.ReadLine();
+                Console.WriteLine("q to go back;");
+                Console.Write("IDs of two lists to be merged (write using comma: ex 100,102): ");
 
-                if (newName.Length > 0)
+                string input = Console.ReadLine();
+
+                if ((CheckInput(consumer, input, 1)) && (input.Trim() == "q")) { return db; }
+
+                else if (CheckInput(consumer, input, 1)) // 1 for Merge Lists 
                 {
-                    string[] str = input.Split(',');
+                    Console.Write("Select a new name for the merged purchase list: ");
+                    string newName = Console.ReadLine();
 
-                    PurchaseList mergedPurchaseList = new PurchaseList();
-                    mergedPurchaseList.SetName(newName);
-
-                    foreach (PurchaseList pl in consumer.ListOfPurchases)
+                    if (newName.Length > 0)
                     {
-                        if (pl._id == Int32.Parse(str[0]))  //remove that first old Purchase List from <Database> class
+                        string[] str = input.Split(',');
+
+                        PurchaseList mergedPurchaseList = new PurchaseList();
+                        mergedPurchaseList.SetName(newName);
+
+                        foreach (PurchaseList pl in consumer.ListOfPurchases)
                         {
-                            foreach (Item item in pl.ListOfItems)
+                            if (pl._id == Int32.Parse(str[0]))  //remove that first old Purchase List from <Database> class
                             {
-                                mergedPurchaseList._listOfItems.Add(item);
-                            }
-                            int indx = db.AllPurchaseLists.IndexOf(pl);
-                            db.AllPurchaseLists.RemoveAt(indx);
-                        }
-                        else if (pl._id == Int32.Parse(str[1]))  //remove that second old Purchase List from <Database> class
-                        {
-                            foreach (Item item in pl.ListOfItems)
-                            {
-                                mergedPurchaseList._listOfItems.Add(item);
-                            }
-                            int indx = db.AllPurchaseLists.IndexOf(pl);
-                            db.AllPurchaseLists.RemoveAt(indx);
-                        }
-                    }
-
-
-
-                    int index = -1;
-                    foreach (int i in consumer.IdsOfPurchaseLists) //remove the first ID from Consumer
-                    {
-                        if (i == Int32.Parse(str[0])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
-                    }
-                    if (index != -1)
-                    {
-                        consumer.IdsOfPurchaseLists.RemoveAt(index);
-
-                    }
-                    index = -1;
-                    foreach (int i in consumer.IdsOfPurchaseLists) //remove the second ID from Consumer
-                    {
-                        if (i == Int32.Parse(str[1])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
-                    }
-                    if (index != -1)
-                    {
-                        consumer.IdsOfPurchaseLists.RemoveAt(index);
-                    }
-
-
-
-                    int lastExistingID = 0;
-                    foreach (PurchaseList pl in db.AllPurchaseLists)
-                    {
-                        if (pl._id > lastExistingID) lastExistingID = pl.Id;
-                    }
-                    mergedPurchaseList.SetID(lastExistingID + 1);  // add ID to MergedList
-
-                    consumer.IdsOfPurchaseLists.Add(lastExistingID + 1);
-                    consumer.ListOfPurchases.Add(mergedPurchaseList);
-                    db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
-
-
-                    db.AllPurchaseLists.Add(mergedPurchaseList); // add the new merged purchase list to <Database> class
-                    db.UpdateFileInDataBase(1); // update the whole file  <listOfPurchases.csv>
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
-                    Console.WriteLine();
-
-
-                    //This code repeats, rewrite.
-
-                    // UPDATE APPLICATION METHOD 
-                    db.SetAllConsumers(new List<Consumer>());
-                    db.SetListOfPurchases(new List<PurchaseList>());
-                    db.LoadAllFromDatabase();
-
-
-
-                    foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
-                    {
-                        if (consumer.Email == c.Email)
-                        {
-                            Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
-
-                            List<PurchaseList> plList = new List<PurchaseList>();
-
-                            foreach (int i in cons.IdsOfPurchaseLists)
-                            {
-                                foreach (PurchaseList pl in db.AllPurchaseLists)
+                                foreach (Item item in pl.ListOfItems)
                                 {
-                                    if (i == pl.Id) plList.Add(pl);
+                                    mergedPurchaseList._listOfItems.Add(item);
                                 }
+                                int indx = db.AllPurchaseLists.IndexOf(pl);
+                                db.AllPurchaseLists.RemoveAt(indx);
                             }
-                            cons.ListOfPurchases = plList;
-                            db.SetCurrentConsumer(cons);
+                            else if (pl._id == Int32.Parse(str[1]))  //remove that second old Purchase List from <Database> class
+                            {
+                                foreach (Item item in pl.ListOfItems)
+                                {
+                                    mergedPurchaseList._listOfItems.Add(item);
+                                }
+                                int indx = db.AllPurchaseLists.IndexOf(pl);
+                                db.AllPurchaseLists.RemoveAt(indx);
+                            }
+                        }
+
+
+
+                        int index = -1;
+                        foreach (int i in consumer.IdsOfPurchaseLists) //remove the first ID from Consumer
+                        {
+                            if (i == Int32.Parse(str[0])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                        }
+                        if (index != -1)
+                        {
+                            consumer.IdsOfPurchaseLists.RemoveAt(index);
+
+                        }
+                        index = -1;
+                        foreach (int i in consumer.IdsOfPurchaseLists) //remove the second ID from Consumer
+                        {
+                            if (i == Int32.Parse(str[1])) index = consumer.IdsOfPurchaseLists.IndexOf(i);
+                        }
+                        if (index != -1)
+                        {
+                            consumer.IdsOfPurchaseLists.RemoveAt(index);
+                        }
+
+
+
+                        int lastExistingID = 0;
+                        foreach (PurchaseList pl in db.AllPurchaseLists)
+                        {
+                            if (pl._id > lastExistingID) lastExistingID = pl.Id;
+                        }
+                        mergedPurchaseList.SetID(lastExistingID + 1);  // add ID to MergedList
+
+                        consumer.IdsOfPurchaseLists.Add(lastExistingID + 1);
+                        consumer.ListOfPurchases.Add(mergedPurchaseList);
+                        db.EditObjectInDatabase(consumer); // editing one line in <accounts.csv>
+
+
+                        db.AllPurchaseLists.Add(mergedPurchaseList); // add the new merged purchase list to <Database> class
+                        db.UpdateFileInDataBase(1); // update the whole file  <listOfPurchases.csv>
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"IDs [{input}] merged successfully into new ID [{mergedPurchaseList.Id}]");
+                        Console.WriteLine();
+
+
+                        //This code repeats, rewrite.
+
+                        // UPDATE APPLICATION METHOD 
+                        db.SetAllConsumers(new List<Consumer>());
+                        db.SetListOfPurchases(new List<PurchaseList>());
+                        db.LoadAllFromDatabase();
+
+
+
+                        foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
+                        {
+                            if (consumer.Email == c.Email)
+                            {
+                                Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                                List<PurchaseList> plList = new List<PurchaseList>();
+
+                                foreach (int i in cons.IdsOfPurchaseLists)
+                                {
+                                    foreach (PurchaseList pl in db.AllPurchaseLists)
+                                    {
+                                        if (i == pl.Id) plList.Add(pl);
+                                    }
+                                }
+                                cons.ListOfPurchases = plList;
+                                db.SetCurrentConsumer(cons);
+                            }
                         }
                     }
                 }
             }
-            else MergeLists(db, consumer);
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine($"No purchase lists registered for {db.GetCurrentConsumer.Email}");
+                Console.WriteLine();
+            }
             return db;
         }
 
