@@ -120,7 +120,7 @@ namespace Digital_shopping_list_group_5
                 switch (input)
                 {
                     case "1":
-                        newPurchaseList.EditPurchaseList(db, consumer);
+                        newPurchaseList.EditPurchaseListItems(db);
                         break;
                     case "2":
                         consumer.ListOfPurchases.Add(newPurchaseList); // Adds the newly created purchase list to Consumer.
@@ -244,14 +244,53 @@ namespace Digital_shopping_list_group_5
         }
 
         //KOLLA HIT
-        public Database EditPurchaseList(Database db, Consumer consumer) // EditPurchaseList(): Views and edits items in PurchaseList.
+        public void EditPurchaseList(Database db, Consumer consumer)
+        {
+            bool run = true;
+            Console.Clear();
+            var editPurchaseList = SelectPurchaseList(db, consumer);
+            Console.WriteLine($"Edit purchase list \"{editPurchaseList.Name}\":");
+            Console.WriteLine();
+            while (run)
+            {
+                Console.WriteLine("[1] Change name of purchase list.");
+                Console.WriteLine("[2] Change items of purchase list.");
+                Console.WriteLine("[3] Quit and return.");
+                string input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        editPurchaseList.EditPurchaseListName(db);
+                        run = false;
+                        break;
+                    case "2":
+                        editPurchaseList.EditPurchaseListItems(db);
+                        run = false;
+                        break;
+                    case "3":
+                        return;
+                    default:
+                        Console.WriteLine($"Unknown input: {input}");
+                        break;
+                }
+            }
+            db.EditObjectInDatabase(editPurchaseList);
+        }
+        public void EditPurchaseListName(Database db)
+        {
+            Console.Write($"Enter new name for purchase list \"{_name}\": ");
+            string newName = Console.ReadLine();
+            SetName(newName);
+            Console.WriteLine($"Changed purchase list name to \"{_name}\".");
+        }
+        public Database EditPurchaseListItems(Database db) // EditPurchaseList(): Views and edits items in PurchaseList.
         {
             Console.Clear();
             Console.WriteLine($"LIST OF ITEMS IN \"{_name}\":");
             Console.WriteLine();
 
             //db.Display(this); //Displays all items in current PurchaseList.
-            if (_listOfItems != null) db.Display(db);
+            if (_listOfItems.Count > 0) db.Display(this);
             else Console.WriteLine("<EMPTY LIST>");
 
             while (true)

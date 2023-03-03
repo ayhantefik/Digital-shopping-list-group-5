@@ -84,9 +84,8 @@ namespace Digital_shopping_list_group_5
                                     break;
                                 case 2: // Edit list option
 
-                                //db.EditLists();
-                                //db.ChangePurchaseListName();                                                                
-                                RunMenu(db, db.GetCurrentConsumer);
+                                    pl.EditPurchaseList(db, consumer);                                        
+                                    RunMenu(db, db.GetCurrentConsumer);
                                     break;  
                                 case 3:
                                     db = pl.RemovePurchaseList(db, db.GetCurrentConsumer);
