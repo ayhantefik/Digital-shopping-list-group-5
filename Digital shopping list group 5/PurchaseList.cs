@@ -310,10 +310,10 @@ namespace Digital_shopping_list_group_5
                                         emailFound = true;
                                         foreach (int i in c.IdsOfPurchaseLists)
                                         {
-                                            if (i == Int32.Parse(inputID)) // if the ID found...
+                                            if (i == Int32.Parse(inputID)+1000) // if the ID found...
                                             {
                                                 receiverAlreadyHaveThatPurchaseList = true;
-                                                Console.WriteLine($"{receiverEmail} already have that purchase list ID [{i}]");
+                                                Console.WriteLine($"{receiverEmail} already have that purchase list.");
                                                 break;
                                             }
                                         }

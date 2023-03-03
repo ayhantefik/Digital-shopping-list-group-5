@@ -8,11 +8,11 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Dynamic;
 using System.Security.Cryptography;
+using System.Runtime.Remoting.Messaging;
 
 namespace Digital_shopping_list_group_5
 {
 
-    // Purchase is the old "Receipts"...
     public class Purchase
     {
         string email;
@@ -32,20 +32,6 @@ namespace Digital_shopping_list_group_5
             this._allPurchaseLists = _allPurchaseLists;
         }
 
-        //public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists, double totalPrice)
-        //{
-        //    this.dateCheck = DateTime.Now;
-        //    this.ID = iD;
-        //    this._allPurchaseLists = _allPurchaseLists;
-        //    this.totalPrice = totalPrice;
-        //}
-        //public Purchase(int iD, DateTime dateCheck, List<PurchaseList> _allPurchaseLists)
-        //{
-        //    this.dateCheck = DateTime.Now;
-        //    this.ID = iD;
-        //    this._allPurchaseLists = _allPurchaseLists;
-        //}
-
         //=======================================================================================
         public string Email => email;
         public int Id => ID;
@@ -58,102 +44,10 @@ namespace Digital_shopping_list_group_5
         {
             return $" {ID};{DateTime.Now};{_allPurchaseLists};{totalPrice}";
         }
+        //=======================================================================================
+        
 
-        void SaveToDb(Object obj) // Move to Database class
-        {
-            string str = $"{DateTime.Now};{ID};{_allPurchaseLists};{totalPrice};";
-
-            using (var streamWriter = new StreamWriter(@"Path/listOfReceipts.csv", true))
-            {
-                streamWriter.WriteLine(str);
-            }
-            //Console.ForegroundColor = ConsoleColor.Green;
-            //Console.Write("SUCCESS: ");
-            //Console.WriteLine(str);
-            //Console.ResetColor();
-
-        }
-        List<Object> LoadFromDb() // move to Database class
-        {
-            List<Object> listOfItems = new List<Object>();
-
-            using (StreamReader str = new StreamReader(@"Path/listOfReceipts.csv"))
-            {
-                string line;
-                while ((line = str.ReadLine()) != null)
-                {
-
-                    listOfItems.Add(line);
-                }
-
-            }
-            return listOfItems;
-        }
-
-        public void Display() // Will this be the same as PrintReceipt?
-        {
-            //NYI
-            ToString();
-        }
-        public void Remove()
-        {
-            throw new NotImplementedException();
-        }
-
-        //public void MakeAPurchase(Database db, Consumer consumer)
-        //{
-        //    string userInput;
-        //    db.LoadAllFromDatabase();
-
-        //    var makePurchase = new Purchase();
-        //    var newListOfReceipts = new List<PurchaseList>();
-
-        //    db.Display(consumer.ListOfPurchases);
-        //    Console.WriteLine("Choose an existing purschase list. Enter the ID number of the purchase list: ");
-        //    PurchaseList.SelectPurchaseList(db, consumer);
-        //    userInput = Console.ReadLine();
-
-        //    if (db.GetPurchaseListId != null)
-        //    {
-        //        //Show the purchase list with the correct purchase id
-        //        Console.WriteLine();
-        //        db.Display(consumer.ListOfPurchases);
-        //        Console.Write("Enter the ID number of the purchase list: ");
-        //        int.TryParse(Console.ReadLine(), out int input);
-
-        //        // Loops through consumer.ListOfPurchases to find List based on List.Id(input)
-        //        foreach (PurchaseList pL in consumer.ListOfPurchases)
-        //        {
-        //            if (pL.Id == input) return pL;
-        //        }
-        //        return null;
-
-        //        Console.WriteLine("Do you want to make a purchase?");
-        //        Console.WriteLine("Write [Y] for YES and [N] for NO.");
-        //        userInput = Console.ReadLine();
-        //        if (userInput == "Y")
-        //        {
-        //            // assign the unique ID to the receipt
-        //            int lastExistingID = 0;
-        //            foreach (Purchase p in db.ListOfReceipts)
-        //            {
-        //                if (p.ID > lastExistingID) lastExistingID = p.ID;
-        //            }
-        //            lastExistingID += 1;
-        //            ID = makePurchase.SetID(lastExistingID);
-
-        //            makePurchase = (ID, DateTime.Now, );
-        //            //Create an purchase with datetime and listOfPurchases and totalPrice
-        //            // add the purchase to the listofreceipts
-
-        //            /* consumer.ListOfReceipts.Add(makePurchase);*/// add list of receipts to consumer?
-        //        }
-
-        //    }
-        //    else { Console.WriteLine($"Unknown input: {userInput}"); }
-        //
-
-        public void MakePurchase(Database db, Consumer consumer)
+        public Database MakePurchase(Database db, Consumer consumer)
         {            
             db.Display(consumer.ListOfPurchases, true);
             Console.WriteLine();
@@ -197,7 +91,7 @@ namespace Digital_shopping_list_group_5
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("Purchase is done and receipt is saved!");
+                Console.WriteLine("Purchase is done and receipt is saved! The items have been ticked off.");
 
 
             }
@@ -235,6 +129,90 @@ namespace Digital_shopping_list_group_5
                     db.SetCurrentConsumer(cons);
                 }
             }
+            return db;
+        }       
+        public Database ShowReceipts(Database db, Consumer consumer)
+        {
+            //UPDATE APPLICATION
+            db.SetAllPurchases(new List<Purchase>());
+            db.SetAllConsumers(new List<Consumer>());
+            db.SetListOfPurchases(new List<PurchaseList>());
+            db.LoadAllFromDatabase();
+            foreach (Consumer c in db.AllConsumers) //update <Consumer> class => see the changes without reopening the Console
+            {
+                if (consumer.Email == c.Email)
+                {
+                    Consumer cons = new Consumer(c.Email, c.Password, c.Name, c.AccountLvl, c.Points, c.IdsOfPurchaseLists);
+
+                    List<PurchaseList> plList = new List<PurchaseList>();
+
+                    foreach (int i in cons.IdsOfPurchaseLists)
+                    {
+                        foreach (PurchaseList pl in db.AllPurchaseLists)
+                        {
+                            if (i == pl.Id) plList.Add(pl);
+                        }
+                    }
+                    cons.ListOfPurchases = plList;
+                    db.SetCurrentConsumer(cons);
+                }
+            }
+
+
+
+            int numberOfReceits = 0;
+            foreach (Purchase pw in db.AllPurchases)
+            {
+                if (pw.Email == db.GetCurrentConsumer.Email)
+                {
+                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
+                    numberOfReceits++;
+                }
+                /*else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You don't have registered receipts!");
+                    Console.WriteLine();
+                    noreceipt = true;
+                }*/
+            }
+
+            if (numberOfReceits > 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Choose receipt number:");
+                int receiptnumInput = Int32.Parse(Console.ReadLine());
+                Console.WriteLine();
+                double sum = 0;
+                foreach (Purchase pw2 in db.AllPurchases)
+                {
+                    if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
+                    {
+
+                        foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
+                        {
+                            if (rlist.Id == receiptnumInput)
+                            {
+                                foreach (Item ireceipt in rlist.ListOfItems)
+                                {
+                                    if (ireceipt.IsBought == true)
+                                    {
+                                        Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
+                                        sum += ireceipt.Quantity * ireceipt.Price;
+                                    }
+                                }
+                            }
+                        }
+                        Console.WriteLine();
+                        string totalt = $"Totalt:";
+                        Console.WriteLine($"{totalt,+30} {sum}");
+                        Console.WriteLine();
+                    }
+
+                }
+            }
+            else Console.WriteLine($"No receipts registered for {db.GetCurrentConsumer.Email} ");
+            return db;
         }
     }
 }

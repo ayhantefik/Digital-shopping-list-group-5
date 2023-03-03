@@ -45,7 +45,8 @@ namespace Digital_shopping_list_group_5
                 //try
                 //{
                     int userInput = Int32.Parse(Console.ReadLine());
-                    switch (userInput)
+                Purchase receipt = new Purchase();
+                switch (userInput)
                     {
                         case 0:
                             
@@ -109,14 +110,12 @@ namespace Digital_shopping_list_group_5
                                     break;
                             }
                             break;
-                        case 2: // Receipts menu option, TBD
-                                //db.Display(db.ListOfReceipts, true);
-                            db.ShowReceipts(db.GetCurrentConsumer);
+                        case 2: 
+                            db = receipt.ShowReceipts(db,db.GetCurrentConsumer);
                             RunMenu(db, db.GetCurrentConsumer);
                             break;
                         case 3:
-                            Purchase newpurchase = new Purchase();
-                            newpurchase.MakePurchase(db, db.GetCurrentConsumer);
+                            db = receipt.MakePurchase(db, db.GetCurrentConsumer);
                             RunMenu(db, db.GetCurrentConsumer);
                             break;
                         default:

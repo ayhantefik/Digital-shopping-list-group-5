@@ -58,11 +58,6 @@ namespace Digital_shopping_list_group_5
 
 
 
-
-
-
-
-
         public void LoadAllFromDatabase() //rewritten and merged
         {            
             StreamReader str;
@@ -359,154 +354,9 @@ namespace Digital_shopping_list_group_5
 
         }
 
-        public void ShowReceipts(Consumer consumer)
-        {
-            bool noreceipt = false;
-            foreach (Purchase pw in _allPurchases)
-            {
-                if (pw.Email == consumer.Email)
-                {
-                    Console.WriteLine($"[{pw.Id}] {pw.DateCheck}");
-                }
-                else
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("You don't have registered receipts!");
-                    Console.WriteLine();
-                    noreceipt = true;
-                }
-            }
-
-            if (noreceipt == false)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Choose receipt number:");
-                int receiptnumInput = Int32.Parse(Console.ReadLine());
-                Console.WriteLine();
-                double sum = 0;
-                foreach (Purchase pw2 in _allPurchases)
-                {
-                    if (pw2.Id == receiptnumInput && pw2.Email == consumer.Email)
-                    {
-
-                        foreach (PurchaseList rlist in pw2.ListofPurchasesReceipt)
-                        {
-                            if (rlist.Id == receiptnumInput)
-                            {
-                                foreach (Item ireceipt in rlist.ListOfItems)
-                                {
-                                    if (ireceipt.IsBought == true)
-                                    {
-                                        Console.WriteLine($"{ireceipt.Name,-20}      {ireceipt.Quantity}*{ireceipt.Price} = {ireceipt.Quantity * ireceipt.Price}");
-                                        sum += ireceipt.Quantity * ireceipt.Price;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Console.WriteLine();
-                    string totalt = $"Totalt:";
-                    Console.WriteLine($"{totalt,+30} {sum}");
-                    Console.WriteLine();
-                }
-            }
-        }
-
-
-
-        //public void EditLists() //edits an item in a purchase list. Can we move the method to <PurchaseList> class?
-        //{
-        //    Console.WriteLine("Choose list to edit:");
-        //    Console.WriteLine();
-        //    int z = 1;
-        //    foreach (var samplelist in purchaselists) //Can we use the attribute listOfPurchases instead ?
-        //    {
-        //        string[] listnamearray = samplelist.Split(';');
-        //        Console.WriteLine($"[{z++}]{listnamearray[0]}");
-        //    }
-        //    int chooseList = Int32.Parse(Console.ReadLine());
-        //    Console.WriteLine("Choosen list:");
-        //    Console.WriteLine();
-        //    Console.WriteLine(purchaselists[chooseList - 1]);
-        //    Console.WriteLine();
-        //    Console.WriteLine("[1] Add item");
-        //    Console.WriteLine("[2] Delete item");
-        //    int userChoose = Int32.Parse(Console.ReadLine());
-        //    switch (userChoose)
-        //    {
-        //        case 1:
-        //            int j = 1;
-        //            Console.WriteLine("Choose item to add:");
-        //            foreach (var ilist in itemlist) //Can we use foreach Item in db.listOfPurchases ?
-        //            {
-        //                string[] itemarray = ilist.Split(';');
-        //                Console.WriteLine($"[{j++}]{itemarray[1]}");
-        //            }
-        //            int itemChoose = Int32.Parse(Console.ReadLine());
-        //            string text = $"{purchaselists[chooseList - 1]};{itemlist[itemChoose - 1]}";
-        //            string addtest = text;
-        //            purchaselists.RemoveAt(chooseList - 1);
-        //            purchaselists.Insert(chooseList - 1, addtest);
-        //            Console.WriteLine();
-        //            Console.WriteLine("Purchase list is updated!");
-        //            Console.WriteLine();
-        //            Console.WriteLine(purchaselists[chooseList - 1]);
-        //            break;
-        //        case 2:
-        //            Console.WriteLine("Choose item to delete:");
-        //            int cnt = 2;
-        //            int plustre = 3;
-        //            string lineList = purchaselists[chooseList - 1];
-        //            string[] itemsInLine = lineList.Split(';');
-        //            Console.WriteLine($"[1] {itemsInLine[2]}");
-        //            for (int i = 1; i <= (itemsInLine.Length / 3) + 1; i++)
-        //            {
-        //                plustre++;
-        //                int sum = plustre + i++;
-        //                Console.WriteLine($"[{cnt++}] {itemsInLine[sum]}");
-        //            }
-        //            int itemDelete = Int32.Parse(Console.ReadLine());
-        //            if (itemDelete == 1)
-        //            {
-        //                itemsInLine = itemsInLine.Where((source, index) => index != 1).ToArray();
-        //                itemsInLine = itemsInLine.Where((source, index) => index != 1).ToArray();
-        //                itemsInLine = itemsInLine.Where((source, index) => index != 1).ToArray();
-        //            }
-        //            if (itemDelete > 1)
-        //            {
-        //                int count1 = 1;
-        //                for (int i = 1; i < 20; i++)
-        //                {
-        //                    count1++;
-        //                    i++;
-        //                    if (itemDelete == count1)
-        //                    {
-        //                        itemsInLine = itemsInLine.Where((source, index) => index != (count1 + i)).ToArray();
-        //                        itemsInLine = itemsInLine.Where((source, index) => index != (count1 + i)).ToArray();
-        //                        itemsInLine = itemsInLine.Where((source, index) => index != (count1 + i)).ToArray();
-        //                    }
-        //                }
-        //            }
-        //            itemsInLine = Array.ConvertAll(itemsInLine, a => a = a + ";");
-        //            string update = String.Concat(itemsInLine);
-        //            string updateminus1 = update.Remove(update.Length - 1, 1); // Delete last charter from string
-        //            purchaselists.RemoveAt(chooseList - 1);
-        //            purchaselists.Insert(chooseList - 1, updateminus1);
-        //            Console.WriteLine();
-        //            Console.WriteLine("Item is deleted! Updated list:");
-        //            Console.WriteLine();
-        //            Console.WriteLine(purchaselists[chooseList - 1]);
-        //            break;
-        //        default:
-        //            Console.Write($"\nInvalid option: ");
-        //            Console.ForegroundColor = ConsoleColor.Red;
-        //            Console.WriteLine($"{userChoose}\n");
-        //            Console.ResetColor();
-        //            break;
-        //    }
-        //}
-
-        //// public void DeletePurchaseList() HAS BEEN MOVED to <PurchaseList> class.
+        
+        
+        
         //public void ChangePurchaseListName() // Can we move the method to <PurchaseList> class?
         //{
         //    Console.WriteLine("Choose list that you want to change name:");
@@ -538,45 +388,10 @@ namespace Digital_shopping_list_group_5
         //    Console.WriteLine(purchaselists[userChoose - 1]);
         //}
 
-        /*public void LoadLists() //replaced by LoadAllFromDatabase()
-        {
-            string file = "Path/listOfPurchases.csv";
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    purchaselists.Add(line);
-                }
-            }
-        } 
 
-        public void LoadItems() //replaced by LoadAllFromDatabase()
-        {
-            string file = "Path/items.csv";
-            Console.WriteLine();
-            using (StreamReader sr = new StreamReader(file))
-            {
-                string line1;
-                while ((line1 = sr.ReadLine()) != null)
-                {
-                    itemlist.Add(line1);
-                }
-            }
-        } 
 
-        public void ShowLists() // replaced by Display()
-        {
-            int a = 1;
-            foreach (var samplelist in purchaselists)
-            {
-                string[] listnamearray = samplelist.Split(';');
-                Console.WriteLine($"[{a++}]{listnamearray[1]}");
-            }
-            Console.WriteLine();
-            int userChoose = Int32.Parse(Console.ReadLine());
-            Console.WriteLine(purchaselists[userChoose - 1]);
-        } */
+
+
     }
 }
 
